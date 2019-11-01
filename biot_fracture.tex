@@ -21,9 +21,6 @@
 
 \documentclass[a4paper]{article}
 
-% our own flow_doc.sty
-%\usepackage{flow_doc}
-
 %\usepackage{rotating}
 %\usepackage{pdflscape}
 
@@ -66,28 +63,30 @@
 % \newenvironment{fileformat}{\tt\begin{flushleft}}{\end{flushleft}}
 
 %%%%%%%%%%%%%%%%%%%% specific math macros
-\def\prtl{\partial}
-\def\vc#1{\mathbf{\boldsymbol{#1}}}     % vector
-\def\tn#1{{\mathbb{#1}}}    % tensor
 \def\abs#1{\lvert#1\rvert}
 \def\Abs#1{\bigl\lvert#1\bigr\rvert}
-\def\div{\operatorname{div}}
-\def\ep{\vc\varepsilon}
-\def\ff{\vc f}
-\def\Lapl{\Delta}
-\def\grad{\nabla}
-\def\Real{{\mathbf R}}
 \def\d {\,{\rm d}}
 \def\dist{\operatorname{dist}}
-\def\dn{\d\vc n}
+\def\div{\operatorname{div}}
+\def\dn{\d\nnu}
+\def\ep{\vc\varepsilon}
+\def\ff{\vc f}
+\def\grad{\nabla}
 \def\jmp#1{\llbracket #1 \rrbracket}
+\def\Lapl{\Delta}
 \def\Natural{\mathbf N}
 \def\nn{\vc n}
+\def\nnu{\vc\nu}
 \def\norm#1{\|#1\|}
 \def\ol{\overline}
+\def\prtl{\partial}
+\def\qq{\vc q}
+\def\Real{{\mathbf R}}
+\def\tn#1{{\mathbb{#1}}}    % tensor
 \def\tr{\operatorname{tr}}
 \def\ul{\underline}
 \def\uu{\vc u}
+\def\vc#1{\mathbf{\boldsymbol{#1}}}     % vector
 \def\vv{\vc v}
 \def\xx{\vc x}
 \def\yy{{\vc y}}
@@ -102,14 +101,10 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BEGIN DOCUMENT
-%% set specific page layout
-%\addtolength{\textwidth}{2cm}
-%\addtolength{\hoffset}{-1.5cm}
-%\addtolength{\textheight}{4cm}
-%\addtolength{\voffset}{-2.5cm}
 \begin{document}
 
 \title{Mixed-dimensional models of linear elasticity and poroelasticity}
+\author{Jan Březina and Jan Stebel}
 \maketitle
 
 \section{Introduction}
@@ -122,102 +117,83 @@
 \caption{The domain of the full model (left) and the reduced geometry (right).}
 \end{figure}
 
-We consider a bounded domain $\Omega \subset \Real^d$, $d=2,3$ with a Lipschitz boundary, see Figure \ref{fig:omegas} left). The domain $\Omega$ contains 
-a fracture $\Omega_f:=\Omega\cap \big((-\delta/2,\delta/2)\times\Real^{d-1}\big)$ 
-with the aperture $\delta>0$ surrounded by the matrix domain $\Omega_m:=\Omega\setminus\overline\Omega_f$. 
-The left and right part of $\Omega_m$ will be denoted by $\Omega_{1}$ and $\Omega_{2}$, respectively.
-% \note{JB}{$\Omega_m$ is not simply connected, thus not domain; are there some important consequences?}
-The fracture interacts with the matrix domain on the interfaces 
-$\gamma_1:=\Omega\cap\big( \{-\delta/2\}\times \Real^{d-1}\big)$ and 
-$\gamma_2:=\Omega\cap\big( \{ \delta/2\}\times \Real^{d-1}\big)$. Normal vectors of these interfaces are denoted $\vc n_i$, $i=1,2$ with orientation out of the domain $\Omega_m$.
-Further, we introduce reduced geometry (see Figure \ref{fig:omegas})
-where the fracture domain is represented by the interface $\gamma:=\Omega\cap\big(\{0\}\times\Real^{d-1}\big)$ in its center. 
+We consider a bounded, simply connected domain $\Omega \subset \Real^d$, $d\in\{2,3\}$ with Lipschitz boundary, which contains a thin layer
+\eq{ \Omega_f := \Omega\cap \big((-\tfrac\delta2,\tfrac\delta2)\times\Real^{d-1}\big) }
+called fracture, with aperture $\delta>0$ (see Figure \ref{fig:omegas}).
+The surrounding domain $\Omega_m:=\Omega\setminus\overline\Omega_f$, so-called matrix, is divided into two parts, which are interacting with $\Omega_f$ via two interfaces
+\eq{ \gamma^+:=\Omega\cap\big( \{\tfrac\delta2\}\times \Real^{d-1}\big), \quad \gamma^-:=\Omega\cap\big( \{ -\tfrac\delta2\}\times \Real^{d-1}\big). }
+Further, we introduce the reduced fracture
+\eq{ \gamma:=\Omega\cap\big(\{0\}\times\Real^{d-1}\big) }
+lying in the center of $\Omega_f$.
+By $\nnu$ we denote the unit normal vector to $\gamma$ in the direction from $\gamma^-$ to $\gamma^+$.
 
-We shall derive a model of poroelasticity on the reduced geometry.
+We shall derive a model of poroelasticity on the reduced geometry consisting of $\Omega_m$ and $\gamma$.
 The starting point is the Biot system:
 \begin{subequations}
 \label{eq:biot}
 \begin{align}
     \label{eq:lin_el}
-    -\div \bbsigma_i &= \ff_i &&\mbox{ in }\Omega_i, ~i=1,2,f,\\
-\label{eq:biot_darcy}    \prtl_t\left(\frac{p_i}{M_i} + \div(\alpha_i\uu_i)\right)-\div(\tn K_i\nabla p_i) &= g_i &&\mbox{ in }\Omega_i, ~i=1,2,f,
+    -\div \bbsigma + \nabla(\alpha p) &= \ff &&\mbox{ in }\Omega_m\cup\Omega_f,\\
+\label{eq:biot_darcy}    \prtl_t\left(\frac{p}{M} + \div(\alpha\uu)\right) + \div\qq &= g &&\mbox{ in }\Omega_m\cup\Omega_f,
 \end{align}
 \end{subequations}
-where
-\[ \bbsigma_i = \bbsigma_i[\uu_i,p_i] = \tn C_i\ep[\uu_i]-\alpha_i p_i\tn I,~\ep[\uu_i]=\frac12(\nabla\uu_i+\nabla^\top\uu_i),~i=1,2,f. \]
-The interface conditions between $\Omega_m$ and $\Omega_f$ are:
-\[ \left.\begin{aligned}
-p_i &= p_f\\
-(\tn K_i\nabla p_i)\nn_i &= (\tn K_f\nabla p_f)\nn_i\\
-\uu_i &= \uu_f\\
-\bbsigma_i\nn_i &= \bbsigma_f\nn_i
-\end{aligned} \right\} \mbox{ on }\gamma_i,~i=1,2. \]
+where $\bbsigma$ is the stress tensor given by the Hooke law
+\eq{ \bbsigma = \tn C[\nabla\uu], }
+$\tn C$ is the $4^{\rm th}$-order elasticity tensor, $\uu$ the displacement, $\alpha$ the Biot effective stress (???), $p$ the pressure, $\ff$ the body force, $M$ the Biot modulus (???), $g$ the fluid source and $\qq$ the flux given by the Darcy law:
+\[ \quad \qq = -\tn K\nabla p \]
+via the hydraulic conductivity tensor $\tn K$.
+On the interface between $\Omega_m$ and $\Omega_f$ we require that
+\eq{ p,\uu,\qq\cdot\nnu,\bbsigma\nnu \mbox{ are continuous on } \gamma^\pm. }
+
+In what follows, we shall assume that the physical parameters $\alpha,M,\tn C,\tn K,\ff,g$ are constant in $\Omega_m$, $\Omega_f$, respectively.
+To distinguish values on the interfaces $\gamma^\pm$ we shall use the subscripts ``$m$'' and ``$f$'', i.e. $\alpha_m := \alpha_{|\Omega_m}$, $\alpha_f := \alpha_{|\Omega_f}$ etc.
+In addition, it is assumed that $\tn C_i$ and $\tn K_i$, $i\in\{m,f\}$, have the usual symmetries:
+\eq{ \forall k,l,m,n=1,\ldots,d:~ [\tn C_i]_{klmn}=[\tn C_i]_{lkmn}=[\tn C_i]_{klnm}=[\tn C_i]_{mnkl}, }
+\eq{ \tn K_i = \tn K_i^\top, }
+and are positive definite:
+\eq{ \forall\tn A\in\Real^{d\times d}:~\tn C_i[\tn A]:\tn A \ge C_1|\tn A|^2, }
+\eq{ \forall\vv\in\Real^d:~\tn K_i\vv:\vv \ge C_2|\vv|^2,\quad i=\{m,f\}. }
 
 
 
 
 \section{Calculus on the reduced fracture}
 
-% For the sake of simplicity, we will not write subscript $f$ for quantities on the fracture. 
-We set $\nn:=\nn_1$ and define
-\[ \tn P := \nn\otimes\nn, \quad \kappa:=\div\nn \]
-the projector onto the direction of $\nn$ and the mean curvature of $\gamma$ (so that $d/\kappa$ is the radius of the tangent ball).
-We shall assume that
-\[ \delta<2d/\kappa, \]
-i.e. the fracture width is sufficiently small for large mean curvature.
-Consequently, for any point $\xx\in\Omega_f$ there is a unique projection $\xx_\gamma\in\gamma$ such that
-\[ \xx = \xx_\gamma \pm \dist(\xx,\gamma)\nn. \]
-% By $x$, $\vc y$, we denote the normal and the tangential coordinate of a point in $\Omega_f$.
-
-We shall decompose vectors and tensors into the normal and tangential parts:
+Let $\tn P := \nnu\otimes\nnu$ be the orthogonal projector to $\gamma$.
+For any $\vv\in\Real^d$ and $\tn A\in\Real^{d\times d}$ we shall define the orthogonal decomposition into normal and tangential direction to $\gamma$:
 \[ \begin{aligned}
-\vv &= v_\nu\nn + \vv_\tau,\\
-v_\nu &:= \vv\cdot\nn,\\
-\vv_\tau &:= \vv-v_\nu\nn,\\
-\tn A &= \tn A_\nu + \tn A_\tau,\\
-\tn A_\nu &:= \tn A\tn P,\\
-\tn A_\tau &:= \tn A-\tn A_\nu = \tn A(\tn I-\tn P).
+\vv &= \tn P\vv + (\tn I-\tn P)\vv =:\vv_\nu + \vv_\tau,\\
+\tn A &= \tn A\tn P + \tn A(\tn I-\tn P) =: \tn A_\nu + \tn A_\tau.
 \end{aligned} \]
-For a vector-valued function $\vv$ we define the normal derivative:
-\[ \prtl_\nu\vv := (\nabla\vv)\nn. \]
-The normal and tangential part of the gradient of $\vv$ is then
+Likewise we decompose differential operators acting on vector- and tensor-valued functions:
+% For a vector-valued function $\vv$ we define the normal derivative:
+% \[ \prtl_\nu\vv := (\nabla\vv)\nn. \]
 \[ \begin{aligned}
-\nabla_\nu\vv &:= (\nabla\vv)_\nu = \nabla\vv\tn P = \nn\otimes(\prtl_\nu\vv),\\
-\nabla_\tau\vv &:= (\nabla\vv)_\tau.
+\nabla\vv &= (\nabla\vv)_\nu + (\nabla\vv)_\tau =: \nabla_\nu\vv + \nabla_\tau\vv,\\
+\div\vv &= \div\vv_\nu + \div\vv_\tau =: \div_\nu\vv + \div_\tau\vv,\\
+\div\tn A &= \div(\tn P\tn A) + \div((\tn I-\tn P)\tn A) =: \div_\nu\tn A + \div_\tau\tn A.
 \end{aligned} \]
-The divergence of $\vv$ is decomposed into the normal and tangential part and an extra term due to the curvature of $\gamma$:
-\begin{align}
-\label{eq:div_v_split}\div\vv &= \div_\nu\vv + \div_\tau\vv + v_\nu\kappa,\\
-\div_\nu\vv &:= \tn I:\nabla_\nu\vv = \tn P:\nabla\vv = (\prtl_\nu\vv)_\nu,\\
-\div_\tau\vv &:= \div(\vv_\tau).
-\end{align}
-For a tensor-valued function $\tn A$ we split the divergence to the normal and tangentiald part:
-\begin{subequations}
-\label{eq:div_tn}
-\begin{align}
-\div\tn A &:= \div_\nu\tn A + \div_\tau\tn A,\\
-\div_\nu\tn A &:= \div(\tn P\tn A)=\prtl_\nu(\tn A^\top\nn)+\kappa\tn A^\top\nn,\\
-\div_\tau\tn A &:= \div((\tn I-\tn P)\tn A).
-\end{align}
-\end{subequations}
 Let $w$ be a function defined in $\Omega_f$.
-We denote its jump
-\[ \jmp{w}(\xx) := w(\xx+\delta/2)-w(\xx-\delta/2),~\xx\in\gamma. \]
-Accordingly, we shall use the following notation of jumps of the solutions and the fluxes:
-\[ \jmp{p} := p_{2|\gamma_2}-p_{1|\gamma_1}, \]
-\[ \jmp{\uu} := \uu_{2|\gamma_2}-\uu_{1|\gamma_1}, \]
-\[ \jmp{\tn K\nabla p\cdot\nn} := (\tn K_2\nabla p_2\cdot\nn_2)_{|\gamma_2} + (\tn K_1\nabla p_1\nn_1)_{|\gamma_1}, \]
-\[ \jmp{\bbsigma\nn} := (\bbsigma_2\nn_2)_{|\gamma_2} + (\bbsigma_1\nn_1)_{|\gamma_1}. \]
+We denote its trace on $\gamma^\pm$ and jump between these traces as follows:
+\[ w^\pm(\xx) := w(x\pm\tfrac\delta2\nnu),\quad \jmp{w}(\xx) := w^+(\xx)-w^-(\xx),~\xx\in\gamma. \]
+% Accordingly, we shall use the following notation of jumps of the solutions and the fluxes:
+% \[ \jmp{p} := p_{2|\gamma_2}-p_{1|\gamma_1}, \]
+% \[ \jmp{\uu} := \uu_{2|\gamma_2}-\uu_{1|\gamma_1}, \]
+% \[ \jmp{\tn K\nabla p\cdot\nn} := (\tn K_2\nabla p_2\cdot\nn_2)_{|\gamma_2} + (\tn K_1\nabla p_1\nn_1)_{|\gamma_1}, \]
+% \[ \jmp{\bbsigma\nn} := (\bbsigma_2\nn_2)_{|\gamma_2} + (\bbsigma_1\nn_1)_{|\gamma_1}. \]
 When integrating across the fracture, we shall write
-\[ \int w\dn := \int w(\cdot+s\nn)\d s. \]
-The symbol $\overline w$ will denote the integral mean of a function $w$ across the fracture aperture, i.e.
-\[ \overline w(\vc x):=\frac1\delta\int_{-\delta/2}^{\delta/2} w \dn,~\vc x\in\gamma. \]
+\[ \int w\dn := \int w(\cdot+s\nnu)\d s. \]
+The symbol $\overline w$ will denote the integral mean of $w$ across the fracture aperture, i.e.
+\[ \overline w:=\frac1\delta\int_{-\tfrac\delta2}^{\tfrac\delta2} w \dn. \]
 Then it holds:
 \eq{ \label{eq:int_div_n}
-\int_{-\delta/2}^{\delta/2}\prtl_\nu\vv\dn = \int_{-\delta/2}^{\delta/2}\frac{\rm d}{{\rm d}s}\left(\vv(\cdot+s\nn)\right)\d s = \jmp{\vv},
+\int_{-\tfrac\delta2}^{\tfrac\delta2}\div_\nu\vv\dn = \int_{-\tfrac\delta2}^{\tfrac\delta2}\frac{\rm d}{{\rm d}s}\left(\vv(\cdot+s\nn)\right)\d s = \jmp{\vv}\cdot\nnu,
 }
-\[ \int_{-\delta/2}^{\delta/2}\nabla_\nu\vv\dn = \int_{-\delta/2}^{\delta/2}\nn\otimes(\prtl_\nu\vv)\dn
-= \nn\otimes\jmp{\vv}. \]
+\eq{ \int_{-\tfrac\delta2}^{\tfrac\delta2}\nabla_\nu\vv\dn = \nnu\otimes\jmp{\vv}, }
+\eq{ \int_{-\tfrac\delta2}^{\tfrac\delta2}\div_\nu\tn A \dn = \jmp{\tn A^\top}\nnu. }
+We also have the Green formula:
+\eq{ \int_\gamma\div_\tau\vv)w = \int_{\overline\gamma\cap\partial\Omega}(\vv\cdot\nn)w - \int_\gamma\vv\cdot\nabla_\tau w, }
+where $\nn$ denotes the unit outward normal to $\partial\Omega$.
 
 
 
