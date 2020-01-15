@@ -315,12 +315,12 @@ There exists a constant $C_3>0$ such that for all $(\vv,\V)\in V$ it holds:
 \eq{\label{eq:korn_frac} \norm{\ep\vv}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V+\tfrac12(\tn G_\nu[\vv,\V]+\tn G_\nu^\top[\vv,\V])}_{L^2(\gamma)}^2} \ge C_3\norm{(\vv,\V)}_V^2. }
 \end{lemma}
 \begin{proof}
-Let us assume for contradiction that there is a sequence $\{(\vv_n,\V_n)\}\subset V$ such that
+Let us assume for contradiction that there is a sequence $\{(\vv_n,\V_n)\}_{n=1}^\infty$ in $V$ such that
 \eq{\label{eq:korn_asm_contra} \norm{\ep\vv_n}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V_n+\tfrac12(\tn G_\nu[\vv_n,\V_n]+\tn G_\nu^\top[\vv_n,\V_n])}_{L^2(\gamma)}^2} < \frac1n\norm{(\vv_n,\V_n)}_V^2. }
-Without loss of generality we may assume that $\norm{(\vv_n,\V_n)}_V=1$.
-Then there is an element $(\vv,\V)\in V$ such that
-\eq{\label{eq:korn_weak_vV} (\vv_n,\V_n)\weakly (\vv,\V) \mbox{ weakly in }V. }
-From \eqref{eq:korn_asm_contra} and the Korn inequality in $H^1_0(\Omega_m)$ it follows that
+Without loss of generality we may assume that $\norm{(\vv_n,\V_n)}_V=1$, so that
+\eq{\label{eq:korn_weak_vV} (\vv_n,\V_n)\weakly (\vv,\V) \mbox{ weakly in }V, }
+where $(\vv,\V)\in V$, passing eventually to a subsequence.
+From \eqref{eq:korn_asm_contra} and the Korn inequality in $H^1_0(\Omega_m;\Real^d)$ it follows that
 \eq{\label{eq:korn_strong_v} \vv_n\to\vc 0 \mbox{ strongly in }H^1_0(\Omega_m;\Real^d). }
 From \eqref{eq:korn_asm_contra} it also follows that
 \eq{\label{eq:korn_conv_approx_grad} \ep_\tau\V_n+\tfrac12(\tn G_\nu^\opm[\vv_n^\opm,\V_n]+\tn G_\nu^{\opm\top}[\vv_n^\opm,\V_n]) \to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}). }
@@ -329,7 +329,8 @@ Using this together with \eqref{eq:korn_weak_vV}, \eqref{eq:korn_strong_v} and t
 from which it follows that $\V=\vc 0$.
 With help of \eqref{eq:korn_conv_approx_grad} and the compact embeddings $H^1(\Omega_m)\hookrightarrow L^2(\gamma)$ and $H^1(\gamma)\hookrightarrow L^2(\gamma)$ we find that
 \eq{ \ep_\tau\V_n\to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}). }
-The Korn inequality in $H^1_0(\gamma)$ then implies that $\V_n\to 0$ strongly in $H^1_0(\gamma;\Real^d)$.
+The Korn inequality in $H^1_0(\gamma)$ then implies
+\eq{ \V_n\to\vc 0 \mbox{ strongly in }H^1_0(\gamma;\Real^d). }
 Finally, having shown the strong convergence of $\{(\vv_n,\V_n)\}$, we observe that
 \eq{ 1 = \norm{(\vv_n,\V_n)}_V \to \norm{(\vv,\V)}_V = 0, }
 which is a contradiction.
