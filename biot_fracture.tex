@@ -309,39 +309,61 @@ Then the weak formulation of \eqref{eq:lin_el_problem} reads:
 Find $(\uu,\U)\in V$ such that
 \[ \forall(\vv,\vc V)\in V:~a((\uu,\U),(\vv,\vc V)) = l((\vv,\vc V)). \]
 \end{minipage}\right\} }
+
 Before establishing the well-posedness of \eqref{eq:el_weak} we prove a suitable Korn type inequality.
+For any function $\V$ defined in $\gamma$ we denote its symmetrized tangential gradient by
+\eq{ \ep_\tau\V := \frac12(\nabla_\tau\V+(\nabla_\tau\V)^\top). }
+Then we have the following Korn inequality in $H^1_0(\gamma)$.
+% 
+\begin{lemma}\label{th:korn_tau}
+There exists a constant $C_3>0$ such that for all $\V\in H^1_0(\gamma;\Real^d)$ it holds:
+\eq{ \norm{\ep_\tau\V}_{L^2(\gamma)}^2 \ge C_4\norm{\nabla_\tau\V}_{L^2(\gamma)}^2. }
+\end{lemma}
+% 
+\begin{proof}
+Let $\V\in H^1_0(\gamma;\Real^d)$.
+Then, by mapping $\V$ isometrically from $\gamma$ to a subset of $\Real^{d-1}$, we apply the Korn inequality to the tangential part $\V_\tau$, which implies
+\eq{ \norm{\ep_\tau\V_\tau}_{L^2(\gamma)}^2 \ge C_K\norm{\nabla_\tau\V_\tau}_{L^2(\gamma)}^2. }
+From the definition of tangential and normal operators in follows that
+\eq{ |\ep_\tau\V|^2 = |\ep_\tau\V_\tau|^2 + \tfrac12|\nabla_\tau\V_\nu|^2, }
+so that
+\ml{ \norm{\ep_\tau\V}_{L^2(\gamma)}^2 = \norm{\ep_\tau\V_\tau}_{L^2(\gamma)}^2 + \tfrac12\norm{\nabla_\tau\V_\nu}_{L^2(\gamma)}^2\\
+\ge C_K\norm{\nabla_\tau\V_\tau}_{L^2(\gamma)}^2 + \tfrac12\norm{\nabla_\tau\V_\nu}_{L^2(\gamma)}^2 \ge \min\{C_K,\tfrac12\}\norm{\nabla_\tau\V}_{L^2(\gamma)}^2. }
+\end{proof}
+
+Now we can prove a variant of the Korn inequality which takes into account the approximate normal gradient in $\gamma$.
 \begin{lemma}
-There exists a constant $C_3>0$ such that for all $(\vv,\V)\in V$ it holds:
-\eq{\label{eq:korn_frac} \norm{\ep\vv}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V+\tfrac12(\tn G_\nu[\vv,\V]+\tn G_\nu^\top[\vv,\V])}_{L^2(\gamma)}^2} \ge C_3\norm{(\vv,\V)}_V^2. }
+There exists a constant $C_4>0$ such that for all $(\vv,\V)\in V$ it holds:
+\eq{\label{eq:korn_frac} \norm{\ep\vv}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V+\tfrac12(\tn G_\nu[\vv,\V]+\tn G_\nu^\top[\vv,\V])}_{L^2(\gamma)}^2} \ge C_4\norm{(\vv,\V)}_V^2. }
 \end{lemma}
 \begin{proof}
 Let us assume for contradiction that there is a sequence $\{(\vv_n,\V_n)\}_{n=1}^\infty$ in $V$ such that
 \eq{\label{eq:korn_asm_contra} \norm{\ep\vv_n}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V_n+\tfrac12(\tn G_\nu[\vv_n,\V_n]+\tn G_\nu^\top[\vv_n,\V_n])}_{L^2(\gamma)}^2} < \frac1n\norm{(\vv_n,\V_n)}_V^2. }
 Without loss of generality we may assume that $\norm{(\vv_n,\V_n)}_V=1$, so that
-\eq{\label{eq:korn_weak_vV} (\vv_n,\V_n)\weakly (\vv,\V) \mbox{ weakly in }V, }
+\eq{\label{eq:korn_weak_vV} (\vv_n,\V_n)\weakly (\vv,\V) \mbox{ weakly in }V, ~n\to\infty, }
 where $(\vv,\V)\in V$, passing eventually to a subsequence.
 From \eqref{eq:korn_asm_contra} and the Korn inequality in $H^1_0(\Omega_m;\Real^d)$ it follows that
-\eq{\label{eq:korn_strong_v} \vv_n\to\vc 0 \mbox{ strongly in }H^1_0(\Omega_m;\Real^d). }
+\eq{\label{eq:korn_strong_v} \vv_n\to\vc 0 \mbox{ strongly in }H^1_0(\Omega_m;\Real^d),~n\to\infty. }
 From \eqref{eq:korn_asm_contra} it also follows that
-\eq{\label{eq:korn_conv_approx_grad} \ep_\tau\V_n+\tfrac12(\tn G_\nu^\opm[\vv_n^\opm,\V_n]+\tn G_\nu^{\opm\top}[\vv_n^\opm,\V_n]) \to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}). }
+\eq{\label{eq:korn_conv_approx_grad} \ep_\tau\V_n+\tfrac12(\tn G_\nu^\opm[\vv_n^\opm,\V_n]+\tn G_\nu^{\opm\top}[\vv_n^\opm,\V_n]) \to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}),~n\to\infty. }
 Using this together with \eqref{eq:korn_weak_vV}, \eqref{eq:korn_strong_v} and the definition of $\tn G_\nu^\opm$ we obtain:
 \eq{ \ep_\tau\V = \pm\frac1\delta(\V\otimes\nnu+\nnu\otimes\V), }
 from which it follows that $\V=\vc 0$.
 With help of \eqref{eq:korn_conv_approx_grad} and the compact embeddings $H^1(\Omega_m)\hookrightarrow L^2(\gamma)$ and $H^1(\gamma)\hookrightarrow L^2(\gamma)$ we find that
-\eq{ \ep_\tau\V_n\to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}). }
-The Korn inequality in $H^1_0(\gamma)$ then implies
-\eq{ \V_n\to\vc 0 \mbox{ strongly in }H^1_0(\gamma;\Real^d). }
-Finally, having shown the strong convergence of $\{(\vv_n,\V_n)\}$, we observe that
-\eq{ 1 = \norm{(\vv_n,\V_n)}_V \to \norm{(\vv,\V)}_V = 0, }
+\eq{ \ep_\tau\V_n\to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}), ~n\to\infty. }
+Lemma \ref{th:korn_tau} then implies:
+\eq{ \V_n\to\vc 0 \mbox{ strongly in }H^1_0(\gamma;\Real^d), ~n\to\infty. }
+Finally, having shown the strong convergence of $\{(\vv_n,\V_n)\}_{n=1}^\infty$, we observe that
+\eq{ 1 = \lim_{n\to\infty}\norm{(\vv_n,\V_n)}_V = \norm{(\vv,\V)}_V = 0, }
 which is a contradiction.
 Therefore the proof is finished.
 \end{proof}
 In the following lemma we prove the ellipticity of $a$.
 \begin{lemma}
 The bilinear form $a$ is elliptic in the following sense:
-\ml{ \label{eq:a_ellip} \forall(\uu,\U)\in V:~ a((\uu,\U),(\uu,\U))\\
-\ge C_1\left(\norm{\nabla\uu}_{L^2(\Omega_m)}^2 + \frac\delta2\norm{\nabla_\tau\U}_{L^2(\gamma)}^2 + \frac2\delta\avg{\norm{\uu-\U}_{L^2(\gamma)}^2}\right), }
-where $C_1$ is the constant from \eqref{eq:pos_def_C}.
+There exists a constant $C_5>0$ such that
+\eq{ \label{eq:a_ellip} a((\uu,\U),(\uu,\U)) \ge C_5\norm{(\uu,\U)}_{V}^2 }
+for all $(\uu,\U)\in V$.
 \end{lemma}
 \begin{proof}
 For any $(\uu,\U)\in V$ we have:
@@ -358,10 +380,7 @@ a((\uu,\U),(\uu,\U)) = \int_{\Omega_m}\tn C_m\nabla\uu:\nabla\uu
 + \delta\int_\gamma\avg{\tn C_f(\nabla_\tau\U+\tn G_\nu):(\nabla_\tau\U+\tn G_\nu)}\\
 \ge C_1\norm{\ep\uu}_{L^2(\Omega_m)}^2 + \frac\delta2C_1\avg{\norm{\ep_\tau\U+\tfrac12(\tn G_\nu+\tn G_\nu^\top)}_{L^2(\gamma)}^2}.
 }
-To conclude, we observe that $\nabla_\tau\U:\tn G_\nu^\opm=0$ and $|\tn G_\nu^\opm|=\frac2\delta|\uu^\opm-\U|$.
-Hence
-\eq{ \norm{\nabla_\tau\U+\tn G_\nu^\opm}_{L^2(\gamma)}^2 = \norm{\nabla_\tau\U}_{L^2(\gamma)}^2 + \frac4{\delta^2}\norm{\uu^\opm-\U}_{L^2(\gamma)}^2. }
-Using this in \eqref{eq:a_uu2} we obtain \eqref{eq:a_ellip}.
+Applying \eqref{eq:korn_frac} we arrive at \eqref{eq:a_ellip}.
 \end{proof}
 
 It is not difficult to show that $a$ and $l$ are bounded in $V$ provided that $\ff\in L^2(\Omega;\Real^d)$.
@@ -373,7 +392,7 @@ Let $\ff\in L^2(\Omega;\Real^d)$. Then problem \eqref{eq:el_weak} has a unique s
 
 
 
-\subsection{Finite element approximation}
+
 
 
 
