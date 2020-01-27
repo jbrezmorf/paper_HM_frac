@@ -230,18 +230,18 @@ Using \eqref{eq:int_grad_nu_vc} we can express the averaged gradient:
 \eq{\label{eq:avg_grad_u} \overline{\nabla\uu} = \nabla_\tau\ubar + \jmp{\uu}\otimes\tfrac{\nnu}\delta. }
 Now we turn to approximation of the normal stress $\bbsigma\nnu$ on $\gamma^\pm$.
 We define the approximate normal gradient in the positive/negative half of the fracture:
-\eq{ \tn G_\nu^\opm = \tn G_\nu^\opm[\uu^\opm,\ubar] := \frac{\pm(\uu^\opm-\ubar)}{\tfrac\delta2}\otimes\nnu = \pm\frac2\delta(\uu^\opm-\ubar)\otimes\nnu. }
+\eq{ \Delta_\nu^\opm = \Delta_\nu^\opm[\uu^\opm,\ubar] := \frac{\pm(\uu^\opm-\ubar)}{\tfrac\delta2}\otimes\nnu = \pm\frac2\delta(\uu^\opm-\ubar)\otimes\nnu. }
 Assuming that $\nabla^2\uu$ is bounded in $\Omega_f$, we have that
-\eq{ (\nabla_\nu\uu)^\opm = \tn G_\nu^\opm + O(\delta). }
+\eq{ (\nabla_\nu\uu)^\opm = \Delta_\nu^\opm + O(\delta). }
 For the tangential gradient we shall use the approximation
 \eq{ (\nabla_\tau\uu)^\opm = \nabla_\tau\ubar + O(\delta). }
 We can observe that the approximate normal and tangential gradient satisfy
-\eq{ \overline{\nabla\uu} = \nabla_\tau\ubar + \avg{\tn G_\nu}. }
+\eq{ \overline{\nabla\uu} = \nabla_\tau\ubar + \avg{\Delta_\nu}. }
 Then the approximate normal stress is given by
-\eq{\label{eq:def_T} \vc T^\opm = \vc T^\opm[\uu^\opm,\ubar] := \left(\tn C_f\left(\nabla_\tau\ubar + \tn G_\nu^\opm\right)\right)\nnu, }
+\eq{\label{eq:def_T} \vc T^\opm = \vc T^\opm[\uu^\opm,\ubar] := \left(\tn C_f\left(\nabla_\tau\ubar + \Delta_\nu^\opm\right)\right)\nnu, }
 so that $\bbsigma^\opm\nnu = \vc T^\opm + O(\delta)$.
 Collecting \eqref{eq:lin_el_int}, \eqref{eq:decomp_div_sigma}, \eqref{eq:decomp_grad_alpha_p}, \eqref{eq:avg_grad_u} and \eqref{eq:def_T} and neglecting $O(\delta)$ we obtain the averaged counterpart of \eqref{eq:lin_el}:
-\eq{ \delta\left(-\div_\tau\tn C_f\left(\nabla_\tau\ubar+\avg{\tn G_\nu}\right) + \nabla_\tau(\alpha_f\pbar)\right) - \jmp{\vc T} + \alpha_f\jmp{p}\nnu = \delta\overline\ff. }
+\eq{ \delta\left(-\div_\tau\tn C_f\left(\nabla_\tau\ubar+\avg{\Delta_\nu}\right) + \nabla_\tau(\alpha_f\pbar)\right) - \jmp{\vc T} + \alpha_f\jmp{p}\nnu = \delta\overline\ff. }
 The continuity of $\bbsigma\nnu$ on $\gamma^\pm$ is approximated by the condition
 \eq{ (\tn C_m\nabla\uu_{|\Omega_m})\nnu = \vc T^\opm \mbox{ on }\gamma^\pm. }
 
@@ -290,18 +290,18 @@ We want to find the displacement fields $\uu:\Omega_m\to\Real^d$ and $\U:\gamma\
 \begin{subequations}\label{eq:lin_el_problem}
 \begin{align}
 -\div(\tn C_m\nabla\uu) &= \ff &&\mbox{in }\Omega_m,\\
--\delta\div_\tau\left(\tn C_f\left(\nabla_\tau\U+\avg{\tn G_\nu}\right) \right) - \jmp{\vc T} &= \delta\overline\ff &&\mbox{in }\gamma,\\
+-\delta\div_\tau\left(\tn C_f\left(\nabla_\tau\U+\avg{\Delta_\nu}\right) \right) - \jmp{\vc T} &= \delta\overline\ff &&\mbox{in }\gamma,\\
 (\tn C_m\nabla\uu)\nnu &= \vc T^\opm &&\mbox{on }\gamma^\pm,\\
 \uu &=\vc0&&\mbox{on }\prtl\Omega_m,\\
 \U &=\vc 0&&\mbox{on }\prtl\gamma.
 \end{align}
 \end{subequations}
-Here and in what follows, $\tn G_\nu:=\tn G_\nu[\uu^\opm,\U]$ and $\vc T^\opm=\vc T^\opm[\uu^\opm,\U]$.
+Here and in what follows, $\Delta_\nu^\opm:=\Delta_\nu^\opm[\uu^\opm,\U]$ and $\vc T^\opm=\vc T^\opm[\uu^\opm,\U]$.
 Let us define the space 
 \eq{ V:=H^1_0(\Omega_m;\Real^d)\times H^1_0(\gamma;\Real^d) }
 equipped by the norm $\norm{(\vv,\vc V)}_V := (\norm{\nabla\vv}_{L^2(\Omega)}^2 + \norm{\nabla_\tau\vc V}_{L^2(\gamma)}^2)^{1/2}$ and the forms
 \ml{ a((\uu,\U), (\vv,\vc V)) := \int_{\Omega_m}\tn C_m\nabla\uu:\nabla\vv
- + \delta\int_\gamma\tn C_f(\nabla_\tau\U+\avg{\tn G_\nu}):\nabla_\tau\vc V\\
+ + \delta\int_\gamma\tn C_f(\nabla_\tau\U+\avg{\Delta_\nu}):\nabla_\tau\vc V\\
  + \int_\gamma\left(\jmp{\vc T\cdot\vv} - \jmp{\vc T}\cdot\vc V\right), }
 \eq{ l((\vv,\vc V)) := \int_{\Omega_m}\ff\cdot\vv + \delta\int_\gamma\overline\ff\cdot\vc V. }
 Then the weak formulation of \eqref{eq:lin_el_problem} reads:
@@ -313,7 +313,9 @@ Find $(\uu,\U)\in V$ such that
 Before establishing the well-posedness of \eqref{eq:el_weak} we prove a suitable Korn type inequality.
 For any function $\V$ defined in $\gamma$ we denote its symmetrized tangential gradient by
 \eq{ \ep_\tau\V := \frac12(\nabla_\tau\V+(\nabla_\tau\V)^\top). }
-Then we have the following Korn inequality in $H^1_0(\gamma)$.
+Similarly, for a pair $(\vv,\V)\in V$ we define the symmetrized approximate normal gradient
+\eq{ \ep_\nu^\opm[\vv,\V] := \frac12\left(\Delta_\nu^\opm[\vv^\opm,\V]+(\Delta_\nu^\opm[\vv^\opm,\V])^\top\right). }
+We have the following Korn inequality in $H^1_0(\gamma)$.
 % 
 \begin{lemma}\label{th:korn_tau}
 There exists a constant $C_3>0$ such that for all $\V\in H^1_0(\gamma;\Real^d)$ it holds:
@@ -334,19 +336,19 @@ so that
 Now we can prove a variant of the Korn inequality which takes into account the approximate normal gradient in $\gamma$.
 \begin{lemma}
 There exists a constant $C_4>0$ such that for all $(\vv,\V)\in V$ it holds:
-\eq{\label{eq:korn_frac} \norm{\ep\vv}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V+\tfrac12(\tn G_\nu[\vv,\V]+\tn G_\nu^\top[\vv,\V])}_{L^2(\gamma)}^2} \ge C_4\norm{(\vv,\V)}_V^2. }
+\eq{\label{eq:korn_frac} \norm{\ep\vv}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V+\ep_\nu[\vv,\V]}_{L^2(\gamma)}^2} \ge C_4\norm{(\vv,\V)}_V^2. }
 \end{lemma}
 \begin{proof}
 Let us assume for contradiction that there is a sequence $\{(\vv_n,\V_n)\}_{n=1}^\infty$ in $V$ such that
-\eq{\label{eq:korn_asm_contra} \norm{\ep\vv_n}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V_n+\tfrac12(\tn G_\nu[\vv_n,\V_n]+\tn G_\nu^\top[\vv_n,\V_n])}_{L^2(\gamma)}^2} < \frac1n\norm{(\vv_n,\V_n)}_V^2. }
+\eq{\label{eq:korn_asm_contra} \norm{\ep\vv_n}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V_n+\ep_\nu[\vv_n,\V_n]}_{L^2(\gamma)}^2} < \frac1n\norm{(\vv_n,\V_n)}_V^2. }
 Without loss of generality we may assume that $\norm{(\vv_n,\V_n)}_V=1$, so that
 \eq{\label{eq:korn_weak_vV} (\vv_n,\V_n)\weakly (\vv,\V) \mbox{ weakly in }V, ~n\to\infty, }
 where $(\vv,\V)\in V$, passing eventually to a subsequence.
 From \eqref{eq:korn_asm_contra} and the Korn inequality in $H^1_0(\Omega_m;\Real^d)$ it follows that
 \eq{\label{eq:korn_strong_v} \vv_n\to\vc 0 \mbox{ strongly in }H^1_0(\Omega_m;\Real^d),~n\to\infty. }
 From \eqref{eq:korn_asm_contra} it also follows that
-\eq{\label{eq:korn_conv_approx_grad} \ep_\tau\V_n+\tfrac12(\tn G_\nu^\opm[\vv_n^\opm,\V_n]+\tn G_\nu^{\opm\top}[\vv_n^\opm,\V_n]) \to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}),~n\to\infty. }
-Using this together with \eqref{eq:korn_weak_vV}, \eqref{eq:korn_strong_v} and the definition of $\tn G_\nu^\opm$ we obtain:
+\eq{\label{eq:korn_conv_approx_grad} \ep_\tau\V_n+\ep_\nu^\opm[\vv_n^\opm,\V_n] \to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}),~n\to\infty. }
+Using this together with \eqref{eq:korn_weak_vV}, \eqref{eq:korn_strong_v} and the definition of $\Delta_\nu^\opm$ we obtain:
 \eq{ \ep_\tau\V = \pm\frac1\delta(\V\otimes\nnu+\nnu\otimes\V), }
 from which it follows that $\V=\vc 0$.
 With help of \eqref{eq:korn_conv_approx_grad} and the compact embeddings $H^1(\Omega_m)\hookrightarrow L^2(\gamma)$ and $H^1(\gamma)\hookrightarrow L^2(\gamma)$ we find that
@@ -362,25 +364,26 @@ In the following lemma we prove the ellipticity of $a$.
 \begin{lemma}
 The bilinear form $a$ is elliptic in the following sense:
 There exists a constant $C_5>0$ such that
-\eq{ \label{eq:a_ellip} a((\uu,\U),(\uu,\U)) \ge C_5\norm{(\uu,\U)}_{V}^2 }
-for all $(\uu,\U)\in V$.
+\eq{ \label{eq:a_ellip} a((\vv,\V),(\vv,\V)) \ge C_5\norm{(\vv,\V)}_{V}^2 }
+for all $(\vv,\V)\in V$.
 \end{lemma}
 \begin{proof}
-For any $(\uu,\U)\in V$ we have:
+For any $(\vv,\V)\in V$ we have:
 \ml{\label{eq:a_uu}
-a((\uu,\U),(\uu,\U)) = \int_{\Omega_m}\tn C\nabla\uu:\nabla\uu
-+ \delta\int_\gamma\avg{\tn C_f(\nabla_\tau\U+\tn G_\nu):\nabla_\tau\U}\\
-+ \int_\gamma\jmp{\vc T\cdot(\uu-\U)}.
+a((\vv,\V),(\vv,\V)) = \int_{\Omega_m}\tn C\nabla\vv:\nabla\vv
++ \delta\int_\gamma\avg{\tn C_f(\nabla_\tau\V+\Delta_\nu[\vv,\V]):\nabla_\tau\V}\\
++ \int_\gamma\jmp{\vc T\cdot(\vv-\V)}.
 }
-From the definition of $\vc T^\opm$ and $\tn G_\nu^\opm$ we get:
-\eq{ \vc T^\opm\cdot(\uu^\opm-\U) = \tn C_f(\nabla_\tau\U+\tn G_\nu^\opm):(\uu^\opm-\U)\otimes\nnu = \pm\frac\delta2\tn C_f(\nabla_\tau\U+\tn G_\nu^\opm):\tn G_\nu^\opm, }
+From the definition of $\vc T^\opm$ and $\Delta_\nu^\opm$ we get:
+\ml{ \vc T^\opm\cdot(\vv^\opm-\V) = \tn C_f(\nabla_\tau\V+\Delta_\nu^\opm[\vv^\opm,\V]):(\vv^\opm-\V)\otimes\nnu\\
+= \pm\frac\delta2\tn C_f(\nabla_\tau\V+\Delta_\nu^\opm[\vv^\opm,\V]):\Delta_\nu^\opm[\vv^\opm,\V], }
 which together with \eqref{eq:a_uu} and \eqref{eq:pos_def_C} yields:
 \ml{ \label{eq:a_uu2}
-a((\uu,\U),(\uu,\U)) = \int_{\Omega_m}\tn C_m\nabla\uu:\nabla\uu
-+ \delta\int_\gamma\avg{\tn C_f(\nabla_\tau\U+\tn G_\nu):(\nabla_\tau\U+\tn G_\nu)}\\
-\ge C_1\norm{\ep\uu}_{L^2(\Omega_m)}^2 + \frac\delta2C_1\avg{\norm{\ep_\tau\U+\tfrac12(\tn G_\nu+\tn G_\nu^\top)}_{L^2(\gamma)}^2}.
+a((\vv,\V),(\vv,\V)) = \int_{\Omega_m}\tn C_m\nabla\vv:\nabla\vv
++ \delta\int_\gamma\avg{\tn C_f(\nabla_\tau\V+\Delta_\nu[\vv,\V]):(\nabla_\tau\V+\Delta_\nu[\vv,\V])}\\
+\ge C_1\norm{\ep\vv}_{L^2(\Omega_m)}^2 + \frac\delta2C_1\avg{\norm{\ep_\tau\V+\ep_\nu[\vv,\V]}_{L^2(\gamma)}^2}.
 }
-Applying \eqref{eq:korn_frac} we arrive at \eqref{eq:a_ellip}.
+Now we can apply \eqref{eq:korn_frac} and obtain \eqref{eq:a_ellip} with $C_5:=\min\{1,\tfrac\delta2\}C_1 C_4$.
 \end{proof}
 
 It is not difficult to show that $a$ and $l$ are bounded in $V$ provided that $\ff\in L^2(\Omega;\Real^d)$.
