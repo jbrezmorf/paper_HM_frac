@@ -127,6 +127,25 @@
 
 \section{Introduction}
 
+In this report we describe a dimension reduction for the Biot system of poroelasticity in a domain containing a fracture, which is assumed to be a thin manifold around a geometrical entity of codimension 1.
+The obtained equations (eq. \eqref{eq:lin_el_frac}, \eqref{eq:flow_frac}) are expressed in terms of mean pressure and mean displacement in the fracture.
+The resulting problem consists of equations of flow and mechanics in the fracture and in the surrounding domain, accompanied by appropriate interface conditions (eq. \eqref{eq:interface_el}, \eqref{eq:interface_flow}).
+Finally we analyse the well-posedness of the steady-state mechanical part of the problem.
+
+The original idea of dimension reduction comes from \cite{martin_modeling_2005}, where it was applied to the darcian flow model. Here we deal with the linear elasticity system, for which the approach has to be generalized using tangential and normal calculus.
+
+The structure of the paper is as follows.
+In section \ref{sec:model} we describe the original mathematical model, the full and reduced geometry.
+The tangential and normal calculus is presented in section \ref{sec:calculus}.
+In sections \ref{sec:reduction_elasticity} and \ref{sec:reduction_flow} we derive the reduced problem for mechanics and flow, respectively.
+Finally, in section \ref{sec:wellposedness_elasticity} we prove the existence and uniqueness of weak solution to the mechanical part of the resulting problem.
+
+
+\section{Biot poroelasticity in domain with fracture}\label{sec:model}
+
+We consider a bounded, simply connected domain $\Omega \subset \Real^d$, $d\in\{2,3\}$ with Lipschitz boundary, which contains a thin layer
+\eq{ \Omega_f := \Omega\cap \big((-\tfrac\delta2,\tfrac\delta2)\times\Real^{d-1}\big) }
+called fracture, with aperture $\delta>0$ (see Figure \ref{fig:omegas}).
 
 \begin{figure}[h]
 \centering
@@ -135,9 +154,6 @@
 \caption{The domain of the full model (left) and the reduced geometry (right).}
 \end{figure}
 
-We consider a bounded, simply connected domain $\Omega \subset \Real^d$, $d\in\{2,3\}$ with Lipschitz boundary, which contains a thin layer
-\eq{ \Omega_f := \Omega\cap \big((-\tfrac\delta2,\tfrac\delta2)\times\Real^{d-1}\big) }
-called fracture, with aperture $\delta>0$ (see Figure \ref{fig:omegas}).
 The surrounding domain $\Omega_m:=\Omega\setminus\overline\Omega_f$, so-called matrix, is divided into two parts, which are interacting with $\Omega_f$ via two interfaces
 \eq{ \gamma^+:=\Omega\cap\big( \{\tfrac\delta2\}\times \Real^{d-1}\big), \quad \gamma^-:=\Omega\cap\big( \{ -\tfrac\delta2\}\times \Real^{d-1}\big). }
 Further, we introduce the reduced fracture
@@ -158,7 +174,7 @@ The starting point is the Biot system:
 \end{subequations}
 where $\bbsigma$ is the stress tensor given by the Hooke law
 \eq{ \bbsigma = \tn C\nabla\uu, }
-$\tn C$ is the $4^{\rm th}$-order elasticity tensor, $\uu$ the displacement, $\alpha$ the Biot effective stress (???), $p$ the pressure, $\ff$ the body force, $S$ the storativity, $g$ the fluid source and $\qq$ the flux given by the Darcy law:
+$\tn C$ is the $4^{\rm th}$-order elasticity tensor, $\uu$ the displacement, $\alpha$ the Biot effective stress, $p$ the pressure, $\ff$ the body force, $S$ the storativity, $g$ the fluid source and $\qq$ the flux given by the Darcy law:
 \[ \quad \qq = -\tn K\nabla p \]
 via the hydraulic conductivity tensor $\tn K$.
 On the interface between $\Omega_m$ and $\Omega_f$ we require that
@@ -180,7 +196,7 @@ where $k_f>0$ is the hydraulic conductivity in orthogonal direction to $\gamma$.
 
 
 
-\section{Tangential and normal calculus in fracture}
+\section{Tangential and normal calculus in fracture}\label{sec:calculus}
 
 Let $\tn P := \nnu\otimes\nnu$ be the orthogonal projector to $\gamma$.
 For any $\vv\in\Real^d$ and $\tn A\in\Real^{d\times d}$ we shall define the orthogonal decomposition into normal and tangential direction to $\gamma$:
@@ -215,7 +231,7 @@ where $\nn$ denotes the unit outward normal to $\partial\gamma$.
 
 
 
-\section{Continuum-fracture model for elasticity}
+\section{Continuum-fracture model for elasticity}\label{sec:reduction_elasticity}
 
 Our aim is to obtain an equation for the averages $(\overline\uu,\overline p)$ in $\gamma$.
 To do so, we integrate \eqref{eq:lin_el} over the fracture aperture:
@@ -244,9 +260,9 @@ Then the approximate normal stress is given by
 \eq{\label{eq:def_T} \vc T^\opm = \vc T^\opm[\uu^\opm,\ubar] := \left(\tn C_f\left(\nabla_\tau\ubar + \tn G_\nu^\opm\right)\right)\nnu, }
 so that $\bbsigma^\opm\nnu = \vc T^\opm + O(\delta)$.
 Collecting \eqref{eq:lin_el_int}, \eqref{eq:decomp_div_sigma}, \eqref{eq:decomp_grad_alpha_p}, \eqref{eq:avg_grad_u} and \eqref{eq:def_T} and neglecting $O(\delta)$ we obtain the averaged counterpart of \eqref{eq:lin_el}:
-\eq{ \delta\left(-\div_\tau\tn C_f\left(\nabla_\tau\ubar+\avg{\tn G_\nu}\right) + \nabla_\tau(\alpha_f\pbar)\right) - \jmp{\vc T} + \alpha_f\jmp{p}\nnu = \delta\overline\ff. }
+\eq{\label{eq:lin_el_frac} \delta\left(-\div_\tau\tn C_f\left(\nabla_\tau\ubar+\avg{\tn G_\nu}\right) + \nabla_\tau(\alpha_f\pbar)\right) - \jmp{\vc T} + \alpha_f\jmp{p}\nnu = \delta\overline\ff. }
 The continuity of $\bbsigma\nnu$ on $\gamma^\pm$ is approximated by the condition
-\eq{ (\tn C_m\nabla\uu_{|\Omega_m})\nnu = \vc T^\opm \mbox{ on }\gamma^\pm. }
+\eq{\label{eq:interface_el} (\tn C_m\nabla\uu_{|\Omega_m})\nnu = \vc T^\opm \mbox{ on }\gamma^\pm. }
 
 
 
@@ -256,7 +272,7 @@ The continuity of $\bbsigma\nnu$ on $\gamma^\pm$ is approximated by the conditio
 
 
 
-\section{Continuum-fracture model for flow}
+\section{Continuum-fracture model for flow}\label{sec:reduction_flow}
 
 Let us integrate \eqref{eq:biot_darcy} over the fracture aperture.
 We get:
@@ -279,14 +295,14 @@ Then the approximate normal flux is given by
 so that
 \eq{ \label{eq:approx_flux} -\qq^\opm\cdot\nnu = \tn K_f\nabla p^\opm\cdot\nnu = k_f(\nabla_\nu p)^\opm\cdot\nnu = F^\opm + O(\delta). }
 Now from \eqref{eq:darcy_int}, \eqref{eq:div_alpha_u_int}, \eqref{eq:div_q_int}, \eqref{eq:div_tau_K_gp}, \eqref{eq:def_F} and \eqref{eq:approx_flux} we obtain:
-\eq{ \delta\prtl_t\left(S_f\pbar + \div_\tau(\alpha_f\ubar)\right) -\delta\div_\tau(\tn K_f\nabla_\tau\pbar) +\alpha_f\jmp{\prtl_t\uu}\cdot\nnu - \jmp F = \delta\overline g. }
+\eq{\label{eq:flow_frac} \delta\prtl_t\left(S_f\pbar + \div_\tau(\alpha_f\ubar)\right) -\delta\div_\tau(\tn K_f\nabla_\tau\pbar) +\alpha_f\jmp{\prtl_t\uu}\cdot\nnu - \jmp F = \delta\overline g. }
 Continuity of flux through $\gamma^\pm$ is approximated by the condition
-\eq{ \tn K_m\nabla p_{|\Omega_m}\cdot\nnu = F^\opm \mbox{ on }\gamma^\pm. }
+\eq{\label{eq:interface_flow} \tn K_m\nabla p_{|\Omega_m}\cdot\nnu = F^\opm \mbox{ on }\gamma^\pm. }
 
 
 
 
-\section{Well-posedness of mixed-dimensional linear elasticity}
+\section{Well-posedness of mixed-dimensional linear elasticity}\label{sec:wellposedness_elasticity}
 
 In this section we consider only the mechanical part of the problem.
 We want to find the displacement fields $\uu:\Omega_m\to\Real^d$ and $\U:\gamma\to\Real^d$ satisfying the following boundary-value problem:
@@ -440,13 +456,11 @@ Let $\ff\in L^2(\Omega;\Real^d)$. Then problem \eqref{eq:el_weak} has a unique s
 
 
 
-% \bibliographystyle{abbrvnat}
-% \bibliography{flow123d_doc.bib}
+\bibliographystyle{abbrvnat}
+\bibliography{flow123d_doc.bib}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \end{document}
 
-
-The resulting problem consists of equations of flow and mechanics in the fracture and in the surrounding domain, accompanied by appropriate interface conditions (eq. \eqref{eq:interface_el}, \eqref{eq:interface_flow}).
 
