@@ -85,6 +85,7 @@
 \def\ul{\underline}
 \def\uu{\vc u}
 \def\V{\vc V}
+\def\Vel{{\mathcal H}} % Sobolev space for elasticity
 \def\vc#1{\mathbf{\boldsymbol{#1}}}     % vector
 \def\vv{\vc v}
 \def\weakly{\rightharpoonup}
@@ -125,29 +126,49 @@
 \affil{e-mail: \texttt{\{jan.brezina,jan.stebel\}@tul.cz}}
 \maketitle
 
+
 \section{Introduction}
 
+In this paper we describe a dimension reduction for the Biot system of poroelasticity in a domain containing a fracture, which is assumed to be a thin manifold around a subset of hyperplane.
+The obtained equations (eq. \eqref{eq:lin_el_frac}, \eqref{eq:flow_frac}) are expressed in terms of mean pressure and mean displacement in the fracture.
+The resulting problem consists of equations of flow and mechanics in the fracture and in the surrounding domain, accompanied by appropriate interface conditions (eq. \eqref{eq:interface_el}, \eqref{eq:interface_flow}).
+Finally we analyse the well-posedness of the steady-state mechanical part of the problem.
+
+The original idea of dimension reduction comes from \cite{martin_modeling_2005}, where it was applied to the darcian flow model.
+Here we also deal with the linear elasticity system, for which the approach has to be generalized using tangential and normal calculus in the fracture.
+
+The structure of the paper is as follows.
+In section \ref{sec:model} we describe the original mathematical model and the full and reduced geometry.
+The tangential and normal calculus is presented in section \ref{sec:calculus}.
+In sections \ref{sec:reduction_elasticity} and \ref{sec:reduction_flow} we derive the reduced problem for mechanics and flow, respectively.
+Finally, in section \ref{sec:wellposedness_elasticity} we prove the existence and uniqueness of weak solution to the mechanical part of the resulting problem.
+
+
+\section{Biot's poroelasticity in domain with fracture}\label{sec:model}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{figures/omegas}
-\label{fig:omegas}
 \caption{The domain of the full model (left) and the reduced geometry (right).}
+\label{fig:omegas}
 \end{figure}
 
-We consider a bounded, simply connected domain $\Omega \subset \Real^d$, $d\in\{2,3\}$ with Lipschitz boundary, which contains a thin layer
-\eq{ \Omega_f := \Omega\cap \big((-\tfrac\delta2,\tfrac\delta2)\times\Real^{d-1}\big) }
-called fracture, with aperture $\delta>0$ (see Figure \ref{fig:omegas}).
-The surrounding domain $\Omega_m:=\Omega\setminus\overline\Omega_f$, so-called matrix, is divided into two parts, which are interacting with $\Omega_f$ via two interfaces
-\eq{ \gamma^+:=\Omega\cap\big( \{\tfrac\delta2\}\times \Real^{d-1}\big), \quad \gamma^-:=\Omega\cap\big( \{ -\tfrac\delta2\}\times \Real^{d-1}\big). }
-Further, we introduce the reduced fracture
-\eq{ \gamma:=\Omega\cap\big(\{0\}\times\Real^{d-1}\big) }
-lying in the center of $\Omega_f$.
-By $\nnu$ we denote the unit normal vector to $\gamma$ in the direction from $\gamma^-$ to $\gamma^+$.
-The symbol $\prtl\Omega$ stands for the boundary of $\Omega$, while $\prtl\gamma$ shall denote the relative boundary of $\gamma$.
+Let $\Omega$ be a bounded, simply connected domain in the Euclidean space $\Real^d$, $d\in\{2,3\}$, with Lipschitz boundary $\partial\Omega$.
+We assume that $\Omega$ is composed of two subdomains: the fracture $\Omega_f$ and the matrix $\Omega_m:=\Omega\setminus\overline\Omega_f$.
+The matrix is assumed to be divided into two parts (see Figure \ref{fig:omegas}).
+For simplicity we consider straight fracture, i.e. there is a subset $\gamma$ of a hyperplane in $\Real^d$ and a number $\delta>0$ so that
+\eq{ \Omega_f = \{\xx+s\nnu;~\xx\in\gamma,~s\in(-\tfrac\delta2,\tfrac\delta2)\}, }
+where $\nnu$ stands for the unit normal vector to $\gamma$.
+The parameter $\delta$ is usually called the aperture or the width of the fracture.
 
-We shall derive a model of poroelasticity on the reduced geometry consisting of $\Omega_m$ and $\gamma$.
-The starting point is the Biot system:
+Without loss of generality we can take $\gamma:=\Omega\cap\left(\{0\}\times\Real^{d-1}\right)$ and $\nnu:=(1,0,0)^\top$.
+Then the two parts of $\Omega_m$ are interacting with $\Omega_f$ via the interfaces
+\eq{ \gamma^+:=\Omega\cap\big( \{\tfrac\delta2\}\times \Real^{d-1}\big), \quad \gamma^-:=\Omega\cap\big( \{ -\tfrac\delta2\}\times \Real^{d-1}\big). }
+The symbol $\prtl\gamma$ shall denote the relative boundary of $\gamma$.
+
+% We shall derive a model of poroelasticity on the reduced geometry consisting of $\Omega_m$ and $\gamma$.
+The basic hydro-mechanical interaction in a porous media is described by the Biot system of poroelasticity.
+In context of this paper it reads:
 \begin{subequations}
 \label{eq:biot}
 \begin{align}
@@ -156,23 +177,24 @@ The starting point is the Biot system:
 \label{eq:biot_darcy}    \prtl_t\left(Sp + \div(\alpha\uu)\right) + \div\qq &= g &&\mbox{ in }\Omega_m\cup\Omega_f,
 \end{align}
 \end{subequations}
-where $\bbsigma$ is the stress tensor given by the Hooke law
+Here, the displacement $\uu$ and the pressure $p$ are the principal unknowns; further $\alpha$ is the Biot effective stress parameter, $\ff$ the body force, $S$ the storativity, $g$ the fluid source.
+The stress tensor $\bbsigma$ is given by the Hooke law:
 \eq{ \bbsigma = \tn C\nabla\uu, }
-$\tn C$ is the $4^{\rm th}$-order elasticity tensor, $\uu$ the displacement, $\alpha$ the Biot effective stress (???), $p$ the pressure, $\ff$ the body force, $S$ the storativity, $g$ the fluid source and $\qq$ the flux given by the Darcy law:
-\[ \quad \qq = -\tn K\nabla p \]
+where $\tn C$ is the $4^{\rm th}$-order elasticity tensor, and the flux $\qq$ is given by the Darcy law:
+\eq{ \quad \qq = -\tn K\nabla p }
 via the hydraulic conductivity tensor $\tn K$.
-On the interface between $\Omega_m$ and $\Omega_f$ we require that
-\eq{ p,\uu,\qq\cdot\nnu,\bbsigma\nnu \mbox{ are continuous on } \gamma^\pm. }
+To complete the equations in $\Omega$, we require that
+\eq{ \label{eq:continuity_on_gamma_pm} p,\uu,\qq\cdot\nnu,\bbsigma\nnu \mbox{ are continuous on } \gamma^\pm. }
 
 In what follows, we shall assume that the physical parameters $\alpha,S,\tn C,\tn K$ are constant in $\Omega_m$, $\Omega_f$, respectively.
-To distinguish values on the interfaces $\gamma^\pm$ we shall use the subscripts ``$m$'' and ``$f$'', i.e. $\alpha_m := \alpha_{|\Omega_m}$, $\alpha_f := \alpha_{|\Omega_f}$ etc.
+To distinguish values in $\Omega_m$ and $\Omega_f$, we shall use the subscripts ``$m$'' and ``$f$'', i.e. $\alpha_m := \alpha_{|\Omega_m}$, $\alpha_f := \alpha_{|\Omega_f}$ etc.
 In addition, it is assumed that $\tn C_*$ and $\tn K_*$, $*\in\{m,f\}$, have the usual symmetries:
 \eq{ \forall i,j,k,l=1,\ldots,d:~ [\tn C_*]_{ijkl}=[\tn C_*]_{jikl}=[\tn C_*]_{ijlk}=[\tn C_*]_{klij}, }
 \eq{ \tn K_* = \tn K_*^\top, }
 and are positive definite:
 \eq{ \label{eq:pos_def_C} \forall\tn A\in\Real^{d\times d}_{sym}:~\tn C_*[\tn A]:\tn A \ge C_1|\tn A|^2, }
 \eq{ \forall\vv\in\Real^d:~\tn K_*\vv\cdot\vv \ge C_2|\vv|^2,\quad *\in\{m,f\}. }
-Here $|\tn A|$ denotes the Frobenius norm, i.e. $|\tn A|^2=\tn A:\tn A$.
+Here $\Real^{d\times d}_{sym}$ stands for the set of symmetric $d\times d$ matrices and $|\tn A|$ denotes the Frobenius norm, i.e. $|\tn A|^2=\tn A:\tn A$.
 A further natural requirement is that $\nnu$ is an eigenvector of $\tn K_f$, i.e.
 \eq{\label{eq:normal_conductivity} \tn K_f\nnu = k_f\nnu, }
 where $k_f>0$ is the hydraulic conductivity in orthogonal direction to $\gamma$.
@@ -180,7 +202,7 @@ where $k_f>0$ is the hydraulic conductivity in orthogonal direction to $\gamma$.
 
 
 
-\section{Tangential and normal calculus in fracture}
+\section{Tangential and normal calculus in fracture}\label{sec:calculus}
 
 Let $\tn P := \nnu\otimes\nnu$ be the orthogonal projector to $\gamma$.
 For any $\vv\in\Real^d$ and $\tn A\in\Real^{d\times d}$ we shall define the orthogonal decomposition into normal and tangential direction to $\gamma$:
@@ -191,16 +213,16 @@ Likewise we decompose differential operators acting on vector- and tensor-valued
 \eq{ \label{eq:grad_vc} \nabla\vv = (\nabla\vv)_\nu + (\nabla\vv)_\tau =: \nabla_\nu\vv + \nabla_\tau\vv, }
 \eq{ \div\vv = \div\vv_\nu + \div\vv_\tau =: \div_\nu\vv + \div_\tau\vv, }
 \eq{ \label{eq:div_tn} \div\tn A = \div(\tn P\tn A) + \div((\tn I-\tn P)\tn A) =: \div_\nu\tn A + \div_\tau\tn A. }
-Let $w$ be a function defined in $\Omega_f$.
-We denote its trace on $\gamma^\pm$ as follows:
-\eq{ w^{\opm}(\xx) := w(\xx\pm\tfrac\delta2\nnu), ~\xx\in\gamma, }
-and introduce the average and the jump between the traces:
+Let $w$ be a function defined in $\gamma^+$ and $\gamma^-$.
+Shifting its argument to $\gamma$, we obtain new functions
+\eq{ w^{\opm}(\xx) := w(\xx\pm\tfrac\delta2\nnu), ~\xx\in\gamma. }
+Now we can introduce the average and the jump operator:
 \eq{ \avg{w} := \frac{w^\oplus+w^\ominus}2,\quad \jmp{w} := w^\oplus-w^\ominus. }
 When integrating across the fracture, we shall write
 \[ \int w\dn := \int w(\cdot+s\nnu)\d s. \]
 The symbol $\overline w$ will denote the integral mean of $w$ across the fracture aperture, i.e.
-\eq{\label{eq:def_mean} \overline w:=\frac1\delta\int_{-\tfrac\delta2}^{\tfrac\delta2} w \dn. }
-Then it holds:
+\eq{\label{eq:def_mean} \overline w(\xx):=\frac1\delta\int_{-\tfrac\delta2}^{\tfrac\delta2} w(\xx) \dn,~\xx\in\gamma. }
+Then, for all sufficiently smooth functions $f$, $\vv$ and $\tn A$ defined in $\Omega_f$ it holds:
 \eq{ \label{eq:int_grad_nu_sc}
 \int_{-\tfrac\delta2}^{\tfrac\delta2}\nabla_\nu f\dn = \int_{-\tfrac\delta2}^{\tfrac\delta2}\nnu\frac{\rm d}{{\rm d}s}\left(f(\cdot+s\nnu)\right)\d s = \jmp{f}\nnu,
 }
@@ -209,44 +231,54 @@ Then it holds:
 }
 \eq{ \label{eq:int_grad_nu_vc} \int_{-\tfrac\delta2}^{\tfrac\delta2}\nabla_\nu\vv\dn = \jmp{\vv}\otimes\nnu, }
 \eq{ \label{eq:int_div_nu_tn} \int_{-\tfrac\delta2}^{\tfrac\delta2}\div_\nu\tn A \dn = \jmp{\tn A^\top}\nnu. }
-We also have the Green formula:
+We also have the Green identity in $\gamma$:
 \eq{ \int_\gamma(\div_\tau\vv)w = \int_{\prtl\gamma}(\vv\cdot\nn)w - \int_\gamma\vv\cdot\nabla_\tau w, }
 where $\nn$ denotes the unit outward normal to $\partial\gamma$.
 
 
 
-\section{Continuum-fracture model for elasticity}
+\section{Dimension reduction}
 
-Our aim is to obtain an equation for the averages $(\overline\uu,\overline p)$ in $\gamma$.
-To do so, we integrate \eqref{eq:lin_el} over the fracture aperture:
-\eq{\label{eq:lin_el_int} -\int_{-\tfrac\delta2}^{\tfrac\delta2}\div\bbsigma\dn + \int_{-\tfrac\delta2}^{\tfrac\delta2}\nabla(\alpha p)\dn = \delta\overline\ff. }
-Next, we decompose the integrands on the left hand side of \eqref{eq:lin_el_int} into tangential and normal parts and use the formulae \eqref{eq:int_grad_nu_sc}, \eqref{eq:int_div_nu_tn}.
-We get:
-\eq{\label{eq:decomp_div_sigma}
-\int_{-\tfrac\delta2}^{\tfrac\delta2}\div\bbsigma\dn = \int_{-\tfrac\delta2}^{\tfrac\delta2}\left(\div_\tau\bbsigma + \div_\nu\bbsigma\right) \dn
-= \delta\div_\tau\tn C_f\overline{\nabla\uu} + \jmp{\bbsigma}\nnu,
-}
-\eq{\label{eq:decomp_grad_alpha_p} \int_{-\tfrac\delta2}^{\tfrac\delta2}\nabla(\alpha p)\dn = \int_{-\tfrac\delta2}^{\tfrac\delta2} \left(\nabla_\tau(\alpha p) + \nabla_\nu(\alpha p)\right) \dn
-= \delta\nabla_\tau(\alpha_f\pbar) + \alpha_f\jmp{p}\nnu.
-}
-Using \eqref{eq:int_grad_nu_vc} we can express the averaged gradient:
+Let us assume that $(\uu,p)$ is a smooth solution of \eqref{eq:biot}--\eqref{eq:continuity_on_gamma_pm}.
+Our aim is to obtain appropriate equations that are satisfied by the averages $(\ubar,\pbar)$ in $\gamma$.
+
+
+\subsection{Continuum-fracture model for elasticity}\label{sec:reduction_elasticity}
+
+Integrating \eqref{eq:lin_el} over the fracture aperture and decomposing the differential operators yields:
+\eq{\label{eq:lin_el_int} \int_{-\tfrac\delta2}^{\tfrac\delta2}\left(-\div_\nu\bbsigma + \nabla_\nu(\alpha p)\right)\dn + \int_{-\tfrac\delta2}^{\tfrac\delta2}\left(-\div_\tau\bbsigma + \nabla_\tau(\alpha p)\right)\dn = \delta\overline\ff. }
+The first term on the left hand side of \eqref{eq:lin_el_int} can be rewritten using the formulae \eqref{eq:int_grad_nu_sc} and \eqref{eq:int_div_nu_tn}:
+\eq{\label{eq:decomp_el_nu} \int_{-\tfrac\delta2}^{\tfrac\delta2}\left(-\div_\nu\bbsigma + \nabla_\nu(\alpha p)\right)\dn = -\jmp\bbsigma\nnu + \alpha_f\jmp p\nnu. }
+For the second term we use the definition of $\bbsigma$ and the fact that the integral over fracture aperture commutes with tangential gradient:
+\eq{\label{eq:decomp_el_tau} \int_{-\tfrac\delta2}^{\tfrac\delta2}\left(-\div_\tau\bbsigma + \nabla_\tau(\alpha p)\right)\dn = -\delta\div_\tau\tn C_f\overline{\nabla\uu} + \delta\nabla_\tau(\alpha_f\pbar). }
+% 
+% \eq{\label{eq:decomp_div_sigma}
+% \int_{-\tfrac\delta2}^{\tfrac\delta2}\div\bbsigma\dn = \int_{-\tfrac\delta2}^{\tfrac\delta2}\left(\div_\tau\bbsigma + \div_\nu\bbsigma\right) \dn
+% = \delta\div_\tau\tn C_f\overline{\nabla\uu} + \jmp{\bbsigma}\nnu,
+% }
+% \eq{\label{eq:decomp_grad_alpha_p} \int_{-\tfrac\delta2}^{\tfrac\delta2}\nabla(\alpha p)\dn = \int_{-\tfrac\delta2}^{\tfrac\delta2} \left(\nabla_\tau(\alpha p) + \nabla_\nu(\alpha p)\right) \dn
+% = \delta\nabla_\tau(\alpha_f\pbar) + \alpha_f\jmp{p}\nnu.
+% }
+The averaged gradient can be expressed using \eqref{eq:int_grad_nu_vc} as follows:
 \eq{\label{eq:avg_grad_u} \overline{\nabla\uu} = \nabla_\tau\ubar + \jmp{\uu}\otimes\tfrac{\nnu}\delta. }
 Now we turn to approximation of the normal stress $\bbsigma\nnu$ on $\gamma^\pm$.
-We define the approximate normal gradient in the positive/negative half of the fracture:
-\eq{ \Delta_\nu^\opm = \Delta_\nu^\opm[\uu^\opm,\ubar] := \frac{\pm(\uu^\opm-\ubar)}{\tfrac\delta2}\otimes\nnu = \pm\frac2\delta(\uu^\opm-\ubar)\otimes\nnu. }
-Assuming that $\nabla^2\uu$ is bounded in $\Omega_f$, we have that
-\eq{ (\nabla_\nu\uu)^\opm = \Delta_\nu^\opm + O(\delta). }
+Using one-sided difference quotients, we can define the approximate normal gradient of $u$ in the positive/negative half of the fracture:
+\eq{ (\nabla_\nu\uu)^\opm \approx \pm\frac2\delta(\uu^\opm-\ubar)\otimes\nnu =: \Delta_\nu^\opm = \Delta_\nu^\opm[\uu,\ubar]. }
+% In this secion, we shall write $\Delta_\nu^\opm$ in place of $\Delta_\nu^\opm[\uu^\opm,\ubar]$ to simplify notation.
+% 
+% Assuming that $\nabla^2\uu$ is bounded in $\Omega_f$, we have that
+% \eq{ (\nabla_\nu\uu)^\opm = \Delta_\nu^\opm + O(\delta). }
 For the tangential gradient we shall use the approximation
-\eq{ (\nabla_\tau\uu)^\opm = \nabla_\tau\ubar + O(\delta). }
+\eq{ (\nabla_\tau\uu)^\opm \approx \nabla_\tau\ubar. }
 We can observe that the approximate normal and tangential gradient satisfy
 \eq{ \overline{\nabla\uu} = \nabla_\tau\ubar + \avg{\Delta_\nu}. }
-Then the approximate normal stress is given by
+Then the approximate normal stress on $\gamma^\pm$ is given by
 \eq{\label{eq:def_T} \vc T^\opm = \vc T^\opm[\uu^\opm,\ubar] := \left(\tn C_f\left(\nabla_\tau\ubar + \Delta_\nu^\opm\right)\right)\nnu, }
-so that $\bbsigma^\opm\nnu = \vc T^\opm + O(\delta)$.
-Collecting \eqref{eq:lin_el_int}, \eqref{eq:decomp_div_sigma}, \eqref{eq:decomp_grad_alpha_p}, \eqref{eq:avg_grad_u} and \eqref{eq:def_T} and neglecting $O(\delta)$ we obtain the averaged counterpart of \eqref{eq:lin_el}:
-\eq{ \delta\left(-\div_\tau\tn C_f\left(\nabla_\tau\ubar+\avg{\Delta_\nu}\right) + \nabla_\tau(\alpha_f\pbar)\right) - \jmp{\vc T} + \alpha_f\jmp{p}\nnu = \delta\overline\ff. }
+so that $\bbsigma^\opm\nnu \approx \vc T^\opm$.
+Collecting \eqref{eq:lin_el_int}--\eqref{eq:avg_grad_u} and \eqref{eq:def_T} and neglecting the approximation error, we obtain the averaged counterpart of \eqref{eq:lin_el}:
+\eq{ \label{eq:lin_el_frac} -\delta\div_\tau\tn C_f\left(\nabla_\tau\ubar+\avg{\Delta_\nu}\right) + \delta\nabla_\tau(\alpha_f\pbar) - \jmp{\vc T} + \alpha_f\jmp{p}\nnu = \delta\overline\ff. }
 The continuity of $\bbsigma\nnu$ on $\gamma^\pm$ is approximated by the condition
-\eq{ (\tn C_m\nabla\uu_{|\Omega_m})\nnu = \vc T^\opm \mbox{ on }\gamma^\pm. }
+\eq{ \label{eq:interface_el} (\tn C_m\nabla\uu_{|\Omega_m})\nnu = \vc T^\opm \mbox{ on }\gamma^\pm. }
 
 
 
@@ -256,37 +288,38 @@ The continuity of $\bbsigma\nnu$ on $\gamma^\pm$ is approximated by the conditio
 
 
 
-\section{Continuum-fracture model for flow}
+\subsection{Continuum-fracture model for flow}\label{sec:reduction_flow}
 
 Let us integrate \eqref{eq:biot_darcy} over the fracture aperture.
 We get:
 \eq{ \label{eq:darcy_int} \prtl_t\left(\delta S\pbar + \int_{-\tfrac\delta2}^{\tfrac\delta2}\div(\alpha\uu)\dn\right) + \int_{-\tfrac\delta2}^{\tfrac\delta2}\div\qq\dn = \delta\overline g. }
-The first integral in \eqref{eq:darcy_int} will be rewritten using \eqref{eq:int_div_nu_tn} and \eqref{eq:div_nu_vc}:
+The first integral in \eqref{eq:darcy_int} will be rewritten using \eqref{eq:div_nu_vc}:
 \ml{ \label{eq:div_alpha_u_int} \int_{-\tfrac\delta2}^{\tfrac\delta2}\div(\alpha\uu)\dn = \int_{-\tfrac\delta2}^{\tfrac\delta2}\left(\div_\tau(\alpha_f\uu_f) + \div_\nu(\alpha\uu)\right)\dn\\
 = \delta\div_\tau(\alpha_f\ubar) + \alpha_f\jmp{\uu}\cdot\nnu. }
-Similarly we get
+Similarly we obtain:
 \eq{ \label{eq:div_q_int} \int_{-\tfrac\delta2}^{\tfrac\delta2}\div\qq = \int_{-\tfrac\delta2}^{\tfrac\delta2}\left(\div_\tau\qq + \div_\nu\qq\right) 
 = \delta\div_\tau(\tn K_f\overline{\nabla p}) + \jmp\qq\cdot\nnu, }
 where
-\eq{ \overline{\nabla p} = \nabla_\tau\pbar + \tfrac1\delta\jmp{p}\nnu. }
+\eq{ \overline{\nabla p} = \nabla_\tau\pbar + \frac1\delta\jmp{p}\nnu. }
 From the definition of $\div_\tau$ and \eqref{eq:normal_conductivity} it then follows that
 \eq{ \label{eq:div_tau_K_gp} \div_\tau(\tn K_f\overline{\nabla p}) = \div_\tau(\tn K_f\nabla_\tau\pbar). }
-For the approximation of the normal flux $\qq\cdot\nnu$ on $\gamma^\pm$ we use the approximation
-\eq{ \label{eq:approx_p} (\nabla_\nu p)^\opm \approx \frac{\pm(p^\opm-\pbar)}{\tfrac\delta2}\nnu + O(\delta), }
-provided that $\nabla^2 p$ is bounded in $\Omega_f$.
-Then the approximate normal flux is given by
-\eq{ \label{eq:def_F} F^\opm = F^\opm[p^\opm,\pbar] := \pm k_f\frac2\delta(p^\opm-\pbar), }
-so that
-\eq{ \label{eq:approx_flux} -\qq^\opm\cdot\nnu = \tn K_f\nabla p^\opm\cdot\nnu = k_f(\nabla_\nu p)^\opm\cdot\nnu = F^\opm + O(\delta). }
-Now from \eqref{eq:darcy_int}, \eqref{eq:div_alpha_u_int}, \eqref{eq:div_q_int}, \eqref{eq:div_tau_K_gp}, \eqref{eq:def_F} and \eqref{eq:approx_flux} we obtain:
-\eq{ \delta\prtl_t\left(S_f\pbar + \div_\tau(\alpha_f\ubar)\right) -\delta\div_\tau(\tn K_f\nabla_\tau\pbar) +\alpha_f\jmp{\prtl_t\uu}\cdot\nnu - \jmp F = \delta\overline g. }
+To express the approximation of the normal flux $\qq\cdot\nnu$ on $\gamma^\pm$ we use the approximation
+\eq{ \label{eq:approx_p} (\nabla_\nu p)^\opm \approx \frac{\pm(p^\opm-\pbar)}{\tfrac\delta2}\nnu. }
+% provided that $\nabla^2 p$ is bounded in $\Omega_f$.
+Using this, we can write:
+\eq{ \label{eq:approx_flux} -\qq^\opm\cdot\nnu = \tn K_f\nabla p^\opm\cdot\nnu = k_f(\nabla_\nu p)^\opm\cdot\nnu \approx F^\opm, }
+where the approximate normal fluxes $F^\opm$ are given by
+\eq{ \label{eq:def_F} F^\opm = F^\opm[p,\pbar] := \pm k_f\frac2\delta(p^\opm-\pbar). }
+% 
+Neglecting the approximation error, we obtain from \eqref{eq:darcy_int}--\eqref{eq:def_F} the averaged flow equation:
+\eq{ \label{eq:flow_frac} \delta\prtl_t\left(S_f\pbar + \div_\tau(\alpha_f\ubar)\right) -\delta\div_\tau(\tn K_f\nabla_\tau\pbar) +\alpha_f\jmp{\prtl_t\uu}\cdot\nnu - \jmp F = \delta\overline g. }
 Continuity of flux through $\gamma^\pm$ is approximated by the condition
-\eq{ \tn K_m\nabla p_{|\Omega_m}\cdot\nnu = F^\opm \mbox{ on }\gamma^\pm. }
+\eq{ \label{eq:interface_flow} \tn K_m\nabla p_{|\Omega_m}\cdot\nnu = F^\opm \mbox{ on }\gamma^\pm. }
 
 
 
 
-\section{Well-posedness of mixed-dimensional linear elasticity}
+\section{Well-posedness of mixed-dimensional linear elasticity}\label{sec:wellposedness_elasticity}
 
 In this section we consider only the mechanical part of the problem.
 We want to find the displacement fields $\uu:\Omega_m\to\Real^d$ and $\U:\gamma\to\Real^d$ satisfying the following boundary-value problem:
@@ -299,30 +332,30 @@ We want to find the displacement fields $\uu:\Omega_m\to\Real^d$ and $\U:\gamma\
 \U &=\vc 0&&\mbox{on }\prtl\gamma.
 \end{align}
 \end{subequations}
-Here and in what follows, $\Delta_\nu^\opm:=\Delta_\nu^\opm[\uu^\opm,\U]$ and $\vc T^\opm=\vc T^\opm[\uu^\opm,\U]$.
+Here and in what follows, $\Delta_\nu^\opm=\Delta_\nu^\opm[\uu,\U]$ and $\vc T^\opm=\vc T^\opm[\uu,\U]$.
 Let us define the space 
-\eq{ V:=H^1_0(\Omega_m;\Real^d)\times H^1_0(\gamma;\Real^d) }
-equipped by the norm $\norm{(\vv,\vc V)}_V := (\norm{\nabla\vv}_{L^2(\Omega)}^2 + \norm{\nabla_\tau\vc V}_{L^2(\gamma)}^2)^{1/2}$ and the forms
+\eq{ \Vel :=H^1_0(\Omega_m;\Real^d)\times H^1_0(\gamma;\Real^d) }
+equipped by the norm $\norm{(\vv,\vc V)}_\Vel := (\norm{\nabla\vv}_{L^2(\Omega)}^2 + \norm{\nabla_\tau\vc V}_{L^2(\gamma)}^2)^{1/2}$ and the forms
 \ml{ a((\uu,\U), (\vv,\vc V)) := \int_{\Omega_m}\tn C_m\nabla\uu:\nabla\vv
  + \delta\int_\gamma\tn C_f(\nabla_\tau\U+\avg{\Delta_\nu}):\nabla_\tau\vc V\\
  + \int_\gamma\left(\jmp{\vc T\cdot\vv} - \jmp{\vc T}\cdot\vc V\right), }
 \eq{ l((\vv,\vc V)) := \int_{\Omega_m}\ff\cdot\vv + \delta\int_\gamma\overline\ff\cdot\vc V. }
 Then the weak formulation of \eqref{eq:lin_el_problem} reads:
 \eq{ \label{eq:el_weak} \left.\begin{minipage}{0.7\textwidth}
-Find $(\uu,\U)\in V$ such that
-\[ \forall(\vv,\vc V)\in V:~a((\uu,\U),(\vv,\vc V)) = l((\vv,\vc V)). \]
+Find $(\uu,\U)\in \Vel$ such that
+\[ \forall(\vv,\vc V)\in \Vel:~a((\uu,\U),(\vv,\vc V)) = l((\vv,\vc V)). \]
 \end{minipage}\right\} }
 
 Before establishing the well-posedness of \eqref{eq:el_weak} we prove a suitable Korn type inequality.
 For any function $\V$ defined in $\gamma$ we denote its symmetrized tangential gradient by
 \eq{ \ep_\tau\V := \frac12(\nabla_\tau\V+(\nabla_\tau\V)^\top). }
-Similarly, for a pair $(\vv,\V)\in V$ we define the symmetrized approximate normal gradient
+Similarly, for a pair $(\vv,\V)\in\Vel$ we define the symmetrized approximate normal gradient
 \eq{ \ep_\nu^\opm[\vv,\V] := \frac12\left(\Delta_\nu^\opm[\vv^\opm,\V]+(\Delta_\nu^\opm[\vv^\opm,\V])^\top\right). }
 We have the following Korn inequality in $H^1_0(\gamma)$.
 % 
 \begin{lemma}\label{th:korn_tau}
 There exists a constant $C_3>0$ such that for all $\V\in H^1_0(\gamma;\Real^d)$ it holds:
-\eq{ \norm{\ep_\tau\V}_{L^2(\gamma)}^2 \ge C_4\norm{\nabla_\tau\V}_{L^2(\gamma)}^2. }
+\eq{ \norm{\ep_\tau\V}_{L^2(\gamma)}^2 \ge C_3\norm{\nabla_\tau\V}_{L^2(\gamma)}^2. }
 \end{lemma}
 % 
 \begin{proof}
@@ -330,56 +363,56 @@ Let $\V\in H^1_0(\gamma;\Real^d)$.
 Then, by mapping $\V$ isometrically from $\gamma$ to a subset of $\Real^{d-1}$, we apply the Korn inequality to the tangential part $\V_\tau$, which implies
 \eq{ \norm{\ep_\tau\V_\tau}_{L^2(\gamma)}^2 \ge C_K\norm{\nabla_\tau\V_\tau}_{L^2(\gamma)}^2. }
 From the definition of tangential and normal operators in follows that
-\eq{ |\ep_\tau\V|^2 = |\ep_\tau\V_\tau|^2 + \tfrac12|\nabla_\tau\V_\nu|^2, }
-so that
+% \eq{ |\ep_\tau\V|^2 = |\ep_\tau\V_\tau|^2 + \tfrac12|\nabla_\tau\V_\nu|^2, }
+% so that
 \ml{ \norm{\ep_\tau\V}_{L^2(\gamma)}^2 = \norm{\ep_\tau\V_\tau}_{L^2(\gamma)}^2 + \tfrac12\norm{\nabla_\tau\V_\nu}_{L^2(\gamma)}^2\\
-\ge C_K\norm{\nabla_\tau\V_\tau}_{L^2(\gamma)}^2 + \tfrac12\norm{\nabla_\tau\V_\nu}_{L^2(\gamma)}^2 \ge \min\{C_K,\tfrac12\}\norm{\nabla_\tau\V}_{L^2(\gamma)}^2. }
+% \ge C_K\norm{\nabla_\tau\V_\tau}_{L^2(\gamma)}^2 + \tfrac12\norm{\nabla_\tau\V_\nu}_{L^2(\gamma)}^2
+\ge \min\{C_K,\tfrac12\}\norm{\nabla_\tau\V}_{L^2(\gamma)}^2. }
 \end{proof}
 
 Now we can prove a variant of the Korn inequality which takes into account the approximate normal gradient in $\gamma$.
 \begin{lemma}
-There exists a constant $C_4>0$ such that for all $(\vv,\V)\in V$ it holds:
-\eq{\label{eq:korn_frac} \norm{\ep\vv}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V+\ep_\nu[\vv,\V]}_{L^2(\gamma)}^2} \ge C_4\norm{(\vv,\V)}_V^2. }
+There exists a constant $C_4>0$ such that for all $(\vv,\V)\in \Vel$ it holds:
+\eq{\label{eq:korn_frac} \norm{\ep\vv}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V+\ep_\nu[\vv,\V]}_{L^2(\gamma)}^2} \ge C_4\norm{(\vv,\V)}_\Vel^2. }
 \end{lemma}
 \begin{proof}
-Let us assume for contradiction that there is a sequence $\{(\vv_n,\V_n)\}_{n=1}^\infty$ in $V$ such that
-\eq{\label{eq:korn_asm_contra} \norm{\ep\vv_n}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V_n+\ep_\nu[\vv_n,\V_n]}_{L^2(\gamma)}^2} < \frac1n\norm{(\vv_n,\V_n)}_V^2. }
-Without loss of generality we may assume that $\norm{(\vv_n,\V_n)}_V=1$, so that
-\eq{\label{eq:korn_weak_vV} (\vv_n,\V_n)\weakly (\vv,\V) \mbox{ weakly in }V, ~n\to\infty, }
-where $(\vv,\V)\in V$, passing eventually to a subsequence.
+Let us assume for contradiction that there is a sequence $\{(\vv_n,\V_n)\}_{n=1}^\infty$ in $\Vel$ such that
+\eq{\label{eq:korn_asm_contra} \norm{\ep\vv_n}_{L^2(\Omega_m)}^2 + \avg{\norm{\ep_\tau\V_n+\ep_\nu[\vv_n,\V_n]}_{L^2(\gamma)}^2} < \frac1n\norm{(\vv_n,\V_n)}_\Vel^2. }
+Without loss of generality we may assume that $\norm{(\vv_n,\V_n)}_\Vel=1$, so that
+\eq{\label{eq:korn_weak_vV} (\vv_n,\V_n)\weakly (\vv,\V) \mbox{ weakly in }\Vel, ~n\to\infty, }
+where $(\vv,\V)\in \Vel$, passing eventually to a subsequence.
 From \eqref{eq:korn_asm_contra} and the Korn inequality in $H^1_0(\Omega_m;\Real^d)$ it follows that
-\eq{\label{eq:korn_strong_v} \vv_n\to\vc 0 \mbox{ strongly in }H^1_0(\Omega_m;\Real^d),~n\to\infty. }
+\eq{\label{eq:korn_strong_v} \vv_n\to\vc 0 \mbox{ strongly in }H^1_0(\Omega_m;\Real^d),~n\to\infty, }
+implying that $\vv=\vc 0$.
 From \eqref{eq:korn_asm_contra} it also follows that
-\eq{\label{eq:korn_conv_approx_grad} \ep_\tau\V_n+\ep_\nu^\opm[\vv_n^\opm,\V_n] \to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}),~n\to\infty. }
-Using this together with \eqref{eq:korn_weak_vV}, \eqref{eq:korn_strong_v} and the definition of $\Delta_\nu^\opm$ we obtain:
+\eq{\label{eq:korn_conv_approx_grad} \ep_\tau\V_n+\ep_\nu^\opm[\vv_n,\V_n] \to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}),~n\to\infty. }
+Using this together with \eqref{eq:korn_weak_vV}, \eqref{eq:korn_strong_v} and the definition of $\Delta_\nu^\opm$, we obtain:
 \eq{ \ep_\tau\V = \pm\frac1\delta(\V\otimes\nnu+\nnu\otimes\V), }
 from which it follows that $\V=\vc 0$.
-With help of \eqref{eq:korn_conv_approx_grad} and the compact embeddings $H^1(\Omega_m)\hookrightarrow L^2(\gamma)$ and $H^1(\gamma)\hookrightarrow L^2(\gamma)$ we find that
-\eq{ \ep_\tau\V_n\to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}), ~n\to\infty. }
-Lemma \ref{th:korn_tau} then implies:
-\eq{ \V_n\to\vc 0 \mbox{ strongly in }H^1_0(\gamma;\Real^d), ~n\to\infty. }
+With help of the compact embeddings $H^1(\Omega_m)\hookrightarrow L^2(\gamma)$ and $H^1(\gamma)\hookrightarrow L^2(\gamma)$ we deduce from \eqref{eq:korn_conv_approx_grad} that $\ep_\tau\V_n\to 0$ strongly in $L^2(\gamma;\Real^{d\times d})$, $n\to\infty$.
+Lemma \ref{th:korn_tau} then implies that also $\V_n\to\vc 0$ strongly in $H^1_0(\gamma;\Real^d)$, $n\to\infty$.
 Finally, having shown the strong convergence of $\{(\vv_n,\V_n)\}_{n=1}^\infty$, we observe that
-\eq{ 1 = \lim_{n\to\infty}\norm{(\vv_n,\V_n)}_V = \norm{(\vv,\V)}_V = 0, }
+\eq{ 1 = \lim_{n\to\infty}\norm{(\vv_n,\V_n)}_\Vel = \norm{(\vv,\V)}_\Vel = 0, }
 which is a contradiction.
 Therefore the proof is finished.
 \end{proof}
 In the following lemma we prove the ellipticity of $a$.
 \begin{lemma}
-The bilinear form $a$ is elliptic in the following sense:
+The bilinear form $a$ is elliptic in $\Vel$:
 There exists a constant $C_5>0$ such that
-\eq{ \label{eq:a_ellip} a((\vv,\V),(\vv,\V)) \ge C_5\norm{(\vv,\V)}_{V}^2 }
-for all $(\vv,\V)\in V$.
+\eq{ \label{eq:a_ellip} a((\vv,\V),(\vv,\V)) \ge C_5\norm{(\vv,\V)}_\Vel^2 }
+for all $(\vv,\V)\in \Vel$.
 \end{lemma}
 \begin{proof}
-For any $(\vv,\V)\in V$ we have:
+For any $(\vv,\V)\in \Vel$ we have:
 \ml{\label{eq:a_uu}
-a((\vv,\V),(\vv,\V)) = \int_{\Omega_m}\tn C\nabla\vv:\nabla\vv
+a((\vv,\V),(\vv,\V)) = \int_{\Omega_m}\tn C_m\nabla\vv:\nabla\vv
 + \delta\int_\gamma\avg{\tn C_f(\nabla_\tau\V+\Delta_\nu[\vv,\V]):\nabla_\tau\V}\\
 + \int_\gamma\jmp{\vc T\cdot(\vv-\V)}.
 }
 From the definition of $\vc T^\opm$ and $\Delta_\nu^\opm$ we get:
-\ml{ \vc T^\opm\cdot(\vv^\opm-\V) = \tn C_f(\nabla_\tau\V+\Delta_\nu^\opm[\vv^\opm,\V]):(\vv^\opm-\V)\otimes\nnu\\
-= \pm\frac\delta2\tn C_f(\nabla_\tau\V+\Delta_\nu^\opm[\vv^\opm,\V]):\Delta_\nu^\opm[\vv^\opm,\V], }
+\ml{ \vc T^\opm\cdot(\vv^\opm-\V) = \tn C_f(\nabla_\tau\V+\Delta_\nu^\opm[\vv,\V]):(\vv^\opm-\V)\otimes\nnu\\
+= \pm\frac\delta2\tn C_f(\nabla_\tau\V+\Delta_\nu^\opm[\vv,\V]):\Delta_\nu^\opm[\vv,\V], }
 which together with \eqref{eq:a_uu} and \eqref{eq:pos_def_C} yields:
 \ml{ \label{eq:a_uu2}
 a((\vv,\V),(\vv,\V)) = \int_{\Omega_m}\tn C_m\nabla\vv:\nabla\vv
@@ -443,13 +476,11 @@ Let $\ff\in L^2(\Omega;\Real^d)$. Then problem \eqref{eq:el_weak} has a unique s
 
 
 
-% \bibliographystyle{abbrvnat}
-% \bibliography{flow123d_doc.bib}
+\bibliographystyle{abbrvnat}
+\bibliography{flow123d_doc.bib}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \end{document}
 
-
-The resulting problem consists of equations of flow and mechanics in the fracture and in the surrounding domain, accompanied by appropriate interface conditions (eq. \eqref{eq:interface_el}, \eqref{eq:interface_flow}).
 
