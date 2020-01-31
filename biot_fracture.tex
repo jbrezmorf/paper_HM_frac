@@ -64,6 +64,7 @@
 \def\agrad{\tilde\nabla}
 \def\avg#1{\left\{\mskip-5mu\left\{#1\right\}\mskip-5mu\right\}}
 \def\d {\,{\rm d}}
+\def\ddt#1{\frac{\d #1}{\d t}}
 \def\dist{\operatorname{dist}}
 \def\div{\operatorname{div}}
 \def\dn{\d\nnu}
@@ -73,7 +74,8 @@
 \def\FF{\vc F}
 \def\ff{\vc f}
 \def\grad{\nabla}
-\def\Hel{\mathcal H}
+\def\Hel{\vc{\mathcal H}}
+\def\Hf{\mathcal H}
 \def\jmp#1{\left\llbracket #1 \right\rrbracket}
 \def\Lapl{\Delta}
 \def\Natural{\mathbf N}
@@ -94,7 +96,8 @@
 \def\ul{\underline}
 \def\uu{\vc u}
 \def\V{\vc V}
-\def\Vel{{\mathcal V}} % Sobolev space for elasticity
+\def\Vel{{\vc{\mathcal V}}} % Sobolev space for elasticity
+\def\Vf{{\mathcal V}} % Sobolev space for flow
 \def\vc#1{\mathbf{\boldsymbol{#1}}}     % vector
 \def\vv{\vc v}
 \def\weakly{\rightharpoonup}
@@ -183,7 +186,7 @@ In context of this paper it reads:
 \begin{align}
     \label{eq:lin_el}
     -\div \bbsigma + \nabla(\alpha p) &= \ff &&\mbox{ in }\Omega_m\cup\Omega_f,\\
-\label{eq:biot_darcy}    \prtl_t\left(Sp + \div(\alpha\uu)\right) + \div\qq &= g &&\mbox{ in }\Omega_m\cup\Omega_f,
+\label{eq:biot_darcy}    \dt\left(Sp + \div(\alpha\uu)\right) + \div\qq &= g &&\mbox{ in }\Omega_m\cup\Omega_f,
 \end{align}
 \end{subequations}
 Here, the displacement $\uu$ and the pressure $p$ are the principal unknowns; further $\alpha$ is the Biot effective stress parameter, $\ff$ the body force, $S$ the storativity, $g$ the fluid source.
@@ -254,7 +257,7 @@ Let us assume that $(\uu,p)$ is a smooth solution of \eqref{eq:biot}--\eqref{eq:
 Our aim is to obtain appropriate equations that are satisfied by the averages $(\ubar,\pbar)$ in $\gamma$.
 
 
-\subsection{Continuum-fracture model for elasticity}\label{sec:reduction_elasticity}
+\subsection{Fracture model for elasticity}\label{sec:reduction_elasticity}
 
 Integrating \eqref{eq:lin_el} over the fracture aperture and decomposing the differential operators yields:
 \eq{\label{eq:lin_el_int} \int_{-\tfrac\delta2}^{\tfrac\delta2}\left(-\div_\nu\bbsigma + \nabla_\nu(\alpha p)\right)\dn + \int_{-\tfrac\delta2}^{\tfrac\delta2}\left(-\div_\tau\bbsigma + \nabla_\tau(\alpha p)\right)\dn = \delta\overline\ff. }
@@ -287,7 +290,7 @@ so that $\bbsigma^\opm\nnu \approx \tt^\opm$.
 Collecting \eqref{eq:lin_el_int}--\eqref{eq:avg_grad_u} and \eqref{eq:def_T} and neglecting the approximation error, we obtain the averaged counterpart of \eqref{eq:lin_el}:
 \eq{ \label{eq:lin_el_frac} -\delta\div_\tau\left(\tn C_f\avg{\agrad[\uu,\ubar]}\right) + \delta\nabla_\tau(\alpha_f\pbar) - \jmp{\tt[\uu,\ubar]} + \alpha_f\jmp{p}\nnu = \delta\overline\ff. }
 The continuity of $\bbsigma\nnu$ on $\gamma^\pm$ is approximated by the condition
-\eq{ \label{eq:interface_el} (\tn C_m\nabla\uu_{|\Omega_m})\nnu = \tt^\opm[\uu,\ubar] \mbox{ on }\gamma^\pm. }
+\eq{ \label{eq:interface_el} (\tn C_m(\nabla\uu_{|\Omega_m})^\opm)\nnu = \tt^\opm[\uu,\ubar] \mbox{ in }\gamma. }
 
 
 
@@ -297,7 +300,7 @@ The continuity of $\bbsigma\nnu$ on $\gamma^\pm$ is approximated by the conditio
 
 
 
-\subsection{Continuum-fracture model for flow}\label{sec:reduction_flow}
+\subsection{Fracture model for flow}\label{sec:reduction_flow}
 
 Let us integrate \eqref{eq:biot_darcy} over the fracture aperture.
 We get:
@@ -316,35 +319,76 @@ To express the approximation of the normal flux $\qq\cdot\nnu$ on $\gamma^\pm$ w
 \eq{ \label{eq:approx_p} (\nabla_\nu p)^\opm \approx \frac{\pm(p^\opm-\pbar)}{\tfrac\delta2}\nnu. }
 % provided that $\nabla^2 p$ is bounded in $\Omega_f$.
 Using this, we can write:
-\eq{ \label{eq:approx_flux} -\qq^\opm\cdot\nnu = \tn K_f\nabla p^\opm\cdot\nnu = k_f(\nabla_\nu p)^\opm\cdot\nnu \approx \pphi^\opm, }
+\eq{ \label{eq:approx_flux} -\qq^\opm\cdot\nnu = \tn K_f\nabla p^\opm\cdot\nnu = k_f(\nabla_\nu p)^\opm\cdot\nnu \approx \pphi^\opm[p,\pbar], }
 where the approximate normal fluxes $\pphi^\opm$ are given by
-\eq{ \label{eq:def_F} \pphi^\opm = \pphi^\opm[p,\pbar] := \pm k_f\frac2\delta(p^\opm-\pbar). }
+\eq{ \label{eq:def_F} \pphi^\opm[p,\pbar] := \pm k_f\frac2\delta(p^\opm-\pbar). }
 % 
 Neglecting the approximation error, we obtain from \eqref{eq:darcy_int}--\eqref{eq:def_F} the averaged flow equation:
-\eq{ \label{eq:flow_frac} \delta\prtl_t\left(S_f\pbar + \div_\tau(\alpha_f\ubar)\right) -\delta\div_\tau(\tn K_f\nabla_\tau\pbar) +\alpha_f\jmp{\prtl_t\uu}\cdot\nnu - \jmp \pphi = \delta\overline g. }
+\eq{ \label{eq:flow_frac} \delta\prtl_t\left(S_f\pbar + \div_\tau(\alpha_f\ubar)\right) -\delta\div_\tau(\tn K_f\nabla_\tau\pbar) +\alpha_f\jmp{\prtl_t\uu}\cdot\nnu - \jmp{\pphi[p,\pbar]} = \delta\overline g. }
 Continuity of flux through $\gamma^\pm$ is approximated by the condition
-\eq{ \label{eq:interface_flow} \tn K_m\nabla p_{|\Omega_m}\cdot\nnu = \pphi^\opm \mbox{ on }\gamma^\pm. }
+\eq{ \label{eq:interface_flow} \tn K_m(\nabla p_{|\Omega_m})^\opm\cdot\nnu = \pphi^\opm[p,\pbar] \mbox{ in }\gamma. }
 
 
 
 
-\section{Well-posedness of mixed-dimensional linear elasticity}\label{sec:wellposedness_elasticity}
+\section{Well-posedness of mixed-dimensional poroelasticity}
+
+In this section we first define the weak formulation of the mixed-dimensional problem of flow and mechanics.
+Then we solve independently the mechanical and the flow part of the problem.
+Finally we combine both subproblems in a fixed-stress iterative process and prove its convergence to the solution of the coupled problem.
+
+Let $(0,T)$ be a finite time interval.
+Given loads $\ff:(0,T)\times\Omega_m\to\Real^d$, $\FF:(0,T)\times\gamma\to\Real^d$, sources $g:(0,T)\times\Omega_m\to\Real$, $G:(0,T)\times\gamma\to\Real$ and initial conditions $p_0:\Omega_m\to\Real$, $P_0:\gamma\to\Real$, we want to find the quadruplet $(\uu,\U,p,P)$ which satisfies
+\begin{subequations}
+\begin{itemize}
+\item[(i)] the Biot equations in the matrix:
+\begin{align}
+-\div(\tn C_m\nabla\uu) + \alpha_m\nabla p &= \ff &&\mbox{ in }(0,T)\times\Omega_m,\\
+\dt\left(S_m p + \alpha_m\div\uu\right) - \div(\tn K_m\nabla p) &= g &&\mbox{ in }(0,T)\times\Omega_m,
+\end{align}
+
+\item[(ii)] the reduced Biot equations in the fracture:
+\ml{ -\delta\div_\tau\left(\tn C_f\avg{\agrad[\uu,\U]}\right) + \delta\alpha_f\nabla_\tau P - \jmp{\tt[\uu,\U]}\\
++ \alpha_f\jmp{p}\nnu = \FF \mbox{ in }(0,T)\times\gamma, }
+\ml{ \delta\prtl_t\left(S_f P + \alpha_f\div_\tau\U\right) -\delta\div_\tau(\tn K_f\nabla_\tau P)\\
++ \alpha_f\jmp{\prtl_t\uu}\cdot\nnu - \jmp \pphi[p,P] = G \mbox{ in }(0,T)\times\gamma, }
+
+\item[(ii)] the interface conditions:
+\eq{ (\tn C_m(\nabla\uu)^\opm)\nnu = \tt^\opm[\uu,\U], \quad \tn K_m(\nabla p)^\opm\cdot\nnu = \pphi^\opm[p,P] \quad \mbox{ in }(0,T)\times\gamma, }
+
+\item[(iii)] the boundary conditions:
+\begin{align}
+\uu &= \vc 0, \quad p = 0 &&\mbox{ on }(0,T)\times\Gamma,\\
+\U &= \vc 0, \quad P = 0 &&\mbox{ on }(0,T)\times\prtl\gamma,
+\end{align}
+
+\item[(iv)] the initial conditions:
+\begin{align}
+p(0,\cdot) &= p_0 &&\mbox{ in }\Omega_m,\\
+P(0,\cdot) &= P_0 &&\mbox{ in }\gamma.
+\end{align}
+\end{itemize}
+\end{subequations}
+
+
+
+\subsection{Mixed-dimensional linear elasticity}\label{sec:wellposedness_elasticity}
 
 In this section we consider only the mechanical part of the problem.
 Let $\Gamma:=\prtl\Omega_m\cap\prtl\Omega$, $H^1_0(\gamma;\Real^d)$ denote the Sobolev space of vector-valued functions in $\gamma$ with zero traces on $\prtl\gamma$ and $H^1_\Gamma(\Omega_m;\Real^d)$ the Sobolev space of vector-valued functions in $\Omega_m$ vanishing on $\Gamma$.
 
-Given loads $\ff:\Omega_m\to\Real^d$, $\FF:\gamma\to\Real^d$, we want to find the displacement fields $\uu:\Omega_m\to\Real^d$ and $\U:\gamma\to\Real^d$ satisfying the following boundary-value problem:
+Assuming that the loads $\ff$, $\FF$ are time-independent, we want to find the displacement fields $\uu:\Omega_m\to\Real^d$ and $\U:\gamma\to\Real^d$ satisfying the following boundary-value problem:
 \begin{subequations}\label{eq:lin_el_problem}
 \begin{align}
 -\div(\tn C_m\nabla\uu) &= \ff &&\mbox{in }\Omega_m,\\
 -\delta\div_\tau\left(\tn C_f\avg{\agrad[\uu,\U]} \right) - \jmp{\tt[\uu,\U]} &= \FF &&\mbox{in }\gamma,\\
-(\tn C_m\nabla\uu)\nnu &= \tt^\opm[\uu,\U] &&\mbox{on }\gamma^\pm,\\
+(\tn C_m(\nabla\uu)^\opm)\nnu &= \tt^\opm[\uu,\U] &&\mbox{in }\gamma,\\
 \uu &=\vc0&&\mbox{on }\Gamma,\\
 \U &=\vc 0&&\mbox{on }\prtl\gamma.
 \end{align}
 \end{subequations}
 
-\subsection{Weak formulation}
+\paragraph{Weak formulation.}
 The weak formulation of \eqref{eq:lin_el_problem} is derived by multiplying the equations in $\Omega_m$ and $\gamma$ by suitable test functions $\vv$, $\V$, respectively, integrating by parts and applying the boundary and interface conditions.
 After that we arrive at the identity
 \ml{ \int_{\Omega_m}\tn C_m\nabla\uu:\nabla\vv
@@ -373,7 +417,7 @@ Find $(\uu,\U)\in \Vel$ such that
 \[ \forall(\vv,\vc V)\in \Vel:~a((\uu,\U),(\vv,\vc V)) = l((\vv,\vc V)). \]
 \end{minipage}\right\} }
 
-\subsection{Korn type inequalities}
+\paragraph{Korn type inequalities.}
 Before establishing the well-posedness of \eqref{eq:el_weak} we prove a suitable Korn type inequality.
 For any function $\V\in H^1(\gamma;\Real^d)$ we denote its symmetrized tangential gradient by
 \eq{ \ep_\tau\V := \frac12(\nabla_\tau\V + (\nabla_\tau\V)^\top). }
@@ -428,7 +472,7 @@ which is a contradiction.
 Therefore the proof is finished.
 \end{proof}
 
-\subsection{Existence and uniqueness of solutions}
+\paragraph{Existence and uniqueness of solutions.}
 In the following lemma we prove the ellipticity of $a$.
 \begin{lemma}
 The bilinear form $a$ is bounded and elliptic in $\Vel$.
@@ -461,6 +505,93 @@ Let $(\ff,\FF)\in C([0,T];\Vel^*)$. Then $(\uu,\U)\in C([0,T];\Vel)$.
 If in addition $(\dt\ff,\dt\FF)\in L^2(0,T;\Vel^*)$, then $(\dt\uu,\dt\U)\in L^2(0,T;\Vel)$.
 \end{corollary}
 
+
+\subsection{Mixed-dimensional flow}
+
+We now turn to the flow part of the mixed-dimensional problem, assuming zero displacements.
+We want to find the pressure fields $p:[0,T)\times\Omega_m\to\Real$ and $P:[0,T)\times\gamma\to\Real$ such that
+\begin{subequations}\label{eq:flow_problem}
+\begin{align}
+S_m\dt p - \div(\tn K_m\nabla p) &= g &&\mbox{ in }(0,T)\times\Omega_m,\\
+\delta S_f\dt P - \delta\div_\tau(\tn K_f\nabla_\tau P) - \jmp{\pphi[p,P]} &= G &&\mbox{ in }(0,t)\times\gamma,\\
+\label{eq:condition_pP} \tn K_m(\nabla p)^\opm\cdot\nnu &= \pphi^\opm[p,P] &&\mbox{ in }(0,T)\times\gamma,\\
+\label{eq:bc_p} p & = 0 &&\mbox{ on }(0,T)\times\Gamma,\\
+\label{eq:bc_P} P & = 0 &&\mbox{ on }(0,T)\times\prtl\gamma,\\
+p(0,\cdot) & = p_0 &&\mbox{ in }\Omega_m,\\
+P(0,\cdot) & = P_0 &&\mbox{ in }\gamma.
+\end{align}
+\end{subequations}
+Let us define the spaces
+\eq{ \Hf := L^2(\Omega_m)\times L^2(\gamma),\quad \Vf := H^1_\Gamma(\Omega_m)\times H^1_0(\gamma) }
+with the norms
+\begin{align}
+\norm{(q,Q)}_\Hf &:= (\norm{q}_{L^2(\gamma)}^2 + \norm{Q}_{L^2(\gamma)}^2)^{1/2},\\
+\norm{(q,Q)}_\Vf &:= (\norm{\nabla q}_{L^2(\gamma)}^2 + \norm{\nabla Q}_{L^2(\gamma)}^2)^{1/2}.
+\end{align}
+The weak formulation of \eqref{eq:flow_problem} reads:
+\eq{ \label{eq:flow_weak} \left.\begin{minipage}{0.85\textwidth}
+Find $(p,P)\in L^\infty(0,T;\Vf)$ such that
+\begin{itemize}
+\item $\dt(p,P)\in L^2(0,T;\Hf)$;
+\item $(p,P)(0,\cdot)=(p_0,P_0)$;
+\item for all $(q,Q)\in\Vf$ and $t\in(0,T)$:
+\[ \begin{aligned}S_m\int_{\Omega_m}q\dt p + \delta S_f\int_\gamma Q\dt P + \int_{\Omega_m}\tn K_m\nabla p\cdot\nabla q\\
++ \delta\int_\gamma\tn K_f\nabla_\tau P\cdot\nabla_\tau Q + \int_\gamma\jmp{\pphi[p,P](q-Q)}\\
+= \dual{(g,G)}{(q,Q)}_\Hf.\end{aligned} \]
+\end{itemize}
+\end{minipage}\right\} }
+The existence and uniqueness of a solution will be based on the classical theory of parabolic problems (see e.g. \cite{evans_pde}, chap. 7.1), where the essential role plays the energy estimate:
+Multiplying the first two equations in \eqref{eq:flow_problem} by the time derivative $\dt(p,P)$, integrating by parts in space and applying the conditions \eqref{eq:condition_pP}--\eqref{eq:bc_P} we arrive at
+\ml{\label{eq:energy_est_1} \norm{\dt(\sqrt{S_m} p,\sqrt{\delta S_f} P)}_\Hf^2\\
++ \frac12\ddt{}\left(\int_{\Omega_m}\tn K_m\nabla p\cdot\nabla p
++ \delta\int_\gamma\tn K_f\nabla_\tau P\cdot\nabla_\tau P
++ \int_\gamma\jmp{\pphi[p,P](p-P)}\right)\\
+= \dual{(g,G)}{\dt(p,P)}_\Vf. }
+From the definition of $\pphi^\opm$ we infer that
+\eq{ \label{eq:pos_pphi} \jmp{\pphi[p,P](p-P)}\ge 0. }
+Hence, after integration in time, using the positive definiteness of $\tn K_*$, $*\in\{m,f\}$, \eqref{eq:pos_pphi}, the initial conditions and a suitable estimate of the right hand side of \eqref{eq:energy_est_1}, we obtain:
+% \eq{ \ddt{}\norm{(S_m p,\delta S_f P)}_\Hf^2 + C_2\min\{1,\delta\}\norm{(p,P)}_\Vf^2
+% \le \frac1{C_2\min\{1,\delta\}}\norm{(g,G)}_{\Vf^*}^2. }
+% Integration in time then yields:
+\eq{ \label{eq:energy_est_flow} \int_0^T\norm{\dt(p,P)}_\Hf^2 + \sup_{t\in(0,T)}\norm{(p,P)}_\Vf^2(t) \le C\left(\norm{(p_0,P_0)}_\Vf^2 + \int_0^T\norm{(g,G)}_{\Hf}^2\right), }
+where $C>0$ may depend on $S_m,S_f,\delta,|\tn K_m|,|\tn K_f|$.
+
+We establish the existence and uniqueness of a weak solution in the following theorem.
+
+\begin{theorem}
+Let $(p_0,P_0)\in\Vf$ and $(g,G)\in L^2(0,T;\Hf)$.
+Then there exists a unique solution to \eqref{eq:flow_weak}.
+\end{theorem}
+\begin{proof}
+\underline{Existence:}
+Let $\{w_j\}_{j=1}^\infty$ and $\{W_j\}_{j=1}^\infty$ be bases in $H^1_\Gamma(\Omega_m)$, $H^1_0(\gamma)$, respectively, orthonormal with respect to the $L^2$-scalar products.
+For any $n=1,2,...$ we define the Galerkin approximation $(p_n,P_n)$ as a pair of functions in the form $p_n(t,\xx):=\sum_{j=1}^n\psi_j^n(t)w_j(\xx)$, $P_n(t,\xx):=\sum_{j=1}^n\Psi_j^n(t)W_j(\xx)$, satisfying for a.a. $t\in(0,T)$ and for $i=1,...,n$ the integral identities
+\eq{ \label{eq:galerkin_m} S_m\int_{\Omega_m}w_i\dt p_n + \int_{\Omega_m}\tn K_m\nabla p_n\cdot\nabla w_i + \int_\gamma\jmp{\pphi[p_n,P_n]w_i} = \int_{\Omega_m}g w_i, }
+\eq{ \label{eq:galerkin_f} \delta S_f\int_\gamma W_i\dt P_n + \delta\int_\gamma\tn K_f\nabla_\tau P_n\cdot\nabla_\tau W_i - \int_\gamma\jmp{\pphi[p_n,P_n]W_i} = \int_\gamma G W_i, }
+and the initial conditions
+\[ \psi_i(0)=\int_{\Omega_m}p_0w_i, \quad \Psi_i(0)=\int_\gamma P_0W_i. \]
+The existence and uniqueness of $(p_n,P_n)$ follows from the Carath\'eodory theory of ODEs.
+Multiplying \eqref{eq:galerkin_m} by $\psi_i$ and \eqref{eq:galerkin_f} by $\Psi_i$, and summing over $i=1,...,n$ we arrive at the estimate \eqref{eq:energy_est_flow} with $(p_n,P_n)$ in place of $(p,P)$.
+Hence the sequence $\{(p_n,P_n)\}_{n=1}^\infty$ is bounded in $L^\infty(0,T;\Vf)\cap H^1(0,T;\Hf)$.
+Choosing a subsequence weakly convergent in the above spaces to a pair $(p,P)$, we can pass to the limit in \eqref{eq:galerkin_m}--\eqref{eq:galerkin_f}, which proves that $(p,P)$ is a solution of \eqref{eq:flow_weak}.
+
+\underline{Uniqueness:}
+Let us assume two solutions $(p^1,P^1)$, $(p^2,P^2)$ and denote their difference by $(\Delta p,\Delta P)$.
+Taking the difference of the integral identities \eqref{eq:flow_weak} satisfied by the two solutions and testing by $(\Delta p,\Delta P)$ we obtain:
+\ml{ \label{eq:dif_p} \frac12\ddt{}\norm{(\sqrt{S_m}\Delta p,\sqrt{\delta S_f}\Delta P)}_\Hf^2
++ \int_{\Omega_m}\tn K_m\nabla\Delta p\cdot\nabla\Delta p\\
++ \delta\int_\gamma\tn K_f\nabla_\tau\Delta P\cdot\nabla_\tau\Delta P
++ \int_\gamma\jmp{\pphi[\Delta p,\Delta P](\Delta p-\Delta P)} = 0. }
+Since all but the first term on the left hand side of \eqref{eq:dif_p} are nonnegative, we obtain the inequality
+\eq{ \ddt{}\norm{(\Delta p,\Delta P)}_\Hf^2 \le 0, }
+which together with the fact that $(\Delta p,\Delta P)(0,\cdot) = 0$ implies $(p^1,P^1)=(p^2,P^2)$.
+\end{proof}
+
+
+\subsection{Fixed-stress iterations}
+
+
+\section*{Conclusion}
 
 
 
