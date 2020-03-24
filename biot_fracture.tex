@@ -489,30 +489,36 @@ The proof will be done in the following subsections.
 
 \subsection{Mixed-dimensional linear elasticity}\label{sec:wellposedness_elasticity}
 
-In this section we consider only the mechanical part of the problem \eqref{eq:mixed_dim_perm}.
-Assuming that $p$, $P$ are given pressure fields at some time $t\in(0,T)$, we want to find the displacement fields $\uu=\uu(t):\Omega_m\to\Real^d$ and $\U=\U(t):\gamma\to\Real^d$ satisfying the following boundary-value problem:
-\begin{subequations}\label{eq:lin_el_problem}
-\begin{align}
--\div(\CC_m\nabla\uu) &= \ff -\alpha_m\nabla p &&\mbox{in }\Omega_m,\\
--\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]} \right) - \jmp{\tt[\uu,\U]} &= \FF - \delta\alpha_f\grad_\tau P &&\mbox{in }\gamma,\\
-(\CC_m(\nabla\uu)^\opm)\nnu - \tt^\opm[\uu,\U] &= (\alpha_m p^\opm-\alpha_f P)\nnu &&\mbox{in }\gamma,\\
-\uu &=\vc0&&\mbox{on }\Gamma,\\
-\U &=\vc 0&&\mbox{on }\prtl\gamma.
-\end{align}
-\end{subequations}
+In this section we consider only the mechanical part of the problem \eqref{eq:biot_weak}.
+Assuming that $p$ and $P$ are given pressure fields at some time $t\in(0,T)$, we want to solve the following problem:
+% find the displacement fields $\uu=\uu(t):\Omega_m\to\Real^d$ and $\U=\U(t):\gamma\to\Real^d$ satisfying the following boundary-value problem:
+% \begin{subequations}\label{eq:lin_el_problem}
+% \begin{align}
+% -\div(\CC_m\nabla\uu) &= \ff -\alpha_m\nabla p &&\mbox{in }\Omega_m,\\
+% -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]} \right) - \jmp{\tt[\uu,\U]} &= \FF - \delta\alpha_f\grad_\tau P &&\mbox{in }\gamma,\\
+% (\CC_m(\nabla\uu)^\opm)\nnu - \tt^\opm[\uu,\U] &= (\alpha_m p^\opm-\alpha_f P)\nnu &&\mbox{in }\gamma,\\
+% \uu &=\vc0&&\mbox{on }\Gamma,\\
+% \U &=\vc 0&&\mbox{on }\prtl\gamma.
+% \end{align}
+% \end{subequations}
 % 
-Let us define the forms
+% Let us define the forms
+% \eqs{ a((\uu,\U), (\vv,\vc V)) := \int_{\Omega_m}\CC_m\nabla\uu:\nabla\vv
+%  + \delta\int_\gamma\avg{\CC_f\agrad[\uu,\U]:\agrad[\vv,\V]}, }
+% \eqs{ l((\vv,\vc V)) := \dual{(\ff,\FF)}{(\vv,\V)}_\Vel + \int_{\Omega_m} \alpha_m p\div\vv
+%   + \delta\int_\gamma \alpha_f P \avg{\adiv[\vv,\V]}. }
+% Then the weak formulation of \eqref{eq:lin_el_problem} reads:
+\eq{ \label{eq:el_weak} \left.\begin{minipage}{0.7\textwidth}
+Find $(\uu,\U)\in \Vel$ such that
+\[ \forall(\vv,\vc V)\in \Vel:~a((\uu,\U),(\vv,\vc V)) = l((\vv,\vc V)), \]
+\end{minipage}\right\} }
+where
 \eqs{ a((\uu,\U), (\vv,\vc V)) := \int_{\Omega_m}\CC_m\nabla\uu:\nabla\vv
  + \delta\int_\gamma\avg{\CC_f\agrad[\uu,\U]:\agrad[\vv,\V]}, }
 \eqs{ l((\vv,\vc V)) := \dual{(\ff,\FF)}{(\vv,\V)}_\Vel + \int_{\Omega_m} \alpha_m p\div\vv
   + \delta\int_\gamma \alpha_f P \avg{\adiv[\vv,\V]}. }
-Then the weak formulation of \eqref{eq:lin_el_problem} reads:
-\eq{ \label{eq:el_weak} \left.\begin{minipage}{0.7\textwidth}
-Find $(\uu,\U)\in \Vel$ such that
-\[ \forall(\vv,\vc V)\in \Vel:~a((\uu,\U),(\vv,\vc V)) = l((\vv,\vc V)). \]
-\end{minipage}\right\} }
-The existence and uniqueness of the weak solution will be proved using Lax-Milgram theorem.
-To ensure the ellipticity of the bilinear form $a$, we first prove a suitable inequality for functions in $\Vel$.
+The existence and uniqueness of the solution to \eqref{eq:el_weak} will be proved using the Lax-Milgram theorem.
+To ensure ellipticity of the bilinear form $a$, we first prove a suitable inequality for functions in $\Vel$.
 
 \paragraph{Korn type inequalities.}
 Let us recall the classical Korn inequality: %(see e.g. \cite{nitsche1981korn}):
@@ -609,32 +615,34 @@ We shall use it in the definition of the fixed-stress splitting in section \ref{
 
 \subsection{Mixed-dimensional flow}
 
-We now turn to the flow part of the mixed-dimensional problem, assuming zero displacements.
-We want to find the pressure fields $p:[0,T)\times\Omega_m\to\Real$ and $P:[0,T)\times\gamma\to\Real$ such that
-\begin{subequations}\label{eq:flow_problem}
-\begin{align}
-S_m\dt p - \div(\tn K_m\nabla p) &= g &&\mbox{ in }(0,T)\times\Omega_m,\\
-\delta S_f\dt P - \delta\div_\tau\left(\tn K_f\avg{\agrad[p,P]}\right) - \jmp{\pphi[p,P]} &= G &&\mbox{ in }(0,T)\times\gamma,\\
-\label{eq:condition_pP} \tn K_m(\nabla p)^\opm\cdot\nnu - \pphi^\opm[p,P] &= 0 &&\mbox{ in }(0,T)\times\gamma,\\
-\label{eq:bc_p} p & = 0 &&\mbox{ on }(0,T)\times\Gamma,\\
-\label{eq:bc_P} P & = 0 &&\mbox{ on }(0,T)\times\prtl\gamma,\\
-\label{eq:init_p} p(0,\cdot) & = p_0 &&\mbox{ in }\Omega_m,\\
-\label{eq:init_P} P(0,\cdot) & = P_0 &&\mbox{ in }\gamma.
-\end{align}
-\end{subequations}
-The weak formulation of \eqref{eq:flow_problem} reads:
+We now turn to the flow part of the mixed-dimensional problem \eqref{eq:biot_weak}, assuming zero displacements.
+We want to 
+% find the pressure fields $p:[0,T)\times\Omega_m\to\Real$ and $P:[0,T)\times\gamma\to\Real$ such that
+% \begin{subequations}\label{eq:flow_problem}
+% \begin{align}
+% S_m\dt p - \div(\tn K_m\nabla p) &= g &&\mbox{ in }(0,T)\times\Omega_m,\\
+% \delta S_f\dt P - \delta\div_\tau\left(\tn K_f\avg{\agrad[p,P]}\right) - \jmp{\pphi[p,P]} &= G &&\mbox{ in }(0,T)\times\gamma,\\
+% \label{eq:condition_pP} \tn K_m(\nabla p)^\opm\cdot\nnu - \pphi^\opm[p,P] &= 0 &&\mbox{ in }(0,T)\times\gamma,\\
+% \label{eq:bc_p} p & = 0 &&\mbox{ on }(0,T)\times\Gamma,\\
+% \label{eq:bc_P} P & = 0 &&\mbox{ on }(0,T)\times\prtl\gamma,\\
+% \label{eq:init_p} p(0,\cdot) & = p_0 &&\mbox{ in }\Omega_m,\\
+% \label{eq:init_P} P(0,\cdot) & = P_0 &&\mbox{ in }\gamma.
+% \end{align}
+% \end{subequations}
+% The weak formulation of \eqref{eq:flow_problem} reads:
+solve the following problem:
 \eq{ \label{eq:flow_weak} \left.\begin{minipage}{0.85\textwidth}
 Find $(p,P)\in L^\infty(0,T;\Vf)\cap H^1(0,T;\Hf)$ such that
 \begin{itemize}
-\item $(p,P)(0,\cdot)=(p_0,P_0)$;
-\item for all $(q,Q)\in\Vf$ and a.a. $t\in(0,T)$:
+\item[(i)] $(p,P)(0,\cdot)=(p_0,P_0)$;
+\item[(ii)] for all $(q,Q)\in\Vf$ and a.a. $t\in(0,T)$:
 \[ \begin{aligned}\int_{\Omega_m}\left(S_m q\dt p + \tn K_m\nabla p\cdot\nabla q\right) + \delta S_f\int_\gamma Q\dt P \hspace{2cm}\\
 + \delta\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}
 = \dual{(g,G)}{(q,Q)}_\Hf.\end{aligned} \]
 \end{itemize}
 \end{minipage}\right\} }
-The existence and uniqueness of a solution will be based on the standard theory of parabolic problems (see e.g. \cite{evans_pde}, chap. 7.1). %, where the essential role is played by the energy estimate:
-We establish the existence and uniqueness of a weak solution in the following theorem.
+The well-posedness will be established on the base of standard theory of parabolic problems (see e.g. \cite{evans_pde}, chap. 7.1).
+We formulate the result in the following theorem.
 % 
 \begin{theorem}
 Let $(p_0,P_0)\in\Vf$ and $(g,G)\in L^2(0,T;\Hf)$.
@@ -681,7 +689,7 @@ Having the above result, we introduce the solution map $\mathcal F:L^2(0,T;\Hf)\
 where $(p,P)$ is the solution of \eqref{eq:flow_weak}.
 Let $\vc\beta:=(\beta_m,\beta_f)$ be a pair of positive parameters.
 We define a similar map $\mathcal F_{\vc\beta}$ as the solution operator for the flow problem with increased storativity $S_m+\beta_m$, $S_f+\beta_f$, respectively.
-In particular, $(p,P):=\mathcal F_{\vc\beta}(g,G)$ satisfies the initial conditions \eqref{eq:init_p}--\eqref{eq:init_P} and the integral identity
+In particular, $(p,P):=\mathcal F_{\vc\beta}(g,G)$ satisfies the initial conditions $\eqref{eq:flow_weak}_{(i)}$ and the integral identity
 \ml{ \label{eq:flow_problem_beta} (S_m+\beta_m)\int_{\Omega_m} q\dt p + \int_{\Omega_m}\tn K_m\nabla p\cdot\nabla q + \delta (S_f+\beta_f)\int_\gamma Q\dt P\\
 + \delta\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}
 = \dual{(g,G)}{(q,Q)}_\Hf }
@@ -789,9 +797,9 @@ Suitable numerical scheme and its analysis will be the subject of a following pa
 
 
 \appendix
-\section{Appendix}
+% \section{Appendix}
 
-\subsection{Auxiliary inequalities and identities}
+\section{Auxiliary inequalities and identities}
 
 In what follows we prove some technical relations that are used in the paper.
 \begin{lemma}
@@ -823,7 +831,7 @@ The second identity can be proved in analogous way.
 \end{proof}
 
 
-\subsection{Energy equality for \eqref{eq:mixed_dim_problem}}\label{sec:app_energy_eq}
+\section{Energy equality for \eqref{eq:mixed_dim_problem}}\label{sec:app_energy_eq}
 
 In this section we derive the identity \eqref{eq:apriori_biot}.
 We take the time derivative of \eqref{eq:mixed_dim_problem_el_mat}, multiply by $\dt\uu$ and integrate over $\Omega_m$.
@@ -866,10 +874,10 @@ which is in fact \eqref{eq:apriori_biot}.
 
 
 
-\subsection{Weak formulation of \eqref{eq:mixed_dim_perm}}\label{sec:app_weak_form}
+\section{Weak formulation of \eqref{eq:mixed_dim_perm}}\label{sec:app_weak_form}
 
-In what follows we derive the integral identities (ii)--(iii) from \eqref{eq:biot_weak}.
-Multiplying the equations \eqref{eq:mixed_dim_problem_el_mat}, \eqref{eq:mixed_dim_problem_el_frac_perm} by test functions $(\vv,\V)\in\Vel$, integrating them by parts, adding and applying the boundary conditions \eqref{eq:mixed_dim_problem_bc_mat}--\eqref{eq:mixed_dim_problem_bc_frac}, we arrive at the identity
+In what follows we derive the integral identities $\eqref{eq:biot_weak}_{(ii)-(iii)}$.
+Multiplying \eqref{eq:mixed_dim_problem_el_mat} and \eqref{eq:mixed_dim_problem_el_frac_perm} by test functions $(\vv,\V)\in\Vel$, integrating them by parts, summing and applying the boundary conditions \eqref{eq:mixed_dim_problem_bc_mat}--\eqref{eq:mixed_dim_problem_bc_frac}, we arrive at the identity
 \ml{ \label{eq:mixed_el_integrated} \int_{\Omega_m}\left(\CC_m\nabla\uu:\nabla\vv - \alpha_m p\div\vv\right)
  + \int_\gamma\jmp{(\CC_m\nabla\uu-\alpha_m p\tn I)\nnu\cdot\vv}\\
  + \delta\int_\gamma\CC_f\avg{\agrad[\uu,\U]}:\nabla_\tau\V
