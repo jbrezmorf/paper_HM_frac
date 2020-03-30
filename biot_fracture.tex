@@ -472,22 +472,43 @@ equipped by the norms
 \norm{(q,Q)}_\Vf &:= (\norm{\nabla q}_{L^2(\gamma)}^2 + \norm{\nabla_\tau Q}_{L^2(\gamma)}^2)^{1/2}.
 \end{align*}
 Then the weak formulation of \eqref{eq:mixed_dim_perm} reads (see appendix \ref{sec:app_weak_form} for the derivation):
-\eq{ \label{eq:biot_weak} \left.\begin{minipage}{0.85\textwidth}
-Find $(\uu,\U)\in H^1(0,T;\Vel)$ and $(p,P)\in L^\infty(0,T;\Vf)\cap H^1(0,T;\Hf)$ such that
-\begin{itemize}
-\item[(i)] $(p,P)(0,\cdot)=(p_0,P_0)$;
-\item[(ii)] for all $(\vv,\V)\in\Vel$ and a.a. $t\in(0,T)$:
-\[ \begin{aligned}\int_{\Omega_m}\left(\CC_m\nabla\uu:\nabla\vv - \alpha_m p\div\vv\right)\hspace{3.2cm}\\
- + \delta\int_\gamma\avg{\CC_f\agrad[\uu,\U]:\agrad[\vv,\V] - \alpha_f P \adiv[\vv,\V]}\\
-  = \dual{(\ff,\FF)}{(\vv,\V)}_\Vel,\end{aligned} \]
-\item[(iii)] for all $(q,Q)\in\Vf$ and a.a. $t\in(0,T)$:
-\[ \begin{aligned}\int_{\Omega_m}\left(q\dt(S_m p+\alpha_m\div\uu) + \tn K_m\nabla p\cdot\nabla q\right) \hspace{1cm}\\
-+ \delta \int_\gamma Q\dt\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right)\\
-+ \delta \int_\gamma \avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}
-= \dual{(g,G)}{(q,Q)}_\Hf.\end{aligned} \]
-\end{itemize}
-\end{minipage}\right\} }
-% 
+
+
+\jb{
+%\eq{ \label{eq:biot_weak} \left.\begin{minipage}{0.85\textwidth}
+Find $(\uu,\U)\in H^1(\I;\Vel)$ and $(p,P)\in L^\infty(\I;\Vf)\cap H^1(\I;\Hf)$ such that
+\begin{subequations}
+  \label{eq:biot_weak}
+  \eq{
+    \label{eq:biot_weak-i}
+    (p,P)(0,\cdot)=(p_0,P_0),
+  }
+  %
+  for all $(\vv,\V)\in\Vel$ and a.a. $t\in\I$:
+  %
+  \begin{align}
+      \notag
+      \int_{\Omega_m}\left(\CC_m\nabla\uu:\nabla\vv - \alpha_m p\div\vv\right)\hspace{3.2cm}\\      
+      \notag
+      + \delta\int_\gamma\avg{\CC_f\agrad[\uu,\U]:\agrad[\vv,\V] - \alpha_f P \adiv[\vv,\V]}\\
+      \label{eq:biot_weak-ii}
+      = \dual{(\ff,\FF)}{(\vv,\V)}_\Vel,   
+  \end{align}
+  for all $(q,Q)\in\Vf$ and a.a. $t\in\I$:
+  \begin{align}
+      \notag
+      \int_{\Omega_m}\left(q\dt(S_m p+\alpha_m\div\uu) + \tn K_m\nabla p\cdot\nabla q\right) \hspace{1cm}\\
+      \notag
+      + \delta \int_\gamma Q\dt\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right)\\
+      \label{eq:biot_weak-iii}
+      + \delta \int_\gamma \avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}
+      = \dual{(g,G)}{(q,Q)}_\Hf.   
+  \end{align}
+  %\end{minipage}\right\} }
+  % 
+\end{subequations}
+}
+
 We state the main result of the paper.
 
 \begin{theorem}\label{th:biot_existence}
@@ -669,16 +690,29 @@ We want to
 % \end{subequations}
 % The weak formulation of \eqref{eq:flow_problem} reads:
 solve the following problem:
-\eq{ \label{eq:flow_weak} \left.\begin{minipage}{0.85\textwidth}
-Find $(p,P)\in L^\infty(0,T;\Vf)\cap H^1(0,T;\Hf)$ such that
-\begin{itemize}
-\item[(i)] $(p,P)(0,\cdot)=(p_0,P_0)$;
-\item[(ii)] for all $(q,Q)\in\Vf$ and a.a. $t\in(0,T)$:
-\[ \begin{aligned}\int_{\Omega_m}\left(S_m q\dt p + \tn K_m\nabla p\cdot\nabla q\right) + \delta S_f\int_\gamma Q\dt P \hspace{2cm}\\
-+ \delta\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}
-= \dual{(g,G)}{(q,Q)}_\Hf.\end{aligned} \]
-\end{itemize}
-\end{minipage}\right\} }
+
+\jb{
+%\eq{ \label{eq:flow_weak} \left.\begin{minipage}{0.85\textwidth}
+Find $(p,P)\in L^\infty(\I;\Vf)\cap H^1(\I;\Hf)$ such that
+\begin{subequations}
+    \label{eq:flow_weak}
+    \eq{
+        \label{eq:flow_weak-i}
+        (p,P)(0,\cdot)=(p_0,P_0),
+    }
+    %    
+    for all $(q,Q)\in\Vf$ and a.a. $t\in\I$
+    \begin{align}
+      \notag
+      \int_{\Omega_m}\left(S_m q\dt p + \tn K_m\nabla p\cdot\nabla q\right) 
+      + \delta S_f\int_\gamma Q\dt P \hspace{2cm}\\
+      \label{eq:flow_weak-ii}
+      + \delta\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}
+      = \dual{(g,G)}{(q,Q)}_\Hf.
+    \end{align}
+\end{subequations}
+%\end{minipage}\right\} }
+}
 The well-posedness will be established on the base of standard theory of parabolic problems (see e.g. \cite{evans_pde}, chap. 7.1).
 We formulate the result in the following theorem.
 % 
