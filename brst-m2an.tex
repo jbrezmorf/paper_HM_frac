@@ -19,27 +19,16 @@
 % use PDFLatex to compile this
 %
 
-\documentclass[a4paper]{article}
-\usepackage{authblk}
+\documentclass[a4paper]{m2an}
 \usepackage[bbgreekl]{mathbbol}
-\usepackage{amssymb, amsmath, amsthm, stmaryrd}
-\usepackage{array}
-\usepackage{longtable}
-\usepackage[usenames,dvipsnames]{color}   %colors
-\usepackage{tabularx,tikz}
+\usepackage{stmaryrd}
+\usepackage{tikz}
 \usepackage{graphicx} %[dvips]
 \usepackage[numbers]{natbib}
-\usepackage{ulem}
-\usepackage{etoolbox}
 \usepackage{ mathrsfs }
-\usetikzlibrary{arrows,matrix}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem*{remark}{Remark}
 \numberwithin{equation}{section}
 
 %%%%%%%%%%%%%%%%%%%% authors' specific math macros
@@ -47,9 +36,10 @@
 \def\aep{\tilde\ep}
 \def\agrad{\widetilde\nabla}
 \def\avg#1{\left\{\mskip-5mu\left\{#1\right\}\mskip-5mu\right\}}
+\def\bbeta{\boldsymbol{\beta}}
 \def\CC{\tn C}
-\def\d {\,{\rm d}}
-\def\ddt#1{\frac{\d #1}{\d t}}
+\def\d {\,\xdif}
+\def\ddt#1{\xdrv{#1}{t}}
 \def\div{\operatorname{div}}
 \def\dt{\prtl_t}
 \def\dual#1#2{\left\langle #1,#2\right\rangle}
@@ -57,7 +47,7 @@
 \def\ep{\vc\varepsilon}
 \def\FF{\vc F}
 \def\ff{\vc f}
-\def\Hf{\mathscr{L}}
+\def\Hf{\mathscr{L}} % Lebesgue space for flow
 \def\jmp#1{\left\llbracket #1 \right\rrbracket}
 \def\nn{\vc n}
 \def\nnu{\vc\nu}
@@ -66,28 +56,23 @@
 \def\pphi{{\varphi}}
 \def\prtl{\partial}
 \def\qq{\vc q}
-\def\Real{{\mathbf R}}
+\def\Real{{\mathbf R}} % set of all real numbers
 \def\tn#1{{\mathbb{#1}}}    % tensor
-\def\tt{\vc t}
+\def\ttraction{\vc t}
 \def\U{\vc U}
 \def\ubar{\overline\uu}
 \def\uu{\vc u}
 \def\V{\vc V}
 \def\Vel{{\vc{\mathcal V}}} % Sobolev space for elasticity
 \def\Vf{{\mathcal V}} % Sobolev space for flow
-\def\vc#1{\mathbf{\boldsymbol{#1}}}     % vector
+\def\vc#1{\mathbf{#1}}     % vector
 \def\vv{\vc v}
 \def\weakly{\rightharpoonup}
 \def\xx{\vc x}
 \def\yy{{\vc y}}
-\def\I{I}
 
-\newcommand{\eq}[1]{\begin{equation}#1\end{equation}}
-\newcommand{\eqs}[1]{\begin{equation*}#1\end{equation*}}
-\newcommand{\ml}[1]{\begin{multline}#1\end{multline}}
-\newcommand{\mls}[1]{\begin{multline*}#1\end{multline*}}
-
-\newcommand{\opm}{ % plus and minus in circle
+% plus and minus in circle
+\newcommand{\opm}{
   {\mathbin{
     \mathchoice
       {\buildcirclepm{\displaystyle     }{0.14ex}{0.95}{0.05ex}{.7}}
@@ -102,25 +87,34 @@
   \end{tikzpicture}%
 }
 
+% abbreviations of equation environments
+\newcommand{\eq}[1]{\begin{equation}#1\end{equation}}
+\newcommand{\eqs}[1]{\begin{equation*}#1\end{equation*}}
+\newcommand{\ml}[1]{\begin{multline}#1\end{multline}}
+\newcommand{\mls}[1]{\begin{multline*}#1\end{multline*}}
+
 %%%%%%%%%%%%%%%%%%%% end authors' specific math macros
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BEGIN DOCUMENT
 \begin{document}
 
-\title{Mixed-dimensional models of poroelasticity}
-\author{Jan Březina}
-\author{Jan Stebel\thanks{The paper was created with support of project ``RINGEN - research
-infrastructure upgrade'' No CZ.02.1.01/0.0/0.0/16\_013/0001792,
-co-funded by the EU Operational Programme ``Research, Development and Education''.}}
-\affil{Institute of New Technologies and Applied Informatics,\\
-Faculty of Mechatronics, Informatics and Interdisciplinary Studies\\
-and\\
-Department of Nanotechnology and Informatics,\\
-Institute for Nanomaterials, Advanced Technologies and Innovation,\\
-Technical University of Liberec,\\ Studentská 1402/2, 461 17 Liberec, Czech Republic}
-\affil{e-mail: \texttt{\{jan.brezina,jan.stebel\}@tul.cz}}
-\maketitle
+\title{Mixed-dimensional models of poroelasticity}\thanks{The paper was created with support of the project No CZ.02.1.01/\-0.0/\-0.0/\-16\_013/\-0001792 ``RINGEN - research infrastructure upgrade'', co-funded by the EU Operational Programme ``Research, Development and Education''.}
+
+\author{Jan B\v rezina}
+\address{Institute of New Technologies and Applied Informatics,
+Faculty of Mechatronics, Informatics and Interdisciplinary Studies,
+Technical University of Liberec, Studentská 1402/2, 461 17 Liberec, Czech Republic;
+\email{\{jan.brezina,jan.stebel\}@tul.cz}
+}
+\secondaddress{Department of Nanotechnology and Informatics,
+Institute for Nanomaterials, Advanced Technologies and Innovation,
+Technical University of Liberec, Studentská 1402/2, 461 17 Liberec, Czech Republic}
+\author{Jan Stebel}
+\sameaddress{1}
+\sameaddress{2}
+
+\date{April 1, 2020}
 
 \begin{abstract}
 The paper deals with derivation and analysis of a poroelasticity model in a domain with lower-dimensional fracture.
@@ -128,16 +122,21 @@ The resulting system of equations, which is obtained by dimension reduction, con
 Existence and uniqueness of a weak solution is proved with help of a fixed-point argument.
 \end{abstract}
 
-\paragraph{Keywords:}
-Biot's poroelasticity, dimension reduction, fixed-stress splitting.
-
-\paragraph{2010 Mathematics Subject Classification:}
+\subjclass[2010]{
 35M33, % Initial-boundary value problems for mixed-type systems of PDEs
 35Q86, % PDEs in connection with geophysics
 74S05, % Flows in porous media; filtration; seepage
 74F10. % Fluid-solid interactions (including aero- and hydro-elasticity, porosity, etc.)
 % 74B05, % Classical linear elasticity
 % 74G25, % Existence of solutions of equilibrium problems in solid mechanics
+}
+
+\keywords{Biot's poroelasticity, dimension reduction, fixed-stress splitting}
+
+
+
+\maketitle
+
 
 
 \section{Introduction}
@@ -167,7 +166,7 @@ Later on the model has been extended e.g. by \cite{angot2009asymptotic} for imme
 DFN models with intersections and junctions were analyzed in e.g. \cite{maryska2005numerical,pichot2012generalized,formaggia2014reduced}, for results on DFM we refer to \cite{schwenck2015dimensionally}.
 % 
 Mixed-dimensional poroelasticity models were studied e.g. in \cite{ganis2014modeling} where Biot's system in matrix was coupled with fracture flow based on the cubic law.
-In \cite{hanowski2018hydromechanical} the Biot system in matrix was coupled with Darcian flow, but in addition fracture width and length were varying according to rock deformation.
+In \cite{hanowski2018hydromechanical} the Biot system in matrix is coupled with Darcian flow, but in addition fracture width and length can vary according to rock deformation.
 Concerning mechanics in fracture, there are not so many papers on dimension reduction.
 A general framework for mixed-dimensional elliptic equations was developed in \cite{boon2017functional,boon2019stable} and applied to linear elasticity systems.
 We also mention the work \cite{mikelic2019derivation} where a shell model is derived for poroelastic membrane.
@@ -177,8 +176,9 @@ To cope with the fact that the mechanical part of the problem is a system of equ
 In contrast to other works, we also consider general conductivity and elasticity tensors not necessarily aligned with the fracture orientation.
 The obtained equations are expressed in terms of mean pressure and mean displacement in the fracture.
 The resulting problem consists of equations of flow and mechanics in the fracture and in the surrounding domain, accompanied by appropriate interface conditions.
+
 The second part of the paper deals with the analysis of well-posedness of the mixed-dimensional poroelasticity.
-There are two main strategies of solving poromechanics systems: monolithic (see e.g. \cite{showalter2000diffusion,zenisek1984existence}) and iterative methods.
+There are two main strategies of solving poromechanics systems: monolithic methods (see e.g. \cite{showalter2000diffusion,zenisek1984existence}) and iterative splittings.
 The latter approach has a great advantage in the design of numerical methods where the splitting acts as a preconditioner \cite{white2016block} that allows sequential use of different solvers for flow and mechanics.
 Here we follow the optimized fixed-stress iterative splitting proposed in \cite{mikelic2013convergence} and show the contractivity of the appropriate mapping with optimal estimates of splitting parameters.
 
@@ -187,7 +187,7 @@ In section \ref{sec:model} we describe the full and reduced geometry and the Bio
 Then in section \ref{sec:calculus} we present the tangential and normal calculus which will be used in the dimension reduction process in section \ref{sec:dim_red}.
 The result of dimension reduction is the system \eqref{eq:mixed_dim_problem}, which describes flow and mechanics in matrix and fracture with appropriate interface conditions.
 We further formulate a modified problem \eqref{eq:mixed_dim_perm}, which is valid under the assumption of permeable fracture.
-In section \ref{sec:well_pos} we analyze the existence and uniqueness of solution to the latter problem.
+In section \ref{sec:well_pos} we analyze the existence and uniqueness of solution to the latter problem, first studying separately the mechanics and flow and later on combining them in the iterative scheme.
 
 
 \section{Biot's poroelasticity in domain with fracture}\label{sec:model}
@@ -200,7 +200,7 @@ We assume that $\Omega$ is composed of two subdomains: the fracture $\Omega_f$ a
 \caption{The domain of the full model (left) and the reduced geometry (right).}
 \label{fig:omegas}
 \end{figure}
-For simplicity we consider straight fracture, i.e. there is a subset $\gamma$ of a hyperplane in $\Real^d$ with unit normal vector $\nnu$ and a number $\delta>0$ such that
+For simplicity we consider a straight fracture, i.e. there is a subset $\gamma$ of a hyperplane in $\Real^d$ with unit normal vector $\nnu$ and a number $\delta>0$ such that
 \eqs{ \Omega_f = \{\xx+s\nnu;~\xx\in\gamma,~s\in(-\tfrac\delta2,\tfrac\delta2)\}. }
 The parameter $\delta$ is usually called the aperture or the width of the fracture.
 Then the two parts of $\Omega_m$ are interacting with $\Omega_f$ via the interfaces
@@ -208,14 +208,14 @@ Then the two parts of $\Omega_m$ are interacting with $\Omega_f$ via the interfa
 The symbol $\prtl\gamma$ shall denote the relative boundary of $\gamma$.
 
 The basic hydro-mechanical interaction in a porous medium is described by the Biot system \cite{biot1941general}.
-Let $\I=(0,T)$ be a finite time interval, $\ff$ the body force, $g$ the fluid source and $p_0$ the initial pressure distribution.
+Let $I=(0,T)$ be a finite time interval, $\ff$ the body force, $g$ the fluid source and $p_0$ the initial pressure distribution.
 Then the balance of mass and forces in matrix and fracture is given by the equations
 \begin{subequations}
 \label{eq:biot}
 \begin{align}
     \label{eq:lin_el}
-    -\div \bbsigma + \nabla(\alpha p) &= \ff &&\mbox{ in }\I\times(\Omega_m\cup\Omega_f),\\
-\label{eq:biot_darcy}    \dt\left(Sp + \div(\alpha\uu)\right) + \div\qq &= g &&\mbox{ in }\I\times(\Omega_m\cup\Omega_f).
+    -\div \bbsigma + \nabla(\alpha p) &= \ff &&\mbox{ in }I\times(\Omega_m\cup\Omega_f),\\
+\label{eq:biot_darcy}    \dt\left(Sp + \div(\alpha\uu)\right) + \div\qq &= g &&\mbox{ in }I\times(\Omega_m\cup\Omega_f).
 \end{align}
 Here, the displacement $\uu$ and the pressure $p$ are the principal unknowns; further $\alpha$ is the Biot effective stress parameter, $S$ the storativity.
 The stress tensor $\bbsigma$ and the flux $\qq$ are determined by the Hooke and Darcy law, respectively:
@@ -224,15 +224,15 @@ via the $4^{\rm th}$-order elasticity tensor $\CC$ and the hydraulic conductivit
 We consider the following initial and boundary conditions:
 \begin{align}
 p(0,\cdot) &= p_0 &&\mbox{ in }\Omega_m\cup\Omega_f,\\
-p &= 0,\quad \uu=\vc 0 &&\mbox{ on }\I\times\prtl\Omega.
+p &= 0,\quad \uu=\vc 0 &&\mbox{ on }I\times\prtl\Omega.
 \end{align}
 To complete the system of equations, we impose the continuity of pressure, displacement, flux and normal poroelastic stress on the interfaces between matrix and fracture:
-\eq{ \label{eq:continuity_on_gamma_pm} p,\uu,\qq\cdot\nnu,\bbsigma\nnu-\alpha p\nnu \mbox{ are continuous on } \I\times\gamma^\pm. }
+\eq{ \label{eq:continuity_on_gamma_pm} p,\uu,\qq\cdot\nnu,\bbsigma\nnu-\alpha p\nnu \mbox{ are continuous on } I\times\gamma^\pm. }
 \end{subequations}
 
 In what follows, we shall assume that the physical parameters $\alpha,S,\CC,\tn K$ are constant in $\Omega_m$, $\Omega_f$, respectively.
 To distinguish values in $\Omega_m$ and $\Omega_f$, we shall use the subscripts ``$m$'' and ``$f$'', i.e. $\alpha_m := \alpha_{|\Omega_m}$, $\alpha_f := \alpha_{|\Omega_f}$ etc.
-We also impose usual requirements on the data:
+We also impose standard requirements for the data:
 \begin{itemize}
 \item $\alpha_*\ge 0$, $S_*>0$ for $*\in\{m,f\}$;
 \item $\CC_*$ and $\tn K_*$, $*\in\{m,f\}$, have the usual symmetries:
@@ -253,8 +253,7 @@ Here ``:'' stands for the scalar product in $\Real^{d\times d}$ and $|\tn A|$ de
 In this section we develop tools that will be used later in the derivation of the mixed-dimensional Biot system.
 Let $\tn P := \nnu\otimes\nnu = [\nu_i\nu_j]_{i,j=1}^d$ be the orthogonal projector to $\gamma$.
 For any $\vv\in\Real^d$ and $\tn A\in\Real^{d\times d}$ we introduce the orthogonal decomposition into normal and tangential direction to $\gamma$:
-\eqs{ \vv = \tn P\vv + (\tn I-\tn P)\vv =:\vv_\nu + \vv_\tau, }
-\eqs{ \tn A = \tn A\tn P + \tn A(\tn I-\tn P) =: \tn A_\nu + \tn A_\tau. }
+\eqs{ \vv = \tn P\vv + (\tn I-\tn P)\vv =:\vv_\nu + \vv_\tau, \qquad  \tn A = \tn A\tn P + \tn A(\tn I-\tn P) =: \tn A_\nu + \tn A_\tau. }
 In the rest of this section, $f$, $\vv$, $\tn A$ will be scalar-, vector- and tensor-valued functions defined in $\overline\Omega_f$.
 The gradient and divergence operators are decomposed into the normal and tangential part as follows:
 \eqs{ \nabla f = (\nabla f)_\nu + (\nabla f)_\tau =: \nabla_\nu f + \nabla_\tau f, }
@@ -270,27 +269,25 @@ The same notation will be used for vector- and tensor-valued functions.
 By $\overline f$ we shall denote the integral mean of $f$ across the fracture aperture, i.e.
 \eqs{ \overline f(\xx):=\frac1\delta\int_{-\tfrac\delta2}^{\tfrac\delta2} f(\xx+s\nnu) \d s,~\xx\in\gamma. }
 The approximate gradient and divergence operators in the positive and negative half of fracture are defined as follows:
-\eqs{ \agrad^\opm[f,\overline f] := \nabla_\tau\overline f \pm \frac2\delta(f^\opm - \overline f)\nnu, }
-\eqs{ \agrad^\opm[\vv,\overline\vv] := \nabla_\tau\overline\vv \pm \frac2\delta(\vv^\opm - \overline\vv)\otimes\nnu, }
-\eqs{ \adiv^\opm[\vv,\overline\vv] := \div_\tau\overline\vv \pm \frac2\delta(\vv^\opm - \overline\vv)\cdot\nnu, }
-\eqs{ \adiv^\opm[\tn A,\overline{\tn A}] := \div_\tau\overline{\tn A} \pm \frac2\delta(\tn A^\opm - \overline{\tn A})^\top\nnu. }
-\begin{remark}
+\eqs{ \agrad^\opm[f,\overline f] := \nabla_\tau\overline f \pm \frac2\delta(f^\opm - \overline f)\nnu, \qquad \agrad^\opm[\vv,\overline\vv] := \nabla_\tau\overline\vv \pm \frac2\delta(\vv^\opm - \overline\vv)\otimes\nnu, }
+\eqs{ \adiv^\opm[\vv,\overline\vv] := \div_\tau\overline\vv \pm \frac2\delta(\vv^\opm - \overline\vv)\cdot\nnu, \qquad \adiv^\opm[\tn A,\overline{\tn A}] := \div_\tau\overline{\tn A} \pm \frac2\delta(\tn A^\opm - \overline{\tn A})^\top\nnu. }
+\begin{rmrk}
 In the previous definitions we have used two-point differences to approximate derivatives in the normal direction.
 We note that it is possible to use more general relations using all three values $f^\oplus$, $\overline f$, $f^\ominus$ (see e.g. \cite{martin_modeling_2005}).
 The two-point formulas are suitable for possible generalization at fracture intersections and junctions.
-\end{remark}
-If $f\in\mathcal C^2(\overline\Omega_f)$, i.e. $f$ is twice continuously differentiable in $\overline\Omega_f$ then from Taylor's expansion we infer that
+\end{rmrk}
+If $f\in\xCtwo(\overline\Omega_f)$ then from Taylor's expansion we infer that
 \eq{ \label{eq:approx_Odelta} f^\opm = \overline f + O(\delta), \quad \nabla f^\opm = \agrad[f,\overline f] + O(\delta), \quad \div f^\opm = \adiv[f,\overline f] + O(\delta). }
-Here the remainder $O(\delta)$ represents an expression that can be estimated from above by $\delta C\norm{f}_{\mathcal C^2(\overline\Omega_f)}$ and $C>0$ is a constant independent of $f$ and $\delta$.
+Here the remainder $O(\delta)$ represents an expression that can be estimated from above by $\delta C\norm{f}_{\xCtwo(\overline\Omega_f)}$ and $C>0$ is a constant independent of $f$ and $\delta$.
 Analogous properties hold for vector- and tensor-valued functions.
 Despite the indicated approximations, the following relations between the integral means and averaged approximates still hold exactly:
-\begin{lemma}
+\begin{lmm}
 For all admissible functions $f$, $\vv$ and $\tn A$ it holds:
 \eq{\label{eq:agrad_sc} \overline{\nabla f} = \nabla_\tau\overline f + \frac1\delta\jmp{f}\nnu = \avg{\agrad[f,\overline f]}, }
 \eq{\label{eq:agrad_vc} \overline{\nabla\vv} = \nabla_\tau\overline\vv+\frac1\delta\jmp{\vv}\otimes\nnu = \avg{\agrad[\vv,\overline\vv]}, }
 \eq{\label{eq:adiv_vc} \overline{\div\vv} = \div_\tau\overline\vv+\frac1\delta\jmp{\vv}\cdot\nnu = \avg{\adiv[\vv,\overline\vv]}, }
 \eq{\label{eq:adiv_tn} \quad \overline{\div\tn A} = \div_\tau\overline{\tn A} + \frac1\delta\jmp{\tn A^\top}\nnu = \avg{\adiv[\tn A,\overline{\tn A}]}. }
-\end{lemma}
+\end{lmm}
 \begin{proof}
 It is readily seen that $\avg{\agrad{f,\overline f}}=\nabla_\tau\overline f + \frac1\delta\jmp{f}$.
 Further we have:
@@ -311,23 +308,23 @@ where $\nn$ denotes the unit outward normal to $\partial\gamma$.
 \section{Dimension reduction}\label{sec:dim_red}
 
 Let us assume that $(\uu,p)$ is a smooth solution of \eqref{eq:biot}.
-We shall use the calculus from section \ref{sec:calculus} to derive appropriate equations that are satisfied by the averages $(\ubar,\pbar)$ in $\I\times\gamma$.
+We shall use the calculus from section \ref{sec:calculus} to derive appropriate equations that are satisfied by the averages $(\ubar,\pbar)$ in $I\times\gamma$.
 
 
 \subsection{Fracture model for elasticity}\label{sec:reduction_elasticity}
 
 Integrating \eqref{eq:lin_el} over the fracture aperture yields:
-\eqs{ -\delta\overline{\div\bbsigma} + \delta\alpha_f\overline{\nabla p} = \delta\overline\ff \mbox{ in }\I\times\gamma. }
+\eqs{ -\delta\overline{\div\bbsigma} + \delta\alpha_f\overline{\nabla p} = \delta\overline\ff \mbox{ in }I\times\gamma. }
 To express the averaged terms on the left hand side we use \eqref{eq:adiv_tn}, \eqref{eq:agrad_vc} and \eqref{eq:agrad_sc}.
 In particular, we obtain:
 \eqs{ \overline{\div\bbsigma} = \div_\tau\left(\CC_f\avg{\agrad[\uu,\ubar]}\right) + \frac1\delta\jmp{\CC_f\nabla\uu_{|\Omega_f}}\nnu. }
 The normal stress $(\CC_f\nabla\uu_{|\Omega_f})^\opm\nnu$ will be approximated by the quantity
-\eq{ \label{eq:def_t} \tt^\opm[\uu,\ubar] := \left(\CC_f\agrad^\opm[\uu,\ubar]\right)\nnu. }
+\eq{ \label{eq:def_t} \ttraction^\opm[\uu,\ubar] := \left(\CC_f\agrad^\opm[\uu,\ubar]\right)\nnu. }
 Then, taking into account \eqref{eq:approx_Odelta}, we obtain the reduced counterpart of \eqref{eq:lin_el}:
-\ml{ \label{eq:lin_el_frac} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\ubar]}\right) + \delta\alpha_f\avg{\agrad[p,\pbar]} - \jmp{\tt[\uu,\ubar]}\\
-= \delta\overline\ff + O(\delta) \mbox{ in }\I\times\gamma. }
+\eq{ \label{eq:lin_el_frac} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\ubar]}\right) + \delta\alpha_f\avg{\agrad[p,\pbar]} - \jmp{\ttraction[\uu,\ubar]}
+= \delta\overline\ff + O(\delta) \mbox{ in }I\times\gamma. }
 The continuity of normal poroelastic stress $\bbsigma\nnu-\alpha p\nnu$ on $\gamma^\pm$ becomes
-\eq{ \label{eq:interface_el} (\CC_m(\nabla\uu_{|\Omega_m})^\opm - \alpha_m p^\opm\tn I)\nnu = \tt^\opm[\uu,\ubar] - \alpha_f p^\opm\nnu + O(\delta) \mbox{ in }\I\times\gamma. }
+\eq{ \label{eq:interface_el} (\CC_m(\nabla\uu_{|\Omega_m})^\opm - \alpha_m p^\opm\tn I)\nnu = \ttraction^\opm[\uu,\ubar] - \alpha_f p^\opm\nnu + O(\delta) \mbox{ in }I\times\gamma. }
 
 
 
@@ -336,17 +333,17 @@ The continuity of normal poroelastic stress $\bbsigma\nnu-\alpha p\nnu$ on $\gam
 
 Let us integrate \eqref{eq:biot_darcy} over the fracture aperture.
 We get:
-\eq{ \label{eq:darcy_int} \prtl_t\left(\delta S_f\pbar + \delta\alpha_f\overline{\div\uu}\right) + \delta\overline{\div\qq} = \delta\overline g \mbox{ in }\I\times\gamma. }
+\eq{ \label{eq:darcy_int} \prtl_t\left(\delta S_f\pbar + \delta\alpha_f\overline{\div\uu}\right) + \delta\overline{\div\qq} = \delta\overline g \mbox{ in }I\times\gamma. }
 From \eqref{eq:adiv_vc}, \eqref{eq:agrad_sc} and the definition of $\qq$ we obtain:
 \eqs{ \overline{\div\qq} = \div_\tau\overline{\qq} + \frac1\delta\jmp{\qq}\cdot\nnu
 = -\div_\tau\left(\tn K_f\avg{\agrad[p,\pbar]}\right) + \frac1\delta\jmp\qq\cdot\nnu. }
 To express the approximation of the normal flux $-\qq^\opm\cdot\nnu$ we use the quantity
 \eq{ \label{eq:def_F} \pphi^\opm[p,\pbar] := \tn K_f\agrad^\opm[p,\pbar]\cdot\nnu. }
 Hence, we obtain from \eqref{eq:darcy_int}--\eqref{eq:def_F} and \eqref{eq:adiv_vc} the reduced flow equation:
-\ml{ \label{eq:flow_frac} \delta\prtl_t\left(S_f\pbar + \alpha_f\avg{\adiv[\uu,\ubar]}\right) -\delta\div_\tau\left(\tn K_f\avg{\agrad[p,\pbar]}\right) - \jmp{\pphi[p,\pbar]}\\
-= \delta\overline g + O(\delta) \mbox{ in }\I\times\gamma. }
+\eq{ \label{eq:flow_frac} \delta\prtl_t\left(S_f\pbar + \alpha_f\avg{\adiv[\uu,\ubar]}\right) -\delta\div_\tau\left(\tn K_f\avg{\agrad[p,\pbar]}\right) - \jmp{\pphi[p,\pbar]}
+= \delta\overline g + O(\delta) \mbox{ in }I\times\gamma. }
 Continuity of flux through $\gamma^\pm$ yields:
-\eq{ \label{eq:interface_flow} \tn K_m(\nabla p_{|\Omega_m})^\opm\cdot\nnu = \pphi^\opm[p,\pbar] + O(\delta) \mbox{ in }\I\times\gamma. }
+\eq{ \label{eq:interface_flow} \tn K_m(\nabla p_{|\Omega_m})^\opm\cdot\nnu = \pphi^\opm[p,\pbar] + O(\delta) \mbox{ in }I\times\gamma. }
 
 
 \subsection{Mixed-dimensional poroelasticity}
@@ -354,47 +351,47 @@ Continuity of flux through $\gamma^\pm$ yields:
 The mixed-dimensional coupled problem is obtained after neglecting the remainders $O(\delta)$ in \eqref{eq:lin_el_frac}, \eqref{eq:interface_el}, \eqref{eq:flow_frac}, \eqref{eq:interface_flow}.
 Analysis of the truncation error can be done similarly as in \cite{brezina2015analysis}, however in this paper we omit it.
 Let $\Gamma:=\prtl\Omega_m\cap\prtl\Omega$, $P_0:=\overline p_0$, $\FF:=\delta\overline\ff$ and $G:=\delta\overline g$.
-We want to find functions $\uu,p$ defined in $\I\times\Omega_m$ and $\U,P$ defined in $\I\times\gamma$, which satisfy:
+We want to find functions $\uu,p$ defined in $I\times\Omega_m$ and $\U,P$ defined in $I\times\gamma$, which satisfy:
 \begin{subequations}\label{eq:mixed_dim_problem}
 \begin{itemize}
 \item[(i)] Biot's equations for the matrix:
 \begin{align}
-\label{eq:mixed_dim_problem_el_mat} -\div(\CC_m\nabla\uu) + \alpha_m\nabla p &= \ff &&\mbox{ in }\I\times\Omega_m,\\
-\label{eq:mixed_dim_problem_fl_mat}\dt\left(S_m p + \alpha_m\div\uu\right) - \div(\tn K_m\nabla p) &= g &&\mbox{ in }\I\times\Omega_m,
+\label{eq:mixed_dim_problem_el_mat} -\div(\CC_m\nabla\uu) + \alpha_m\nabla p &= \ff &&\mbox{ in }I\times\Omega_m,\\
+\label{eq:mixed_dim_problem_fl_mat}\dt\left(S_m p + \alpha_m\div\uu\right) - \div(\tn K_m\nabla p) &= g &&\mbox{ in }I\times\Omega_m,
 \end{align}
 
 \item[(ii)] averaged Biot's equations for the fracture:
-\ml{ \label{eq:mixed_dim_problem_el_frac} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]}\right) + \delta\alpha_f\avg{\agrad[p,P]} - \jmp{\tt[\uu,\U]}\\
- = \FF \mbox{ in }\I\times\gamma, }
-\ml{ \label{eq:mixed_dim_problem_fl_frac} \delta\prtl_t\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right) -\delta\div_\tau\left(\tn K_f\avg{\agrad[p,P]}\right)\\ - \jmp{\pphi[p,P]}
-= G \mbox{ in }\I\times\gamma, }
+\eq{ \label{eq:mixed_dim_problem_el_frac} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]}\right) + \delta\alpha_f\avg{\agrad[p,P]} - \jmp{\ttraction[\uu,\U]}
+ = \FF \mbox{ in }I\times\gamma, }
+\eq{ \label{eq:mixed_dim_problem_fl_frac} \delta\prtl_t\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right) -\delta\div_\tau\left(\tn K_f\avg{\agrad[p,P]}\right) - \jmp{\pphi[p,P]}
+= G \mbox{ in }I\times\gamma, }
 
-\item[(ii)] interface conditions:
+\item[(iii)] interface conditions:
 \begin{align}
-\label{eq:mixed_dim_problem_int_el} (\CC_m(\nabla\uu)^\opm-\alpha_m p^\opm\tn I)\nnu &= \tt^\opm[\uu,\U] - \alpha_f p^\opm\nnu && \mbox{ in }\I\times\gamma,\\
-\label{eq:mixed_dim_problem_int_fl} \tn K_m(\nabla p)^\opm\cdot\nnu &= \pphi^\opm[p,P] && \mbox{ in }\I\times\gamma,
+\label{eq:mixed_dim_problem_int_el} (\CC_m(\nabla\uu)^\opm-\alpha_m p^\opm\tn I)\nnu &= \ttraction^\opm[\uu,\U] - \alpha_f p^\opm\nnu && \mbox{ in }I\times\gamma,\\
+\label{eq:mixed_dim_problem_int_fl} \tn K_m(\nabla p)^\opm\cdot\nnu &= \pphi^\opm[p,P] && \mbox{ in }I\times\gamma,
 \end{align}
 
-\item[(iii)] boundary conditions:
+\item[(iv)] boundary conditions:
 \begin{align}
-\label{eq:mixed_dim_problem_bc_mat} \uu &= \vc 0, \quad p = 0 &&\mbox{ on }\I\times\Gamma,\\
-\label{eq:mixed_dim_problem_bc_frac}\U &= \vc 0, \quad P = 0 &&\mbox{ on }\I\times\prtl\gamma,
+\label{eq:mixed_dim_problem_bc_mat} \uu &= \vc 0, \quad p = 0 &&\mbox{ on }I\times\Gamma,\\
+\label{eq:mixed_dim_problem_bc_frac}\U &= \vc 0, \quad P = 0 &&\mbox{ on }I\times\prtl\gamma,
 \end{align}
 
-\item[(iv)] initial conditions:
+\item[(v)] initial conditions:
 \begin{align}
 p(0,\cdot) &= p_0 &&\mbox{ in }\Omega_m,\\
 \label{eq:mixed_dim_problem_init_frac} P(0,\cdot) &= P_0 &&\mbox{ in }\gamma.
 \end{align}
 \end{itemize}
 \end{subequations}
-We point out that $\U$ and $P$ play the role of the averages $\ubar$ and $\pbar$ in $\Omega_f$.
+We point out that $\U$ and $P$ play the role of approximations of the averages $\ubar$ and $\pbar$ in $\Omega_f$.
 
 At this moment we note that the problem \eqref{eq:mixed_dim_problem} is not suitable for further analysis.
 Namely, formal calculations (see appendix \ref{sec:app_energy_eq}) lead to the following ``energy equality'':
-\ml{ \label{eq:apriori_biot} \int_{\Omega_m}\CC_m\nabla\dt\uu:\nabla\dt\uu + \delta\int_\gamma\avg{\CC_f\agrad[\dt\uu,\dt\U]:\agrad[\dt\uu,\dt\U]}\\
-+ S_m\int_{\Omega_m}|\dt p|^2 + \delta S_f\int_\gamma|\dt P|^2
-+ \frac12\ddt{}\int_{\Omega_m}\tn K_m\nabla p\cdot\nabla p\\
+\ml{ \label{eq:apriori_biot} \int_{\Omega_m}\CC_m\nabla\dt\uu:\nabla\dt\uu + \delta\int_\gamma\avg{\CC_f\agrad[\dt\uu,\dt\U]:\agrad[\dt\uu,\dt\U]}
++ S_m\int_{\Omega_m}|\dt p|^2 + \delta S_f\int_\gamma|\dt P|^2\\
++ \frac12\ddt{}\int_{\Omega_m}\tn K_m\nabla p\cdot\nabla p
 + \frac\delta2\ddt{}\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[p,P]}
 + \int_\gamma\alpha_f\jmp{\dt p\dt(\U-\uu) + \dt P\dt\uu}\cdot\nnu\\
 = \int_{\Omega_m}(\dt\ff\cdot\dt\uu + \dt g \dt p) + \int_\gamma(\dt\FF\cdot\dt\U + \dt G \dt P). }
@@ -413,16 +410,16 @@ Under such conditions the variation of pressure across the fracture width is usu
 In the mixed-dimensional setting it means that
 \eqs{ \frac1\delta|\jmp{p}| \ll |\nabla_\tau P| \mbox{ and } P \approx p^\opm. }
 Then, the last term on the left of \eqref{eq:apriori_biot} becomes negligible:
-\mls{ \int_\gamma\alpha_f\jmp{\dt p\dt(\U-\uu) + \dt P\dt\uu}\cdot\nnu\\
+\eqs{ \int_\gamma\alpha_f\jmp{\dt p\dt(\U-\uu) + \dt P\dt\uu}\cdot\nnu
 = \delta\int_\gamma\alpha_f\dt\left(\frac1\delta\jmp{p}\right)\dt\U\cdot\nnu + \int_\gamma\alpha_f\jmp{\dt (P-p) \dt\uu}\cdot\nnu \approx 0. }
 Motivated by the above considerations, we replace the elasticity equation \eqref{eq:mixed_dim_problem_el_frac} and the interface condition \eqref{eq:mixed_dim_problem_int_el} by the following equations:
-\eq{ \label{eq:mixed_dim_problem_el_frac_perm} \tag{\ref{eq:mixed_dim_problem_el_frac}'} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]}\right) + \delta\alpha_f\nabla_\tau P - \jmp{\tt[\uu,\U]} = \FF \mbox{ in }\I\times\gamma, }
-\eq{ \label{eq:mixed_dim_problem_int_el_perm} \tag{\ref{eq:mixed_dim_problem_int_el}'} (\CC_m(\nabla\uu)^\opm - \alpha_m p^\opm\tn I)\nnu = \tt^\opm[\uu,\U] - \alpha_f P\nnu\mbox{ in }\I\times\gamma. }
+\eq{ \label{eq:mixed_dim_problem_el_frac_perm} \tag{\ref{eq:mixed_dim_problem_el_frac}'} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]}\right) + \delta\alpha_f\nabla_\tau P - \jmp{\ttraction[\uu,\U]} = \FF \mbox{ in }I\times\gamma, }
+\eq{ \label{eq:mixed_dim_problem_int_el_perm} \tag{\ref{eq:mixed_dim_problem_int_el}'} (\CC_m(\nabla\uu)^\opm - \alpha_m p^\opm\tn I)\nnu = \ttraction^\opm[\uu,\U] - \alpha_f P\nnu\mbox{ in }I\times\gamma. }
 The mixed-dimensional Biot system for permeable fracture, which will be analyzed in the next section, reads as follows:
 \eq{ \label{eq:mixed_dim_perm} %\tag{P}
-\left.\begin{minipage}{0.85\textwidth}
+\begin{minipage}{0.85\textwidth}
 Find a quadruplet $(\uu,\U,p,P)$ which satisfies \eqref{eq:mixed_dim_problem_el_mat}--\eqref{eq:mixed_dim_problem_fl_mat}, \eqref{eq:mixed_dim_problem_el_frac_perm}, \eqref{eq:mixed_dim_problem_fl_frac}, \eqref{eq:mixed_dim_problem_int_el_perm}, \eqref{eq:mixed_dim_problem_int_fl}--\eqref{eq:mixed_dim_problem_init_frac}.
-\end{minipage}\right\} }
+\end{minipage} }
 
 
 
@@ -433,65 +430,54 @@ In this section we first introduce the weak formulation of \eqref{eq:mixed_dim_p
 Then we solve independently the mechanical and the flow part of the problem.
 Finally we combine both subproblems in the fixed-stress iterative process and prove its convergence to the solution of the coupled problem.
 
-In what follows we shall use the symbols $L^2(D;Y)$, $H^1(D;Y)$ for the Lebesgue and the Sobolev space of functions defined in $D$ and taking values in $Y$.
-If $Y=\Real$ then we shall write simply $L^2(D)$, $H^1(D)$.
-Further, $H^1_0(D;Y)$ and $H^1_B(D;Y)$ will be the subspaces of $H^1(D;Y)$ for functions vanishing on the boundary and on a part of boundary $B$, respectively.
-The symbol $L^2(\I;X)$ will denote the Bochner space and $H^1(\I;X)$ its subspace of functions with time derivative in $L^2(\I;X)$.
+In what follows we shall use the symbols $\xLtwo(D;Y)$, $\xHone(D;Y)$ for the Lebesgue and the Sobolev space of functions defined in $D$ and taking values in $Y$.
+If $Y=\Real$ then we shall write simply $\xLtwo(D)$, $\xHone(D)$.
+Further, $\xHone_0(D;Y)$ and $\xHone_B(D;Y)$ will be the subspaces of $\xHone(D;Y)$ for functions vanishing on the boundary and on a subset $B$ of the boundary, respectively.
+The symbol $\xLtwo(I;X)$ will denote the Bochner space and $\xHone(I;X)$ its subspace of functions with time derivative in $\xLtwo(I;X)$.
 By $\dual{y}{x}_X$ we shall denote the duality pairing between a Banach space $X$ and its dual $X^*$, with $x\in X$ and $y\in X^*$.
 
 For the weak formulation we introduce the spaces
-\eqs{ \Vel :=H^1_\Gamma(\Omega_m;\Real^d)\times H^1_0(\gamma;\Real^d), \quad
- \Hf := L^2(\Omega_m)\times L^2(\gamma),\quad \Vf := H^1_\Gamma(\Omega_m)\times H^1_0(\gamma), }
+\eqs{ \Vel :=\xHone_\Gamma(\Omega_m;\Real^d)\times \xHone_0(\gamma;\Real^d), \quad
+ \Hf := \xLtwo(\Omega_m)\times \xLtwo(\gamma),\quad \Vf := \xHone_\Gamma(\Omega_m)\times \xHone_0(\gamma), }
 equipped by the norms
 \begin{align*}
-\norm{(\vv,\V)}_\Vel &:= (\norm{\nabla\vv}_{L^2(\Omega)}^2 + \norm{\nabla_\tau\vc V}_{L^2(\gamma)}^2)^{1/2},\\
-\norm{(q,Q)}_\Hf &:= (\norm{q}_{L^2(\gamma)}^2 + \norm{Q}_{L^2(\gamma)}^2)^{1/2},\\
-\norm{(q,Q)}_\Vf &:= (\norm{\nabla q}_{L^2(\gamma)}^2 + \norm{\nabla_\tau Q}_{L^2(\gamma)}^2)^{1/2}.
+\norm{(\vv,\V)}_\Vel &:= (\norm{\nabla\vv}_{\xLtwo(\Omega)}^2 + \norm{\nabla_\tau\vc V}_{\xLtwo(\gamma)}^2)^{1/2},\\
+\norm{(q,Q)}_\Hf &:= (\norm{q}_{\xLtwo(\gamma)}^2 + \norm{Q}_{\xLtwo(\gamma)}^2)^{1/2},\\
+\norm{(q,Q)}_\Vf &:= (\norm{\nabla q}_{\xLtwo(\gamma)}^2 + \norm{\nabla_\tau Q}_{\xLtwo(\gamma)}^2)^{1/2}.
 \end{align*}
 Then the weak formulation of \eqref{eq:mixed_dim_perm} reads (see appendix \ref{sec:app_weak_form} for the derivation):
 
 
-%\eq{ \label{eq:biot_weak} \left.\begin{minipage}{0.85\textwidth}
 \textit{
-Find $(\uu,\U)\in H^1(\I;\Vel)$ and $(p,P)\in L^\infty(\I;\Vf)\cap H^1(\I;\Hf)$ such that
+Find $(\uu,\U)\in \xHone(I;\Vel)$ and $(p,P)\in L^\infty(I;\Vf)\cap \xHone(I;\Hf)$ such that
 \begin{subequations}
   \label{eq:biot_weak}
   \eq{
     \label{eq:biot_weak-i}
-    (p,P)(0,\cdot)=(p_0,P_0),
+    (p,P)(0,\cdot)=(p_0,P_0);
   }
-  %
-  for all $(\vv,\V)\in\Vel$ and a.a. $t\in\I$:
-  %
-  \begin{align}
-      \notag
-      \int_{\Omega_m}\left(\CC_m\nabla\uu:\nabla\vv - \alpha_m p\div\vv\right)\hspace{3.2cm}\\      
-      \notag
-      + \delta\int_\gamma\avg{\CC_f\agrad[\uu,\U]:\agrad[\vv,\V] - \alpha_f P \adiv[\vv,\V]}\\
-      \label{eq:biot_weak-ii}
-      = \dual{(\ff,\FF)}{(\vv,\V)}_\Vel,   
-  \end{align}
-  for all $(q,Q)\in\Vf$ and a.a. $t\in\I$:
-  \begin{align}
-      \notag
-      \int_{\Omega_m}\left(q\dt(S_m p+\alpha_m\div\uu) + \tn K_m\nabla p\cdot\nabla q\right) \hspace{1cm}\\
-      \notag
+  for all $(\vv,\V)\in\Vel$ and a.a. $t\in I$:
+  \eq{\label{eq:biot_weak-ii}
+      \int_{\Omega_m}\left(\CC_m\nabla\uu:\nabla\vv - \alpha_m p\div\vv\right)
+      + \delta\int_\gamma\avg{\CC_f\agrad[\uu,\U]:\agrad[\vv,\V] - \alpha_f P \adiv[\vv,\V]}
+      = \dual{(\ff,\FF)}{(\vv,\V)}_\Vel;
+  }
+  for all $(q,Q)\in\Vf$ and a.a. $t\in I$:
+  \ml{\label{eq:biot_weak-iii}
+      \int_{\Omega_m}\left(q\dt(S_m p+\alpha_m\div\uu) + \tn K_m\nabla p\cdot\nabla q\right)
       + \delta \int_\gamma Q\dt\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right)\\
-      \label{eq:biot_weak-iii}
       + \delta \int_\gamma \avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}
-      = \dual{(g,G)}{(q,Q)}_\Hf.   
-  \end{align}
-  %\end{minipage}\right\} }
-  % 
+      = \dual{(g,G)}{(q,Q)}_\Hf.
+  }
 \end{subequations}
 }
-
+% 
 We state the main result of the paper.
-
-\begin{theorem}\label{th:biot_existence}
-Let $(\ff,\FF)\in H^1(\I;\Vel^*)$, $(g,G)\in L^2(\I;\Hf)$ and $(p_0,P_0)\in\Vf$.
+% 
+\begin{thrm}\label{th:biot_existence}
+Let $(\ff,\FF)\in \xHone(I;\Vel^*)$, $(g,G)\in \xLtwo(I;\Hf)$ and $(p_0,P_0)\in\Vf$.
 Then \eqref{eq:biot_weak} has a unique solution.
-\end{theorem}
+\end{thrm}
 % 
 The proof will be done in the following subsections.
 
@@ -500,128 +486,127 @@ The proof will be done in the following subsections.
 \subsection{Mixed-dimensional linear elasticity}\label{sec:wellposedness_elasticity}
 
 In this section we consider only the mechanical part of the problem \eqref{eq:biot_weak}.
-Assuming that $p$ and $P$ are given pressure fields at some time $t\in\I$, we want to solve the following problem:
-\eq{ \label{eq:el_weak} \left.\begin{minipage}{0.7\textwidth}
-Find $(\uu,\U)\in \Vel$ such that
-\[ \forall(\vv,\vc V)\in \Vel:~a((\uu,\U),(\vv,\vc V)) = l((\vv,\vc V)), \]
-\end{minipage}\right\} }
-where
+Assuming that $p$ and $P$ are given pressure fields at some time $t\in I$, we define the following forms in $\Vel$:
 \eqs{ a((\uu,\U), (\vv,\vc V)) := \int_{\Omega_m}\CC_m\nabla\uu:\nabla\vv
  + \delta\int_\gamma\avg{\CC_f\agrad[\uu,\U]:\agrad[\vv,\V]}, }
 \eqs{ l((\vv,\vc V)) := \dual{(\ff,\FF)}{(\vv,\V)}_\Vel + \int_{\Omega_m} \alpha_m p\div\vv
   + \delta\int_\gamma \alpha_f P \avg{\adiv[\vv,\V]}. }
+Then we introduce the problem:
+\eq{ \label{eq:el_weak} \begin{minipage}{0.7\textwidth}
+Find $(\uu,\U)\in \Vel$ such that for all $(\vv,\vc V)\in \Vel$: $a((\uu,\U),(\vv,\vc V)) = l((\vv,\vc V))$.
+\end{minipage} }
+% 
 The existence and uniqueness of the solution to \eqref{eq:el_weak} will be proved using the Lax-Milgram theorem.
 To ensure ellipticity of the bilinear form $a$, we first prove a suitable inequality for functions in $\Vel$.
 
-\paragraph{Korn type inequalities.}
+\subsubsection{Korn type inequalities}
 Let us recall the classical Korn inequality: %(see e.g. \cite{nitsche1981korn}):
 For any bounded domain $D\subset\Real^d$ with Lipschitz boundary and a non-trivial part $B\subset\partial D$ there is a constant $C_K:=C_K(D,B)>0$ such that
-\eq{ \label{eq:korn} \forall \vv\in H^1_B(D;\Real^d):~C_K\norm{\nabla\vv}_{L^2(D)} \le \norm{\ep(\vv)}_{L^2(D)}, }
+\eq{ \label{eq:korn} \forall \vv\in \xHone_B(D;\Real^d):~C_K\norm{\nabla\vv}_{\xLtwo(D)} \le \norm{\ep(\vv)}_{\xLtwo(D)}, }
 where $\ep(\vv):=\frac12(\nabla\vv+(\nabla\vv)^\top)$.
-For any function $\V\in H^1(\gamma;\Real^d)$ we denote its symmetrized tangential gradient by
+For any function $\V\in \xHone(\gamma;\Real^d)$ we denote its symmetrized tangential gradient by
 \eqs{ \ep_\tau(\V) := \frac12(\nabla_\tau\V + (\nabla_\tau\V)^\top). }
 Similarly for a pair of functions $(\vv,\V)\in\Vel$ we define its symmetrized approximate gradient by
 \eqs{ \aep^\opm[\vv,\V] := \frac12(\agrad^\opm[\vv,\V]+(\agrad^\opm[\vv,\V])^\top). }
-We have the following Korn inequality in $H^1_0(\gamma)$.
+We have the following Korn inequality in $\xHone_0(\gamma)$.
 % 
-\begin{lemma}\label{th:korn_tau}
-There exists a constant $C_1>0$ such that for all $\V\in H^1_0(\gamma;\Real^d)$ it holds:
-\eq{ \label{eq:korn_tau} \norm{\ep_\tau(\V)}_{L^2(\gamma)}^2 \ge C_1\norm{\nabla_\tau\V}_{L^2(\gamma)}^2. }
-\end{lemma}
+\begin{lmm}\label{th:korn_tau}
+There exists a constant $C_1>0$ such that for all $\V\in \xHone_0(\gamma;\Real^d)$ it holds:
+\eq{ \label{eq:korn_tau} C_1\norm{\nabla_\tau\V}_{\xLtwo(\gamma)}^2 \le \norm{\ep_\tau(\V)}_{\xLtwo(\gamma)}^2. }
+\end{lmm}
 % 
 \begin{proof}
-Let $\V\in H^1_0(\gamma;\Real^d)$.
+Let $\V\in \xHone_0(\gamma;\Real^d)$.
 From the definition of the tangential operator it follows that
 \eqs{
-\norm{\ep_\tau(\V_\nu)}_{L^2(\gamma)}^2 = \tfrac12\norm{\nabla_\tau\V_\nu}_{L^2(\gamma)}^2,
+\norm{\ep_\tau(\V_\nu)}_{\xLtwo(\gamma)}^2 = \tfrac12\norm{\nabla_\tau\V_\nu}_{\xLtwo(\gamma)}^2,
 }
 which implies
 \eqs{%
-\norm{\ep_\tau(\V)}_{L^2(\gamma)}^2 = 
-\norm{\ep_\tau(\V_\tau)}_{L^2(\gamma)}^2 + \tfrac12\norm{\nabla_\tau\V_\nu}_{L^2(\gamma)}^2. 
+\norm{\ep_\tau(\V)}_{\xLtwo(\gamma)}^2 = 
+\norm{\ep_\tau(\V_\tau)}_{\xLtwo(\gamma)}^2 + \tfrac12\norm{\nabla_\tau\V_\nu}_{\xLtwo(\gamma)}^2. 
 }
 Further, by mapping $\V$ isometrically from $\gamma$ to a subset of $\Real^{d-1}$, we can apply \eqref{eq:korn} to the tangential part $\V_\tau$, which implies:
-\eqs{ \norm{\ep_\tau(\V_\tau)}_{L^2(\gamma)}^2 \ge C_K\norm{\nabla_\tau\V_\tau}_{L^2(\gamma)}^2. }
+\eqs{ \norm{\ep_\tau(\V_\tau)}_{\xLtwo(\gamma)}^2 \ge C_K\norm{\nabla_\tau\V_\tau}_{\xLtwo(\gamma)}^2. }
 Altogether we have:
-\eqs{ \norm{\ep_\tau(\V)}_{L^2(\gamma)}^2 \ge \min\{C_K,\tfrac12\}\norm{\nabla_\tau\V}_{L^2(\gamma)}^2, }
+\eqs{ \norm{\ep_\tau(\V)}_{\xLtwo(\gamma)}^2 \ge \min\{C_K,\tfrac12\}\norm{\nabla_\tau\V}_{\xLtwo(\gamma)}^2, }
 which proves \eqref{eq:korn_tau}.
 \end{proof}
 
 Now we can prove a variant of the Korn inequality in $\Vel$, which takes into account the approximate gradient.
-\begin{lemma}
+\begin{lmm}
 There exists a constant $C_2>0$ such that for all $(\vv,\V)\in \Vel$ it holds:
-\eq{\label{eq:korn_frac} \norm{\ep(\vv)}_{L^2(\Omega_m)}^2 + \avg{\norm{\aep[\vv,\V]}_{L^2(\gamma)}^2} \ge C_2\norm{(\vv,\V)}_\Vel^2. }
-\end{lemma}
+\eq{\label{eq:korn_frac} C_2\norm{(\vv,\V)}_\Vel^2 \le \norm{\ep(\vv)}_{\xLtwo(\Omega_m)}^2 + \avg{\norm{\aep[\vv,\V]}_{\xLtwo(\gamma)}^2}. }
+\end{lmm}
 \begin{proof}
 Let us assume for contradiction that there is a sequence $\{(\vv_n,\V_n)\}_{n=1}^\infty$ in $\Vel$ such that
-\eq{\label{eq:korn_asm_contra} \norm{\ep(\vv_n)}_{L^2(\Omega_m)}^2 + \avg{\norm{\aep[\vv_n,\V_n]}_{L^2(\gamma)}^2} < \frac1n\norm{(\vv_n,\V_n)}_\Vel^2. }
+\eq{\label{eq:korn_asm_contra} \norm{\ep(\vv_n)}_{\xLtwo(\Omega_m)}^2 + \avg{\norm{\aep[\vv_n,\V_n]}_{\xLtwo(\gamma)}^2} < \frac1n\norm{(\vv_n,\V_n)}_\Vel^2. }
 Without loss of generality we may assume that $\norm{(\vv_n,\V_n)}_\Vel=1$, so that
 \eq{\label{eq:korn_weak_vV} (\vv_n,\V_n)\weakly (\vv,\V) \mbox{ weakly in }\Vel, ~n\to\infty, }
 where $(\vv,\V)\in \Vel$, passing eventually to a subsequence.
-From \eqref{eq:korn_asm_contra} and the Korn inequality in $H^1_\Gamma(\Omega_m;\Real^d)$ it follows that
-\eq{\label{eq:korn_strong_v} \vv_n\to\vc 0 \mbox{ strongly in }H^1_\Gamma(\Omega_m;\Real^d),~n\to\infty, }
+From \eqref{eq:korn_asm_contra} and the Korn inequality in $\xHone_\Gamma(\Omega_m;\Real^d)$ it follows that
+\eq{\label{eq:korn_strong_v} \vv_n\to\vc 0 \mbox{ strongly in }\xHone_\Gamma(\Omega_m;\Real^d),~n\to\infty, }
 implying that $\vv=\vc 0$.
 From \eqref{eq:korn_asm_contra} it also follows that
-\eq{\label{eq:korn_conv_approx_grad} \aep^\opm[\vv_n,\V_n] \to 0 \mbox{ strongly in }L^2(\gamma;\Real^{d\times d}),~n\to\infty. }
-Using this together with the definition of $\aep^\opm$, \eqref{eq:korn_weak_vV}, \eqref{eq:korn_strong_v} and the embedding $H^1(\Omega_m)\hookrightarrow L^2(\gamma)$, we obtain:
+\eq{\label{eq:korn_conv_approx_grad} \aep^\opm[\vv_n,\V_n] \to 0 \mbox{ strongly in }\xLtwo(\gamma;\Real^{d\times d}),~n\to\infty. }
+Using this together with the definition of $\aep^\opm$, \eqref{eq:korn_weak_vV}, \eqref{eq:korn_strong_v} and the embedding $\xHone(\Omega_m)\hookrightarrow \xLtwo(\gamma)$, we obtain:
 \eqs{ \ep_\tau(\V) = \pm\frac1\delta(\V\otimes\nnu+\nnu\otimes\V), }
 from which it follows that $\V\otimes\nnu+\nnu\otimes\V=\tn 0$ and thus $\V=\vc 0$. 
 
 
-With help of the compact embedding $H^1(\gamma)\hookrightarrow L^2(\gamma)$ we deduce from \eqref{eq:korn_conv_approx_grad} that $\ep_\tau(\V_n)\to 0$ strongly in $L^2(\gamma;\Real^{d\times d})$, $n\to\infty$.
-Lemma \ref{th:korn_tau} then implies that also $\V_n\to\vc 0$ strongly in $H^1_0(\gamma;\Real^d)$, $n\to\infty$.
+With help of the compact embedding $\xHone(\gamma)\hookrightarrow \xLtwo(\gamma)$ we deduce from \eqref{eq:korn_conv_approx_grad} that $\ep_\tau(\V_n)\to 0$ strongly in $\xLtwo(\gamma;\Real^{d\times d})$, $n\to\infty$.
+Lemma \ref{th:korn_tau} then implies that also $\V_n\to\vc 0$ strongly in $\xHone_0(\gamma;\Real^d)$, $n\to\infty$.
 Finally, having shown the strong convergence of $\{(\vv_n,\V_n)\}_{n=1}^\infty$, we observe that
 \eqs{ 1 = \lim_{n\to\infty}\norm{(\vv_n,\V_n)}_\Vel = \norm{(\vv,\V)}_\Vel = 0, }
 which is a contradiction.
 Therefore the proof is finished.
 \end{proof}
 
-\paragraph{Existence and uniqueness of solutions.}
+\subsubsection{Existence and uniqueness of solutions}
 In the following lemma we prove essential properties of $a$ and $l$.
-\begin{lemma}
-The bilinear form $a$ is bounded and elliptic and the linear form $l$ is bounded in $\Vel$.
+\begin{lmm}\label{th:prop_al}
+The bilinear form $a$ is bounded and elliptic in $\Vel$ and the linear form $l$ is bounded in $\Vel$.
 In particular, there exist constants $C_3=C_3(C_2,\delta,\mu_m,\mu_f)>0$ and $C_4=C_4(\alpha_m,\alpha_f,\delta,\gamma^+,\gamma^-,\Omega_m)>0$ such that
 \eqs{ a((\vv,\V),(\vv,\V)) \ge C_3\norm{(\vv,\V)}_\Vel^2, }
 \eqs{ l((\vv,\V)) \le \left(\norm{(\ff,\FF)}_{\Vel^*} + C_4\norm{(p,P)}_\Hf\right)\norm{(\vv,\V)}_\Vel }
 for all $(\vv,\V)\in\Vel$.
-\end{lemma}
+\end{lmm}
 \begin{proof}
-The boundedness of $a$ and $l$ is a consequence of the embeddings $H^1(\Omega_m)\hookrightarrow L^2(\gamma^\pm)$ and standard inequalities; we prove only the ellipticity.
+The boundedness of $a$ and $l$ is a consequence of the embeddings $\xHone(\Omega_m)\hookrightarrow \xLtwo(\gamma^\pm)$ and standard inequalities; we prove only the ellipticity.
 For any $(\vv,\V)\in \Vel$ we have:
 \eqs{ a((\vv,\V),(\vv,\V)) = \int_{\Omega_m}\CC_m\nabla\vv:\nabla\vv
 + \delta\int_\gamma\avg{\CC_f\agrad[\vv,\V]:\agrad[\vv,\V]}. }
 Now we can apply \eqref{eq:pos_def_C_gen} and \eqref{eq:korn_frac}, which yields:
-\mls{ a((\vv,\V),(\vv,\V)) \ge 2\mu_m\norm{\ep(\vv)}_{L^2(\Omega_m)}^2 + 2\mu_f\delta\avg{\norm{\aep[\vv,\V]}_{L^2(\gamma)}^2}\\
+\eqs{ a((\vv,\V),(\vv,\V)) \ge 2\mu_m\norm{\ep(\vv)}_{\xLtwo(\Omega_m)}^2 + 2\mu_f\delta\avg{\norm{\aep[\vv,\V]}_{\xLtwo(\gamma)}^2}
 \ge 2C_2\min\{\mu_m,\mu_f\delta\}\norm{(\vv,\V)}_\Vel^2. }
 From this we see that $a$ is elliptic with the constant $C_3 = 2C_2\min\{\mu_m,\mu_f\delta\}$.
 \end{proof}
-
-% It is not difficult to show that $l$ is bounded in $\Vel$ under appropriate assumptions about the data.
+% 
 Having shown the above properties of the forms $a$ and $l$, the following result is a direct consequence of the Lax-Milgram theorem.
-
-\begin{theorem}
+% 
+\begin{thrm}
 Let $(\ff,\FF)\in\Vel^*$ and $(p,P)\in\Hf$. Then problem \eqref{eq:el_weak} has a unique solution $(\uu,\U)\in\Vel$ which satisfies:
 \eqs{
  \norm{(\uu,\U)}_{\Vel} \le \frac{1}{C_3} \Big( \norm{(\ff,\FF)}_{\Vel^*} + C_4\norm{(p,P)}_\Hf \Big).
 }
-\end{theorem}
+\end{thrm}
 % 
 Now we consider the time-dependent case.
-By differentiating \eqref{eq:el_weak} with respect to time we observe that the time derivatives of $(\uu,\U)$ satisfy for all $(\vv,\V)\in\Vel$:
+If $(\ff,\FF,p,P)$ are defined in the time interval $I$, then by differentiating the identity in \eqref{eq:el_weak} with respect to time we observe that the pair $(\dt\uu,\dt\U)$ satisfies for all $(\vv,\V)\in\Vel$:
 \eq{ \label{eq:el_dt} a((\dt\uu,\dt\U),(\vv,\V)) = \dt l((\vv,\V)), }
 where $\dt l$ stands for the linear form
-\mls{ \dt l((\vv,\V)) := \dual{(\dt\ff,\dt\FF)}{(\vv,\V)}_\Vel + \int_{\Omega_m} \alpha_m \dt p\div\vv\\
+\eqs{ \dt l((\vv,\V)) := \dual{(\dt\ff,\dt\FF)}{(\vv,\V)}_\Vel + \int_{\Omega_m} \alpha_m \dt p\div\vv
   + \delta\int_\gamma \alpha_f \dt P \avg{\adiv[\vv,\V]}. }
-It is clear that $\dt l$ satisfies:
+Similarly as in Lemma \ref{th:prop_al}, one can show that $\dt l$ is bounded and estimate it in terms of the time derivatives of the data:
 \eqs{ \dt l((\vv,\V)) \le \left(\norm{(\dt\ff,\dt\FF)}_{\Vel^*} + C_4\norm{(\dt p,\dt P)}_\Hf\right)\norm{(\vv,\V)}_\Vel. }
 Since the solution mappings $(\ff,\FF,p,P) \mapsto (\uu, \U)$ and $(\dt\ff,\dt\FF,\dt p,\dt P)\mapsto(\dt\uu,\dt\U)$ are linear and bounded, we obtain:
-\begin{corollary}
-Let $(\ff,\FF)\in L^2(\I;\Vel^*)$ and $(p,P)\in L^2(\I;\Hf)$.
-Denoting by $(\uu[t],\U[t])$ the solution to \eqref{eq:el_weak} with the data $\ff[t],\FF[t],p[t],P[t]$, then $(\uu,\U)\in L^2(\I;\Vel)$.
-If in addition $\dt(\ff,\FF)\in L^2(\I;\Vel^*)$ and $\dt(p,P)\in L^2(\I;\Hf)$, then also $\dt(\uu,\U)\in L^2(\I;\Vel)$.
-\end{corollary}
+\begin{crllr}
+Let $(\ff,\FF)\in \xLtwo(I;\Vel^*)$ and $(p,P)\in \xLtwo(I;\Hf)$.
+Denoting by $(\uu[t],\U[t])$ the solution to \eqref{eq:el_weak} with the data $\ff[t],\FF[t],p[t],P[t]$, then $(\uu,\U)\in \xLtwo(I;\Vel)$.
+If in addition $\dt(\ff,\FF)\in \xLtwo(I;\Vel^*)$ and $\dt(p,P)\in \xLtwo(I;\Hf)$, then also $\dt(\uu,\U)\in \xLtwo(I;\Vel)$.
+\end{crllr}
 % 
-Based on the above result, we define the mapping $\mathcal E: H^1(\I;\Hf)\to H^1(\I;\Vel)$ by the relation
+Based on the above result, we define the mapping $\mathcal E: \xHone(I;\Hf)\to \xHone(I;\Vel)$ by the relation
 \eqs{ \mathcal E(p,P)[t] := (\uu[t],\U[t]). }
 We shall use it in the definition of the fixed-stress splitting in section \ref{sec:iter}.
 
@@ -631,112 +616,109 @@ We shall use it in the definition of the fixed-stress splitting in section \ref{
 We now turn to the flow part of the mixed-dimensional problem \eqref{eq:biot_weak}, assuming zero displacements.
 We want to solve the following problem:
 
-\textit{Find $(p,P)\in L^\infty(\I;\Vf)\cap H^1(\I;\Hf)$ such that
+\textit{Find $(p,P)\in L^\infty(I;\Vf)\cap \xHone(I;\Hf)$ such that
 \begin{subequations}
     \label{eq:flow_weak}
     \eq{
         \label{eq:flow_weak-i}
-        (p,P)(0,\cdot)=(p_0,P_0),
+        (p,P)(0,\cdot)=(p_0,P_0);
     }
     %    
-    for all $(q,Q)\in\Vf$ and a.a. $t\in\I$
-    \begin{align}
-      \notag
+    and for all $(q,Q)\in\Vf$ and a.a. $t\in I$:
+    \eq{ \label{eq:flow_weak-ii}
       \int_{\Omega_m}\left(S_m q\dt p + \tn K_m\nabla p\cdot\nabla q\right) 
-      + \delta S_f\int_\gamma Q\dt P \hspace{2cm}\\
-      \label{eq:flow_weak-ii}
+      + \delta S_f\int_\gamma Q\dt P
       + \delta\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}
       = \dual{(\tilde g,\tilde G)}{(q,Q)}_\Hf.
-    \end{align}
+    }
 \end{subequations}}
 Here $(\tilde g,\tilde G)$ are modified fluid sources to be specified in section \ref{sec:iter}.
 The well-posedness of \eqref{eq:flow_weak} will be established on the base of standard theory of parabolic problems (see e.g. \cite{evans_pde}, chap. 7.1).
 We formulate the result in the following theorem.
 % 
-\begin{theorem}
-Let $(p_0,P_0)\in\Vf$ and $(\tilde g,\tilde G)\in L^2(\I;\Hf)$.
+\begin{thrm}
+Let $(p_0,P_0)\in\Vf$ and $(\tilde g,\tilde G)\in \xLtwo(I;\Hf)$.
 Then there exists a unique solution to \eqref{eq:flow_weak}.
-\end{theorem}
+\end{thrm}
 \begin{proof}
 \underline{Existence:}
-Let $\{w_j\}_{j=1}^\infty$ and $\{W_j\}_{j=1}^\infty$ be bases in $H^1_\Gamma(\Omega_m)$, $H^1_0(\gamma)$, respectively, orthonormal with respect to the $L^2$-scalar products.
-For any $n=1,2,...$ we define the Galerkin approximation $(p_n,P_n)$ as a pair of functions in the form $p_n(t,\xx):=\sum_{j=1}^n\psi_j^n(t)w_j(\xx)$, $P_n(t,\xx):=\sum_{j=1}^n\Psi_j^n(t)W_j(\xx)$, satisfying for a.a. $t\in\I$ and for $i=1,...,n$ the integral identities
-\ml{ \label{eq:galerkin_m} S_m\int_{\Omega_m}w_i\dt p_n + \int_{\Omega_m}\tn K_m\nabla p_n\cdot\nabla w_i + \delta\int_\gamma\avg{\tn K_f\agrad[p_n,P_n]\cdot\agrad[w_i,0]}\\
+Let $\{w_j\}_{j=1}^\infty$ and $\{W_j\}_{j=1}^\infty$ be bases in $\xHone_\Gamma(\Omega_m)$, $\xHone_0(\gamma)$, respectively, orthonormal with respect to the $\xLtwo$-scalar products.
+For any $n=1,2,...$ we define the Galerkin approximation $(p_n,P_n)$ as a pair of functions in the form $p_n(t,\xx):=\sum_{j=1}^n\psi_j^n(t)w_j(\xx)$, $P_n(t,\xx):=\sum_{j=1}^n\Psi_j^n(t)W_j(\xx)$, satisfying for a.a. $t\in I$ and for $i=1,...,n$ the integral identities
+\eq{ \label{eq:galerkin_m} S_m\int_{\Omega_m}w_i\dt p_n + \int_{\Omega_m}\tn K_m\nabla p_n\cdot\nabla w_i + \delta\int_\gamma\avg{\tn K_f\agrad[p_n,P_n]\cdot\agrad[w_i,0]}
 + \int_\gamma\jmp{\pphi[p_n,P_n]w_i} = \int_{\Omega_m}\tilde g w_i, }
 \eq{ \label{eq:galerkin_f} \delta S_f\int_\gamma W_i\dt P_n + \delta\int_\gamma\tn K_f\avg{\agrad[p_n,P_n]}\cdot\nabla_\tau W_i - \int_\gamma\jmp{\pphi[p_n,P_n]W_i} = \int_\gamma \tilde G W_i, }
 and the initial conditions
 \eqs{ \psi_i(0)=\int_{\Omega_m}p_0w_i, \quad \Psi_i(0)=\int_\gamma P_0W_i. }
 The existence and uniqueness of $(p_n,P_n)$ follows from the Carath\'eodory theory of ODEs.
 Multiplying \eqref{eq:galerkin_m} by $\psi_i'$ and \eqref{eq:galerkin_f} by $\Psi_i'$, summing over $i=1,...,n$ and integrating in time, we arrive at the identity
-\ml{\label{eq:energy_est_1} \norm{\dt(\sqrt{S_m} p_n,\sqrt{\delta S_f} P_n)}_\Hf^2\\
+\ml{\label{eq:energy_est_1} \norm{\dt(\sqrt{S_m} p_n,\sqrt{\delta S_f} P_n)}_\Hf^2
 + \frac12\ddt{}\left(\int_{\Omega_m}\tn K_m\nabla p_n\cdot\nabla p_n
 + \delta\int_\gamma\avg{\tn K_f\agrad[p_n,P_n]\cdot\agrad[p_n,P_n]}\right)\\
 = \dual{(\tilde g,\tilde G)}{\dt(p_n,P_n)}_\Vf. }
 From the positive definiteness of $\tn K_f$ and the definition of $\agrad^\opm$ we infer that
 \eq{ \label{eq:pos_kf_agrad} \avg{\tn K_f\agrad[p_n,P_n]\cdot\agrad[p_n,P_n]} \ge \kappa_f\left(|\nabla_\tau P_n|^2 + \frac2\delta|p_n^\opm-P_n|^2\right). }
-Hence, after integration in time, using the positive definiteness of $\tn K_m$, \eqref{eq:pos_kf_agrad}, the initial conditions and a suitable estimate of the right hand side of \eqref{eq:energy_est_1}, we obtain:
-\eq{ \label{eq:energy_est_flow} \int_0^T\norm{\dt(p_n,P_n)}_\Hf^2 + \sup_{t\in\I}\norm{(p_n,P_n)}_\Vf^2(t) \le C\left(\norm{(p_0,P_0)}_\Vf^2 + \int_0^T\norm{(\tilde g,\tilde G)}_{\Hf}^2\right), }
+Hence, after integrating \eqref{eq:energy_est_1} in time, using the positive definiteness of $\tn K_m$, \eqref{eq:pos_kf_agrad}, the initial conditions and a suitable estimate of the right hand side, we obtain:
+\eq{ \label{eq:energy_est_flow} \int_0^T\norm{\dt(p_n,P_n)}_\Hf^2 + \sup_{t\in I}\norm{(p_n,P_n)}_\Vf^2(t) \le C\left(\norm{(p_0,P_0)}_\Vf^2 + \int_0^T\norm{(\tilde g,\tilde G)}_{\Hf}^2\right), }
 where $C>0$ may depend on $S_m,S_f,\delta,\kappa_m,\kappa_f,|\tn K_m|,|\tn K_f|$.
 
-
-Hence the sequence $\{(p_n,P_n)\}_{n=1}^\infty$ is bounded in $L^\infty(\I;\Vf)\cap H^1(\I;\Hf)$.
+Hence the sequence $\{(p_n,P_n)\}_{n=1}^\infty$ is bounded in $L^\infty(I;\Vf)\cap \xHone(I;\Hf)$.
 Choosing a subsequence weakly convergent in the above spaces to a pair $(p,P)$, we can pass to the limit in \eqref{eq:galerkin_m}--\eqref{eq:galerkin_f}, which proves that $(p,P)$ is a solution of \eqref{eq:flow_weak}.
 
 \underline{Uniqueness:}
 Let $(p^1,P^1)$ and $(p^2,P^2)$ be two solutions of \eqref{eq:flow_weak} and denote their difference by $(\Delta p,\Delta P)$.
 Subtracting the integral identities in \eqref{eq:flow_weak-ii} for the two solutions and testing by $(\Delta p,\Delta P)$ we obtain:
-\ml{ \label{eq:dif_p} \frac12\ddt{}\norm{(\sqrt{S_m}\Delta p,\sqrt{\delta S_f}\Delta P)}_\Hf^2
-+ \int_{\Omega_m}\tn K_m\nabla\Delta p\cdot\nabla\Delta p\\
+\eq{ \label{eq:dif_p} \frac12\ddt{}\norm{(\sqrt{S_m}\Delta p,\sqrt{\delta S_f}\Delta P)}_\Hf^2
++ \int_{\Omega_m}\tn K_m\nabla\Delta p\cdot\nabla\Delta p
 + \delta\int_\gamma\avg{\tn K_f\agrad[\Delta p,\Delta P]\cdot\agrad[\Delta p,\Delta P]} = 0. }
 Since all but the first term on the left hand side of \eqref{eq:dif_p} are nonnegative, we obtain the inequality
 \eqs{ \ddt{}\norm{(\Delta p,\Delta P)}_\Hf^2 \le 0, }
 which together with the fact that $(\Delta p,\Delta P)(0,\cdot) = (0,0)$ implies $(p^1,P^1)=(p^2,P^2)$.
 \end{proof}
 % 
-Having the above result, we introduce the solution map $\mathcal F:L^2(\I;\Hf)\to L^\infty(\I;\Vf)\cap H^1(\I;\Hf)$ by the relation
+Having proved the above result, we introduce the solution map $\mathcal F:\xLtwo(I;\Hf)\to L^\infty(I;\Vf)\cap \xHone(I;\Hf)$ by the relation
 \eqs{ \mathcal F(\tilde g,\tilde G) := (p,P), }
 where $(p,P)$ is the solution of \eqref{eq:flow_weak}.
-Let $\vc\beta:=(\beta_m,\beta_f)$ be a pair of positive parameters.
-We define a similar map $\mathcal F_{\vc\beta}$ as the solution operator for the flow problem with increased storativity $S_m+\beta_m$, $S_f+\beta_f$, respectively.
-In particular, $(p,P):=\mathcal F_{\vc\beta}(\tilde g,\tilde G)$ satisfies the initial conditions 
+Let $\bbeta:=(\beta_m,\beta_f)$ be a pair of positive parameters.
+We define a similar map $\mathcal F_{\bbeta}$ as the solution operator for the flow problem with increased storativity $S_m+\beta_m$, $S_f+\beta_f$, respectively.
+In particular, $(p,P):=\mathcal F_{\bbeta}(\tilde g,\tilde G)$ satisfies the initial conditions 
 \eqref{eq:flow_weak-i} and the integral identity
-\ml{ \label{eq:flow_problem_beta} (S_m+\beta_m)\int_{\Omega_m} q\dt p + \int_{\Omega_m}\tn K_m\nabla p\cdot\nabla q + \delta (S_f+\beta_f)\int_\gamma Q\dt P\\
-+ \delta\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}
+\ml{ \label{eq:flow_problem_beta} (S_m+\beta_m)\int_{\Omega_m} q\dt p + \int_{\Omega_m}\tn K_m\nabla p\cdot\nabla q + \delta (S_f+\beta_f)\int_\gamma Q\dt P
++ \delta\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}\\
 = \dual{(\tilde g,\tilde G)}{(q,Q)}_\Hf }
-for all $(q,Q)\in\Vf$ and a.a. $t\in\I$.
+for all $(q,Q)\in\Vf$ and a.a. $t\in I$.
 
 
 
 \subsection{Fixed-stress iterations}\label{sec:iter}
 
 We follow the idea of optimized fixed-stress splitting from \cite{mikelic2013convergence}.
-Let $\mathcal X := L^\infty(\I;\Vf)\cap H^1(\I;\Hf)$.
+Let $\mathcal X := L^\infty(I;\Vf)\cap \xHone(I;\Hf)$.
 For any $n\in\{0,1,2,...\}$ and $(p^n,P^n)\in \mathcal X$
 we define
 \eqs{ (\uu^n,\U^n) := \mathcal E(p^n,P^n). }
-Next we choose a pair of positive parameters $\vc\beta:=(\beta_m,\beta_f)$ and define
-\eqs{ (p^{n+1},P^{n+1}) := \mathcal F_{\vc\beta}(\tilde g^n,\tilde G^n), }
+Next we choose a pair of positive parameters $\bbeta:=(\beta_m,\beta_f)$ and define
+\eqs{ (p^{n+1},P^{n+1}) := \mathcal F_{\bbeta}(\tilde g^n,\tilde G^n), }
 where
 \eqs{ \tilde g^n:=g -\alpha_m\div\dt\uu^n + \beta_m\dt p^n, }
 \eqs{ \tilde G^n:=G -\delta\alpha_f\avg{\adiv[\dt\uu^n,\dt\U^n]} + \delta\beta_f\dt P^n. }
-From the results of sections \ref{sec:wellposedness_elasticity} and \ref{sec:wellposedness_flow} we infer that whenever $(g,G)\in L^2(I;\Hf)$ then also $(\tilde g^n,\tilde G^n)\in L^2(I;\Hf)$.
+From the results of sections \ref{sec:wellposedness_elasticity} and \ref{sec:wellposedness_flow} we infer that whenever $(g,G)\in \xLtwo(I;\Hf)$ then also $(\tilde g^n,\tilde G^n)\in \xLtwo(I;\Hf)$.
 The above scheme defines the mapping
-\eqs{ \mathcal M_{\vc\beta}:(p^n,P^n) \mapsto (p^{n+1},P^{n+1}) }
+\eqs{ \mathcal M_{\bbeta}:(p^n,P^n) \mapsto (p^{n+1},P^{n+1}) }
 from $\mathcal X$ into itself.
 If $(\hat p,\hat P)$ is a fixed point of this map and $(\hat\uu,\hat\U):=\mathcal E(\hat p,\hat P)$, then $(\hat\uu,\hat\U,\hat p,\hat P)$ is a solution to \eqref{eq:biot_weak}.
 Let
 \eqs{ \omega:=\min\left\{\frac{S_m+\beta_m}{\beta_m}, \frac{S_f+\beta_f}{\beta_f}\right\}. }
-Then the following expression $\rho_{\vc\beta}$ is a distance in $\mathcal X$:
-\mls{ \rho_{\vc\beta}((p_1,P_1),(p_2,P_2))^2 := \frac\omega{\beta_m}\int_0^T\norm{\dt\left(\alpha_m\div(\uu_1-\uu_2)-\beta_m(p_1-p_2)\right)}_{L^2(\Omega_m)}^2\\
-+ \frac{\delta\omega}{\beta_f}\int_0^T\avg{\norm{\dt\left(\alpha_f\adiv[\uu_1-\uu_2,\U_1-\U_2]-\beta_f(P_1-P_2)\right)}_{L^2(\gamma)}^2}\\
-+ \sup_{t\in\I}\left(\kappa_m\norm{\nabla (p_1-p_2)}_{L^2(\Omega_m)}^2 + \delta\kappa_f\avg{\norm{\agrad[p_1-p_2,P_1-P_2]}_{L^2(\gamma)}^2}\right), }
+Then the following expression $\rho_{\bbeta}$ is a distance in $\mathcal X$:
+\mls{ \rho_{\bbeta}((p_1,P_1),(p_2,P_2))^2 := \frac\omega{\beta_m}\int_0^T\norm{\dt\left(\alpha_m\div(\uu_1-\uu_2)-\beta_m(p_1-p_2)\right)}_{\xLtwo(\Omega_m)}^2\\
++ \frac{\delta\omega}{\beta_f}\int_0^T\avg{\norm{\dt\left(\alpha_f\adiv[\uu_1-\uu_2,\U_1-\U_2]-\beta_f(P_1-P_2)\right)}_{\xLtwo(\gamma)}^2}\\
++ \sup_{t\in I}\left(\kappa_m\norm{\nabla (p_1-p_2)}_{\xLtwo(\Omega_m)}^2 + \delta\kappa_f\avg{\norm{\agrad[p_1-p_2,P_1-P_2]}_{\xLtwo(\gamma)}^2}\right), }
 where $(\uu_i,\U_i):=\mathcal E(p_i,P_i)$, $i=1,2$.
-Further, $(\mathcal X,\rho_{\vc\beta})$ is a complete metric space.
-We shall prove that $\mathcal M_{\vc\beta}$ is a contraction with respect to $\rho_{\vc\beta}$.
-Then $\mathcal M_{\vc\beta}$ has a unique fixed point and \eqref{eq:biot_weak} has a unique solution, thus Theorem \ref{th:biot_existence} will be proved.
-\begin{theorem}\label{th:conv_iter}
-Let $(\ff,\FF)\in H^1(\I;\Vel^*)$, $(g,G)\in L^2(\I;\Hf)$ and $(p_0,P_0)\in\Vf$.
-If the pair $\vc\beta=(\beta_m,\beta_f)$ satisfies
+Further, $(\mathcal X,\rho_{\bbeta})$ is a complete metric space.
+We shall prove that $\mathcal M_{\bbeta}$ is a contraction with respect to $\rho_{\bbeta}$.
+Then $\mathcal M_{\bbeta}$ has a unique fixed point and \eqref{eq:biot_weak} has a unique solution, thus Theorem \ref{th:biot_existence} will be proved.
+\begin{thrm}\label{th:conv_iter}
+Let $(\ff,\FF)\in \xHone(I;\Vel^*)$, $(g,G)\in \xLtwo(I;\Hf)$ and $(p_0,P_0)\in\Vf$.
+If the pair $\bbeta=(\beta_m,\beta_f)$ satisfies
 %
 \eq{ 
   \label{eq:cond_beta} 
@@ -744,42 +726,42 @@ If the pair $\vc\beta=(\beta_m,\beta_f)$ satisfies
   \quad\mbox{and}\quad 
   \beta_f\ge\frac{\alpha_f^2}{2\left(\frac{2\mu_f}d+\lambda_f\right)}, 
 }
-then $\mathcal M_{\vc\beta}$ is a contraction in $L^\infty(\I;\Vf)\cap H^1(\I;\Hf)$ with respect to the distance $\rho_{\vc\beta}$.
-Hence the sequence $\{(p^n,P^n)\}_{n=0}^\infty$ with $(p^0,P^0):=(p_0,P_0)$, has a unique fixed point $(\hat p,\hat P)$.
+then $\mathcal M_{\bbeta}$ is a contraction in $\mathcal X$ with respect to the distance $\rho_{\bbeta}$.
+Hence the sequence $\{(p^n,P^n)\}_{n=0}^\infty$ with an arbitrary initial guess $(p^0,P^0)\in\mathcal X$, has a unique fixed point $(\hat p,\hat P)$.
 Denoting $(\hat \uu,\hat \U):=\mathcal E(\hat p,\hat P)$, then the quadruplet $(\hat \uu,\hat \U,\hat p,\hat P)$ is the unique solution of the coupled problem \eqref{eq:biot_weak}.
 The contraction constant takes the value $1/\omega$, which becomes smallest when equalities hold in \eqref{eq:cond_beta}.
-\end{theorem}
+\end{thrm}
 \begin{proof}
 For $n=1,2,...$ we denote:
 \begin{align*}
-\Delta_p^n&:=p^n-p^{n-1}, \quad e_p^n:=\dt\Delta_p^n,\\
-\Delta_P^n&:=P^n-P^{n-1}, \quad e_P^n:=\dt\Delta_P^n,\\
-\ee_\uu^n&:=\dt(\uu^n-\uu^{n-1}),\\
-\ee_\U^n&:=\dt(\U^n-\U^{n-1}).
+\Delta_p^n&:=p^n-p^{n-1}, \quad e_p^n:=\dt\Delta_p^n,\quad
+\Delta_P^n:=P^n-P^{n-1}, \quad e_P^n:=\dt\Delta_P^n,\\
+\ee_\uu^n&:=\dt(\uu^n-\uu^{n-1}),\quad
+\ee_\U^n:=\dt(\U^n-\U^{n-1}).
 \end{align*}
 We subtract the equations \eqref{eq:el_dt} for $(\dt\uu^{n+1},\dt\U^{n+1})$ and $(\dt\uu^n,\dt\U^n)$ and test by $(\ee_\uu^{n+1},\ee_\U^{n+1})$.
 We obtain:
 \mls{ \int_{\Omega_m}\CC_m\nabla\ee_\uu^{n+1}:\nabla\ee_\uu^{n+1}
  + \delta\int_\gamma\avg{\CC_f\agrad[\ee_\uu^{n+1},\ee_\U^{n+1}]:\agrad[\ee_\uu^{n+1},\ee_\U^{n+1}]}\\
  = \int_{\Omega_m} e_p^{n+1} \alpha_m\div\ee_\uu^{n+1} + \delta\int_\gamma e_P^{n+1} \avg{\alpha_f\adiv[\ee_\uu^{n+1},\ee_\U^{n+1}]}. }
-Using \eqref{eq:pos_def_C_gen} and the inequalities \eqref{eq:ineq_div_ep}--\eqref{eq:ineq_adiv_aep} we obtain:
-\mls{ \left(\frac{2\mu_m}d + \lambda_m\right)\norm{\div\ee_\uu^{n+1}}_{L^2(\Omega_m)}^2 + \delta\left(\frac{2\mu_f}d+\lambda_f\right)\avg{\norm{\adiv[\ee_\uu^{n+1},\ee_\U^{n+1}]}_{L^2(\gamma)}^2}\\
+Using \eqref{eq:pos_def_C_gen} and the inequalities \eqref{eq:ineq_div_ep}--\eqref{eq:ineq_adiv_aep} from appendix \ref{sec:ap_ineq} we obtain:
+\mls{ \left(\frac{2\mu_m}d + \lambda_m\right)\norm{\div\ee_\uu^{n+1}}_{\xLtwo(\Omega_m)}^2 + \delta\left(\frac{2\mu_f}d+\lambda_f\right)\avg{\norm{\adiv[\ee_\uu^{n+1},\ee_\U^{n+1}]}_{\xLtwo(\gamma)}^2}\\
 \le \int_{\Omega_m} e_p^{n+1} \alpha_m\div\ee_\uu^{n+1} + \delta\int_\gamma e_P^{n+1} \avg{\alpha_f\adiv[\ee_\uu^{n+1},\ee_\U^{n+1}]}, }
 which together with \eqref{eq:cond_beta} yields:
 \ml{ 
     \label{eq:ineq_dif_el} 
-    \frac1{2\beta_m}\norm{\alpha_m\div\ee_\uu^{n+1}}_{L^2(\Omega_m)}^2 + \frac\delta{2\beta_f}\avg{\norm{\alpha_f\adiv[\ee_\uu^{n+1},\ee_\U^{n+1}]}_{L^2(\gamma)}^2}\\
+    \frac1{2\beta_m}\norm{\alpha_m\div\ee_\uu^{n+1}}_{\xLtwo(\Omega_m)}^2 + \frac\delta{2\beta_f}\avg{\norm{\alpha_f\adiv[\ee_\uu^{n+1},\ee_\U^{n+1}]}_{\xLtwo(\gamma)}^2}\\
     %
     - \frac1{\beta_m}\int_{\Omega_m} \beta_m e_p^{n+1}\alpha_m\div\ee_\uu^{n+1} 
     - \frac\delta{\beta_f}\int_\gamma \beta_f e_P^{n+1} \alpha_f\avg{\adiv[\ee_\uu^{n+1},\ee_\U^{n+1}]} \le 0. 
 }
-Next we subtract the equations \eqref{eq:flow_problem_beta} for $(p^{n+1},P^{n+1})$ and $(p^n,P^n)$, test by $(e_p^{n+1},e_P^{n+1})$, integrate in time and use \eqref{eq:pos_def_K}, which yields for a.a. $t\in\I$:
+Next we subtract the equations \eqref{eq:flow_problem_beta} for $(p^{n+1},P^{n+1})$ and $(p^n,P^n)$ with appropriate right hand sides $(\tilde g^n,\tilde G^n)$ and $(\tilde g^{n-1},\tilde G^{n-1})$, respectively, test by $(e_p^{n+1},e_P^{n+1})$, integrate in time and use \eqref{eq:pos_def_K}, which yields for a.a. $t\in I$:
 \ml{ 
     \label{eq:dif_flow_beta} 
-    (S_m+\beta_m)\int_0^t\norm{e_p^{n+1}}_{L^2(\Omega_m)}^2 
-    + \delta(S_f+\beta_f)\int_0^t\norm{e_P^{n+1}}_{L^2(\gamma)}^2\\
+    (S_m+\beta_m)\int_0^t\norm{e_p^{n+1}}_{\xLtwo(\Omega_m)}^2 
+    + \delta(S_f+\beta_f)\int_0^t\norm{e_P^{n+1}}_{\xLtwo(\gamma)}^2\\
     %
-    + \frac{\kappa_m}2\norm{\nabla\Delta_p^{n+1}}_{L^2(\Omega_m)}^2(t) + \frac{\delta\kappa_f}2\avg{\norm{\agrad[\Delta_p^{n+1},\Delta_P^{n+1}]}_{L^2(\gamma)}^2(t)}\\
+    + \frac{\kappa_m}2\norm{\nabla\Delta_p^{n+1}}_{\xLtwo(\Omega_m)}^2(t) + \frac{\delta\kappa_f}2\avg{\norm{\agrad[\Delta_p^{n+1},\Delta_P^{n+1}]}_{\xLtwo(\gamma)}^2(t)}\\
     %
     \le -\int_0^t\int_{\Omega_m}\underbrace{\left(\alpha_m\div\ee_\uu^n 
     - \beta_m e_p^n\right)}_{=:e_\sigma^n} e_p^{n+1} - \delta\int_0^t\int_\gamma\avg{\underbrace{\alpha_f\adiv[\ee_\uu^n,\ee_\U^n] - \beta_f e_P^n}_{=:e_\Sigma^n}} e_P^{n+1}. 
@@ -787,51 +769,51 @@ Next we subtract the equations \eqref{eq:flow_problem_beta} for $(p^{n+1},P^{n+1
 We apply H\"older's and Young's inequality to the right hand side of \eqref{eq:dif_flow_beta} and obtain:
 \ml{ 
     \label{eq:dif_flow_beta2}
-    \frac{S_m+\beta_m}{\beta_m^2}\int_0^t\norm{\beta_m e_p^{n+1}}_{L^2(\Omega_m)}^2 
-    + \delta\frac{S_f+\beta_f}{\beta_f^2}\int_0^t\norm{\beta_f e_P^{n+1}}_{L^2(\gamma)}^2\\
+    \frac{S_m+\beta_m}{\beta_m^2}\int_0^t\norm{\beta_m e_p^{n+1}}_{\xLtwo(\Omega_m)}^2 
+    + \delta\frac{S_f+\beta_f}{\beta_f^2}\int_0^t\norm{\beta_f e_P^{n+1}}_{\xLtwo(\gamma)}^2\\
     %
-    + \frac{\kappa_m}2\norm{\nabla\Delta_p^{n+1}}_{L^2(\Omega_m)}^2(t) 
-    + \frac{\delta\kappa_f}2\avg{\norm{\agrad[\Delta_p^{n+1},\Delta_P^{n+1}]}_{L^2(\gamma)}^2(t)}\\
+    + \frac{\kappa_m}2\norm{\nabla\Delta_p^{n+1}}_{\xLtwo(\Omega_m)}^2(t) 
+    + \frac{\delta\kappa_f}2\avg{\norm{\agrad[\Delta_p^{n+1},\Delta_P^{n+1}]}_{\xLtwo(\gamma)}^2(t)}\\
     %
-    \le \frac{S_m+\beta_m}{2\beta_m^2}\int_0^t\norm{\beta_m e_p^{n+1}}_{L^2(\Omega_m)}^2 
-    + \frac1{2(S_m+\beta_m)}\int_0^t\norm{e_\sigma^n}_{L^2(\Omega_m)}^2\\
+    \le \frac{S_m+\beta_m}{2\beta_m^2}\int_0^t\norm{\beta_m e_p^{n+1}}_{\xLtwo(\Omega_m)}^2 
+    + \frac1{2(S_m+\beta_m)}\int_0^t\norm{e_\sigma^n}_{\xLtwo(\Omega_m)}^2\\
     %
-    + \frac{\delta(S_f+\beta_f)}{2\beta_f^2}\int_0^t\norm{\beta_f e_P^n}_{L^2(\gamma)}^2 
-    + \frac\delta{2(S_f+\beta_f)}\int_0^t\avg{\norm{e_\Sigma^n}_{L^2(\gamma)}^2}. 
+    + \frac{\delta(S_f+\beta_f)}{2\beta_f^2}\int_0^t\norm{\beta_f e_P^n}_{\xLtwo(\gamma)}^2 
+    + \frac\delta{2(S_f+\beta_f)}\int_0^t\avg{\norm{e_\Sigma^n}_{\xLtwo(\gamma)}^2}. 
 }
 %
 Subtracting the first and the third term on the right hand side of \eqref{eq:dif_flow_beta2} and estimating the coefficients $(S_*+\beta_*)/\beta_*^2$ from below by $\omega/\beta_*$, $*\in\{m,f\}$, the inequality simplifies as follows:
 \ml{
     \label{eq:ineq_dif_flow} 
-    \frac\omega{2\beta_m}\int_0^t\norm{\beta_m e_p^{n+1}}_{L^2(\Omega_m)}^2 
-    + \frac{\delta\omega}{2\beta_f}\int_0^t\norm{\beta_f e_P^{n+1}}_{L^2(\gamma)}^2\\
+    \frac\omega{2\beta_m}\int_0^t\norm{\beta_m e_p^{n+1}}_{\xLtwo(\Omega_m)}^2 
+    + \frac{\delta\omega}{2\beta_f}\int_0^t\norm{\beta_f e_P^{n+1}}_{\xLtwo(\gamma)}^2\\
     %
-    + \frac{\kappa_m}2\norm{\nabla\Delta_p^{n+1}}_{L^2(\Omega_m)}^2(t) 
-    + \frac{\delta\kappa_f}2\avg{\norm{\agrad[\Delta_p^{n+1},\Delta_P^{n+1}]}_{L^2(\gamma)}^2(t)}\\
+    + \frac{\kappa_m}2\norm{\nabla\Delta_p^{n+1}}_{\xLtwo(\Omega_m)}^2(t) 
+    + \frac{\delta\kappa_f}2\avg{\norm{\agrad[\Delta_p^{n+1},\Delta_P^{n+1}]}_{\xLtwo(\gamma)}^2(t)}\\
     %
-    \le \frac1{2(S_m+\beta_m)}\int_0^t\norm{e_\sigma^n}_{L^2(\Omega_m)}^2
-    + \frac\delta{2(S_f+\beta_f)}\int_0^t\avg{\norm{e_\Sigma^n}_{L^2(\gamma)}^2}. 
+    \le \frac1{2(S_m+\beta_m)}\int_0^t\norm{e_\sigma^n}_{\xLtwo(\Omega_m)}^2
+    + \frac\delta{2(S_f+\beta_f)}\int_0^t\avg{\norm{e_\Sigma^n}_{\xLtwo(\gamma)}^2}. 
 }
 Now we multiply \eqref{eq:ineq_dif_el} by $\omega$, integrate in time and add to \eqref{eq:ineq_dif_flow}.
 The square of the difference formula then yields:
 \mls{
-    \frac\omega{2\beta_m}\int_0^t\norm{e_\sigma^{n+1}}_{L^2(\Omega_m)}^2 
-    + \frac{\delta\omega}{2\beta_f}\int_0^t\avg{\norm{e_\Sigma^{n+1}}_{L^2(\gamma)}^2}\\
+    \frac\omega{2\beta_m}\int_0^t\norm{e_\sigma^{n+1}}_{\xLtwo(\Omega_m)}^2 
+    + \frac{\delta\omega}{2\beta_f}\int_0^t\avg{\norm{e_\Sigma^{n+1}}_{\xLtwo(\gamma)}^2}\\
     %
-    + \frac{\kappa_m}2\norm{\nabla\Delta_p^{n+1}}_{L^2(\Omega_m)}^2(t) 
-    + \frac{\delta\kappa_f}2\avg{\norm{\agrad[\Delta_p^{n+1},\Delta_P^{n+1}]}_{L^2(\gamma)}^2(t)}\\
+    + \frac{\kappa_m}2\norm{\nabla\Delta_p^{n+1}}_{\xLtwo(\Omega_m)}^2(t) 
+    + \frac{\delta\kappa_f}2\avg{\norm{\agrad[\Delta_p^{n+1},\Delta_P^{n+1}]}_{\xLtwo(\gamma)}^2(t)}\\
     %
-    \le \frac1{2(S_m+\beta_m)}\int_0^t\norm{e_\sigma^n}_{L^2(\Omega_m)}^2
-    + \frac\delta{2(S_f+\beta_f)}\int_0^t\avg{\norm{e_\Sigma^n}_{L^2(\gamma)}^2}. 
+    \le \frac1{2(S_m+\beta_m)}\int_0^t\norm{e_\sigma^n}_{\xLtwo(\Omega_m)}^2
+    + \frac\delta{2(S_f+\beta_f)}\int_0^t\avg{\norm{e_\Sigma^n}_{\xLtwo(\gamma)}^2}. 
 }
 %
 Using the fact that $\frac1{S_*+\beta_*}\le\frac1{\omega^2}\frac{\omega}{\beta_*}$, $*\in\{m,f\}$, the right hand side of the above inequality can be estimated from above and we obtain:
-\mls{ \frac12\left(\rho_{\vc\beta}((p^{n+1},P^{n+1}),(p^n,P^n))\right)^2\\
-\le \frac1{\omega^2}\left(\frac\omega{2\beta_m}\int_0^t\norm{e_\sigma^n}_{L^2(\Omega_m)}^2
-+ \frac{\delta\omega}{2\beta_f}\int_0^t\avg{\norm{e_\Sigma^n}_{L^2(\gamma)}^2}\right)\\
-\le \frac1{2\omega^2}\left(\rho_{\vc\beta}((p^n,P^n),(p^{n-1},P^{n-1}))\right)^2. }
+\mls{ \frac12\left(\rho_{\bbeta}((p^{n+1},P^{n+1}),(p^n,P^n))\right)^2
+\le \frac1{\omega^2}\left(\frac\omega{2\beta_m}\int_0^t\norm{e_\sigma^n}_{\xLtwo(\Omega_m)}^2
++ \frac{\delta\omega}{2\beta_f}\int_0^t\avg{\norm{e_\Sigma^n}_{\xLtwo(\gamma)}^2}\right)\\
+\le \frac1{2\omega^2}\left(\rho_{\bbeta}((p^n,P^n),(p^{n-1},P^{n-1}))\right)^2. }
 Hence
-\eqs{ \rho_{\vc\beta}((p^{n+1},P^{n+1}),(p^n,P^n)) \le \frac1\omega \rho_{\vc\beta}((p^n,P^n),(p^{n-1},P^{n-1})). }
+\eqs{ \rho_{\bbeta}((p^{n+1},P^{n+1}),(p^n,P^n)) \le \frac1\omega \rho_{\bbeta}((p^n,P^n),(p^{n-1},P^{n-1})). }
 It is readily seen that $\omega>1$.
 Since $\omega$ is non-increasing with respect to $\beta_m$ and $\beta_f$, the smallest constant of contraction is obtained for the smallest possible values of $\beta_m$, $\beta_f$.
 \end{proof}
@@ -845,7 +827,7 @@ Hence Theorem \ref{th:biot_existence} is proved.
 We have derived a mixed-dimensional model of flow and linear elasticity in fractured porous media.
 Under the assumption of permeable fracture, the existence and uniqueness of weak solution was proved using the fixed-stress splitting scheme.
 The convergence of this scheme has been analyzed and optimal values of iteration parameters were found in agreement e.g. with \cite{both2017robust}.
-The numerical solution based on the proposed splitting will be a subject of a following paper.
+The numerical solution based on the proposed splitting will be the subject of a following paper.
 The problem can be further extended to the case of embedded fracture with variable aperture and intersecting fractures, further one should consider contact and friction conditions (such as in \cite{berge2019finite}), to name a few challenging tasks.
 
 
@@ -859,14 +841,14 @@ The problem can be further extended to the case of embedded fracture with variab
 \appendix
 % \section{Appendix}
 
-\section{Auxiliary inequalities and identities}
+\section{Auxiliary inequalities and identities}\label{sec:ap_ineq}
 
 In what follows we prove some technical relations that are used in the paper.
-\begin{lemma}
+\begin{lmm}
 For all functions $(\vv,\V)\in\Vel$ it holds:
-\eq{ \label{eq:ineq_div_ep} \norm{\div\vv}_{L^2(\Omega_m)}^2 \le d\norm{\ep(\vv)}_{L^2(\Omega_m)}^2, }
-\eq{ \label{eq:ineq_adiv_aep} \norm{\adiv^\opm[\vv,\V]}_{L^2(\gamma)}^2 \le d\norm{\aep^\opm[\vv,\V]}_{L^2(\gamma)}^2. }
-\end{lemma}
+\eq{ \label{eq:ineq_div_ep} \norm{\div\vv}_{\xLtwo(\Omega_m)}^2 \le d\norm{\ep(\vv)}_{\xLtwo(\Omega_m)}^2, }
+\eq{ \label{eq:ineq_adiv_aep} \norm{\adiv^\opm[\vv,\V]}_{\xLtwo(\gamma)}^2 \le d\norm{\aep^\opm[\vv,\V]}_{\xLtwo(\gamma)}^2. }
+\end{lmm}
 \begin{proof}
 For any tensor $\tn A\in\Real^{d\times d}$, the AM-QM inequality implies
 \eqs{ |\tn I:\tn A|^2 \le d|\tn A|^2. }
@@ -875,16 +857,16 @@ Similarly, \eqref{eq:ineq_adiv_aep} is obtained for $\tn A:=\aep^\opm[\vv,\V]$ a
 \end{proof}
 
 
-\begin{lemma}
-The functions $\tt^\opm$ and $\varphi^\opm$, defined in \eqref{eq:def_t} and \eqref{eq:def_F}, satisfy:
-\eq{ \label{eq:ellip_t} \jmp{\tt[\vv,\V]\cdot(\vc w-\vc W)} = \delta\avg{\CC_f\agrad[\vv,\V]:\agrad_\nu[\vc w,\vc W]}, }
+\begin{lmm}
+The functions $\ttraction^\opm$ and $\varphi^\opm$, defined in \eqref{eq:def_t} and \eqref{eq:def_F}, satisfy:
+\eq{ \label{eq:ellip_t} \jmp{\ttraction[\vv,\V]\cdot(\vc w-\vc W)} = \delta\avg{\CC_f\agrad[\vv,\V]:\agrad_\nu[\vc w,\vc W]}, }
 \eq{ \label{eq:ellip_phi} \jmp{\varphi[q,Q](r-R)} = \delta\avg{\tn K_f\agrad[q,Q]\cdot\agrad_\nu[r,R]} }
 for all admissible functions $\vv,\V,\vc w,\vc W,q,Q,r,R$.
-\end{lemma}
+\end{lmm}
 \begin{proof}
-From the definition of $\tt^\opm$ and $\agrad^\opm$ it follows that
-\mls{ \tt^\opm[\vv,\V]\cdot(\vc w^\opm-\vc W)
-= \pm\frac\delta2\CC_f\agrad^\opm[\vv,\V]:\left(\pm\frac2\delta\right)(\vc w^\opm-\vc W)\otimes\nnu\\
+From the definition of $\ttraction^\opm$ and $\agrad^\opm$ it follows that
+\eqs{ \ttraction^\opm[\vv,\V]\cdot(\vc w^\opm-\vc W)
+= \pm\frac\delta2\CC_f\agrad^\opm[\vv,\V]:\left(\pm\frac2\delta\right)(\vc w^\opm-\vc W)\otimes\nnu
 = \pm\frac\delta2\CC_f\agrad^\opm[\vv,\V]:\agrad_\nu^\opm[\vc w,\vc W]. }
 Taking the jump of the above expression then yields \eqref{eq:ellip_t}.
 The second identity can be proved in analogous way.
@@ -896,39 +878,40 @@ The second identity can be proved in analogous way.
 In this section we derive the identity \eqref{eq:apriori_biot}.
 We take the time derivative of \eqref{eq:mixed_dim_problem_el_mat}, multiply by $\dt\uu$ and integrate over $\Omega_m$.
 Then we apply the Green identity, interface and boundary conditions \eqref{eq:mixed_dim_problem_int_el}, \eqref{eq:mixed_dim_problem_bc_mat}, which yields:
-\ml{ \label{eq:energy_el_mat} \int_{\Omega_m}(\CC_m\nabla\dt\uu:\nabla\dt\uu - \alpha_m\dt p \div\dt\uu) + \int_\gamma\jmp{\tt[\dt\uu,\dt\U]\cdot\dt\uu}\\
+\eq{ \label{eq:energy_el_mat} \int_{\Omega_m}(\CC_m\nabla\dt\uu:\nabla\dt\uu - \alpha_m\dt p \div\dt\uu) + \int_\gamma\jmp{\ttraction[\dt\uu,\dt\U]\cdot\dt\uu}
 - \int_\gamma\alpha_f\jmp{\dt p \dt\uu}\cdot\nnu
 = \int_{\Omega_m}\dt\ff\cdot\dt\uu. }
 Similarly we differentiate \eqref{eq:mixed_dim_problem_el_frac} with respect to time, multiply by $\dt\U$, integrate over $\gamma$, use Green's formula and apply the boundary conditions \eqref{eq:mixed_dim_problem_bc_frac}.
 We arrive at the identity
-\ml{ \label{eq:energy_el_frac} \delta\int_\gamma\CC_f\avg{\agrad[\dt\uu,\dt\U]}:\nabla_\tau\dt\U - \delta\int_\gamma\alpha_f\dt P\div_\tau\dt\U\\
-+ \int_\gamma\alpha_f\jmp{\dt p}\dt\U\cdot\nnu - \int_\gamma\jmp{\tt[\dt\uu,\dt\U]}\cdot\dt\U = \int_\gamma\dt\FF\cdot\dt\U. }
+\ml{ \label{eq:energy_el_frac} \delta\int_\gamma\CC_f\avg{\agrad[\dt\uu,\dt\U]}:\nabla_\tau\dt\U - \delta\int_\gamma\alpha_f\dt P\div_\tau\dt\U
++ \int_\gamma\alpha_f\jmp{\dt p}\dt\U\cdot\nnu - \int_\gamma\jmp{\ttraction[\dt\uu,\dt\U]}\cdot\dt\U\\
+= \int_\gamma\dt\FF\cdot\dt\U. }
 Next we multiply \eqref{eq:mixed_dim_problem_fl_mat} by $\dt p$ and \eqref{eq:mixed_dim_problem_fl_frac} by $\dt P$, integrate over $\Omega_m$, $\gamma$, respectively, use Green's formula, interface and boundary conditions \eqref{eq:mixed_dim_problem_int_fl}, \eqref{eq:mixed_dim_problem_bc_mat}, \eqref{eq:mixed_dim_problem_bc_frac}.
 We get the following equalities:
-\ml{ \label{eq:energy_fl_mat} S_m\int_{\Omega_m}|\dt p|^2 + \int_{\Omega_m}\alpha_m\dt p\div\dt\uu + \int_\gamma\jmp{\varphi[p,P]\dt p}\\
+\eq{ \label{eq:energy_fl_mat} S_m\int_{\Omega_m}|\dt p|^2 + \int_{\Omega_m}\alpha_m\dt p\div\dt\uu + \int_\gamma\jmp{\varphi[p,P]\dt p}
 + \frac12\ddt{}\int_{\Omega_m}\tn K_m\nabla p\cdot\nabla p
 = \int_{\Omega_m}\dt g \dt p, }
 \ml{ \label{eq:energy_fl_frac} \delta S_f\int_\gamma|\dt P|^2 + \delta\int_\gamma\alpha_f\dt P\div_\tau\dt\U + \int_\gamma\alpha_f\dt P\jmp{\dt\uu}\cdot\nnu\\
 + \delta\int_\gamma\tn K_f\avg{\agrad[p,P]}\cdot\nabla_\tau\dt P 
 - \int_\gamma\jmp{\varphi[p,P]}\dt P = \int_\gamma \dt G \dt P. }
 Summing up \eqref{eq:energy_el_mat}--\eqref{eq:energy_fl_frac} some terms cancel out and we obtain:
-\ml{ \label{eq:energy_sum} \int_{\Omega_m}(\CC_m\nabla\dt\uu:\nabla\dt\uu ) + \int_\gamma\jmp{\tt[\dt\uu,\dt\U]\cdot\dt(\uu-\U)}\\
-- \int_\gamma\alpha_f\jmp{\dt p \dt\uu}\cdot\nnu
-+ \delta\int_\gamma\CC_f\avg{\agrad[\dt\uu,\dt\U]}:\nabla_\tau\dt\U\\
+\ml{ \label{eq:energy_sum} \int_{\Omega_m}(\CC_m\nabla\dt\uu:\nabla\dt\uu ) + \int_\gamma\jmp{\ttraction[\dt\uu,\dt\U]\cdot\dt(\uu-\U)}
+- \int_\gamma\alpha_f\jmp{\dt p \dt\uu}\cdot\nnu\\
++ \delta\int_\gamma\CC_f\avg{\agrad[\dt\uu,\dt\U]}:\nabla_\tau\dt\U
 + \int_\gamma\alpha_f\jmp{\dt p}\dt\U\cdot\nnu
 + S_m\int_{\Omega_m}|\dt p|^2 + \int_\gamma\jmp{\varphi[p,P]\dt(p-P)}\\
 + \frac12\ddt{}\int_{\Omega_m}\tn K_m\nabla p\cdot\nabla p
-+ \delta S_f\int_\gamma|\dt P|^2 + \int_\gamma\alpha_f\dt P\jmp{\dt\uu}\cdot\nnu\\
-+ \delta\int_\gamma\tn K_f\avg{\agrad[p,P]}\cdot\nabla_\tau\dt P 
++ \delta S_f\int_\gamma|\dt P|^2 + \int_\gamma\alpha_f\dt P\jmp{\dt\uu}\cdot\nnu
++ \delta\int_\gamma\tn K_f\avg{\agrad[p,P]}\cdot\nabla_\tau\dt P \\
 = \int_{\Omega_m}(\dt\ff\cdot\dt\uu + \dt g \dt p) + \int_\gamma(\dt\FF\cdot\dt\U + \dt G \dt P). }
 Using \eqref{eq:ellip_t}--\eqref{eq:ellip_phi} in \eqref{eq:energy_sum} leads to the identity
-\mls{ \int_{\Omega_m}(\CC_m\nabla\dt\uu:\nabla\dt\uu ) + \delta\int_\gamma\avg{\CC_f\agrad[\dt\uu,\dt\U]:\agrad[\dt\uu,\dt\U]}\\
+\mls{ \int_{\Omega_m}(\CC_m\nabla\dt\uu:\nabla\dt\uu ) + \delta\int_\gamma\avg{\CC_f\agrad[\dt\uu,\dt\U]:\agrad[\dt\uu,\dt\U]}
 + S_m\int_{\Omega_m}|\dt p|^2 + \delta S_f\int_\gamma|\dt P|^2\\
 + \frac12\ddt{}\int_{\Omega_m}\tn K_m\nabla p\cdot\nabla p
-+ \delta\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[\dt p,\dt P]} \\
++ \delta\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[\dt p,\dt P]} 
 - \int_\gamma\alpha_f\jmp{\dt p \dt\uu}\cdot\nnu
-+ \int_\gamma\alpha_f\jmp{\dt p}\dt\U\cdot\nnu
-+ \int_\gamma\alpha_f\dt P\jmp{\dt\uu}\cdot\nnu\\
++ \int_\gamma\alpha_f\jmp{\dt p}\dt\U\cdot\nnu\\
++ \int_\gamma\alpha_f\dt P\jmp{\dt\uu}\cdot\nnu
 = \int_{\Omega_m}(\dt\ff\cdot\dt\uu + \dt g \dt p) + \int_\gamma(\dt\FF\cdot\dt\U + \dt G \dt P), }
 which is in fact \eqref{eq:apriori_biot}.
 
@@ -939,40 +922,40 @@ which is in fact \eqref{eq:apriori_biot}.
 In what follows we derive the integral identities (\ref{eq:biot_weak-ii}) -- (\ref{eq:biot_weak-iii}).
 Multiplying \eqref{eq:mixed_dim_problem_el_mat} and \eqref{eq:mixed_dim_problem_el_frac_perm} by test functions $(\vv,\V)\in\Vel$, integrating them by parts, summing and applying the boundary conditions \eqref{eq:mixed_dim_problem_bc_mat}--\eqref{eq:mixed_dim_problem_bc_frac}, we arrive at the identity
 \ml{ \label{eq:mixed_el_integrated} \int_{\Omega_m}\left(\CC_m\nabla\uu:\nabla\vv - \alpha_m p\div\vv\right)
- + \int_\gamma\jmp{(\CC_m\nabla\uu-\alpha_m p\tn I)\nnu\cdot\vv}\\
- + \delta\int_\gamma\CC_f\avg{\agrad[\uu,\U]}:\nabla_\tau\V
+ + \int_\gamma\jmp{(\CC_m\nabla\uu-\alpha_m p\tn I)\nnu\cdot\vv}
+ + \delta\int_\gamma\CC_f\avg{\agrad[\uu,\U]}:\nabla_\tau\V\\
  - \int_\gamma \alpha_f\delta P \div_\tau\V
- - \int_\gamma \jmp{\tt[\uu,\U]\cdot\V}\\
+ - \int_\gamma \jmp{\ttraction[\uu,\U]\cdot\V}
  = \dual{(\ff,\FF)}{(\vv,\V)}_\Vel. }
  The second term in \eqref{eq:mixed_el_integrated} can be rewritten using the interface conditions \eqref{eq:mixed_dim_problem_int_el_perm}, which yields:
 \ml{ \label{eq:mixed_el_integrated_int} \int_{\Omega_m}\left(\CC_m\nabla\uu:\nabla\vv - \alpha_m p\div\vv\right)
- + \delta\int_\gamma\CC_f\avg{\agrad[\uu,\U]}:\nabla_\tau\V\\
- + \int_\gamma \jmp{\tt[\uu,\U]\cdot(\vv-\V)}
+ + \delta\int_\gamma\CC_f\avg{\agrad[\uu,\U]}:\nabla_\tau\V
+ + \int_\gamma \jmp{\ttraction[\uu,\U]\cdot(\vv-\V)}\\
  - \delta\int_\gamma \alpha_f P\avg{\adiv[\vv,\V]}
  = \dual{(\ff,\FF)}{(\vv,\V)}_\Vel. }
 Using \eqref{eq:ellip_t}, we can rewrite \eqref{eq:mixed_el_integrated_int} as follows:
-\mls{ \int_{\Omega_m}\left(\CC_m\nabla\uu:\nabla\vv - \alpha_m p\div\vv\right)\\
+\eqs{ \int_{\Omega_m}\left(\CC_m\nabla\uu:\nabla\vv - \alpha_m p\div\vv\right)
  + \delta\int_\gamma\avg{\CC_f\agrad[\uu,\U]:\agrad[\vv,\V]-\alpha_f P \adiv[\vv,\V]}
   = \dual{(\ff,\FF)}{(\vv,\V)}_\Vel, }
-which is (i) from \eqref{eq:biot_weak}.
+which is \eqref{eq:biot_weak-ii}.
 Similarly, multiplying the equations \eqref{eq:mixed_dim_problem_fl_mat}, \eqref{eq:mixed_dim_problem_fl_frac} by test functions $(q,Q)\in\Vf$, integrating them by parts, and applying the boundary conditions \eqref{eq:mixed_dim_problem_bc_mat}--\eqref{eq:mixed_dim_problem_bc_frac}, we obtain:
-\mls{ \int_{\Omega_m}\left(q\dt(S_m p+\alpha_m\div\uu) + \tn K_m\nabla p\cdot\nabla q\right) + \int_\gamma\jmp{\tn K_m\nabla p\cdot\nnu q}\\
-+ \delta \int_\gamma Q\dt\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right)
-+ \delta \int_\gamma \tn K_f\avg{\agrad[p,P]}\cdot\nabla_\tau Q\\
+\mls{ \int_{\Omega_m}\left(q\dt(S_m p+\alpha_m\div\uu) + \tn K_m\nabla p\cdot\nabla q\right) + \int_\gamma\jmp{\tn K_m\nabla p\cdot\nnu q}
++ \delta \int_\gamma Q\dt\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right)\\
++ \delta \int_\gamma \tn K_f\avg{\agrad[p,P]}\cdot\nabla_\tau Q
 - \int_\gamma \jmp{\pphi[p,P]}Q
 = \dual{(g,G)}{(q,Q)}_\Hf. }
 Application of the interface conditions \eqref{eq:mixed_dim_problem_int_fl} then gives rise to the identity
-\ml{ \label{eq:mixed_fl_integrated_int} \int_{\Omega_m}\left(q\dt(S_m p+\alpha_m\div\uu) + \tn K_m\nabla p\cdot\nabla q\right)\\
-+ \delta \int_\gamma Q\dt\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right)
-+ \delta \int_\gamma \tn K_f\avg{\agrad[p,P]}\cdot\nabla_\tau Q\\
+\ml{ \label{eq:mixed_fl_integrated_int} \int_{\Omega_m}\left(q\dt(S_m p+\alpha_m\div\uu) + \tn K_m\nabla p\cdot\nabla q\right)
++ \delta \int_\gamma Q\dt\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right)\\
++ \delta \int_\gamma \tn K_f\avg{\agrad[p,P]}\cdot\nabla_\tau Q
 + \int_\gamma \jmp{\pphi[p,P](q-Q)}
 = \dual{(g,G)}{(q,Q)}_\Hf. }
 Due to \eqref{eq:ellip_phi}, \eqref{eq:mixed_fl_integrated_int} becomes
-\mls{ \int_{\Omega_m}\left(q\dt(S_m p+\alpha_m\div\uu) + \tn K_m\nabla p\cdot\nabla q\right)\\
-+ \delta \int_\gamma Q\dt\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right)
-+ \delta \int_\gamma \avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}\\
+\mls{ \int_{\Omega_m}\left(q\dt(S_m p+\alpha_m\div\uu) + \tn K_m\nabla p\cdot\nabla q\right)
++ \delta \int_\gamma Q\dt\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right)\\
++ \delta \int_\gamma \avg{\tn K_f\agrad[p,P]\cdot\agrad[q,Q]}
 = \dual{(g,G)}{(q,Q)}_\Hf, }
-which is (ii) from \eqref{eq:biot_weak}.
+which is \eqref{eq:biot_weak-iii}.
 
 
 
