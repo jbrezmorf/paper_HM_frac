@@ -49,13 +49,13 @@
 \def\dt{\prtl_t}
 \def\dual#1#2{\left\langle #1,#2\right\rangle}
 \def\ee{\vc e}
-\def\ep{\vc\varepsilon}
+\def\ep{\boldsymbol\varepsilon}
 \def\FF{\vc F}
 \def\ff{\vc f}
 \def\Hf{\mathscr{L}} % Lebesgue space for flow
 \def\jmp#1{\left\llbracket #1 \right\rrbracket}
 \def\nn{\vc n}
-\def\nnu{\vc\nu}
+\def\nnu{\boldsymbol\nu}
 \def\norm#1{\left\|#1\right\|}
 \def\pbar{\overline p}
 \def\pphi{{\varphi}}
@@ -68,7 +68,7 @@
 \def\ubar{\overline\uu}
 \def\uu{\vc u}
 \def\V{\vc V}
-\def\Vel{{\vc{\mathcal V}}} % Sobolev space for elasticity
+\def\Vel{{\boldsymbol{\mathcal V}}} % Sobolev space for elasticity
 \def\Vf{{\mathcal V}} % Sobolev space for flow
 \def\vc#1{\mathbf{#1}}     % vector
 \def\vv{\vc v}
@@ -119,6 +119,7 @@ Institute for Nanomaterials, Advanced Technologies and Innovation\authorcr
 Technical University of Liberec\authorcr
 Studentská 1402/2, 461 17 Liberec, Czech Republic\authorcr
 \texttt{\{jan.brezina,jan.stebel\}@tul.cz}}
+\date{April 3, 2020}
 \maketitle
 
 \begin{abstract}
@@ -444,7 +445,7 @@ For the weak formulation we introduce the spaces
  \Hf := L^2(\Omega_m)\times L^2(\gamma),\quad \Vf := H^1_\Gamma(\Omega_m)\times H^1_0(\gamma), }
 equipped by the norms
 \begin{align*}
-\norm{(\vv,\V)}_\Vel &:= (\norm{\nabla\vv}_{L^2(\Omega)}^2 + \norm{\nabla_\tau\vc V}_{L^2(\gamma)}^2)^{1/2},\\
+\norm{(\vv,\V)}_\Vel &:= (\norm{\nabla\vv}_{L^2(\Omega)}^2 + \norm{\nabla_\tau\V}_{L^2(\gamma)}^2)^{1/2},\\
 \norm{(q,Q)}_\Hf &:= (\norm{q}_{L^2(\gamma)}^2 + \norm{Q}_{L^2(\gamma)}^2)^{1/2},\\
 \norm{(q,Q)}_\Vf &:= (\norm{\nabla q}_{L^2(\gamma)}^2 + \norm{\nabla_\tau Q}_{L^2(\gamma)}^2)^{1/2}.
 \end{align*}
@@ -496,13 +497,13 @@ The proof will be done in the following subsections.
 
 In this section we consider only the mechanical part of the problem \eqref{eq:biot_weak}.
 Assuming that $p$ and $P$ are given pressure fields at some time $t\in I$, we define the following forms in $\Vel$:
-\eqs{ a((\uu,\U), (\vv,\vc V)) := \int_{\Omega_m}\CC_m\nabla\uu:\nabla\vv
+\eqs{ a((\uu,\U), (\vv,\V)) := \int_{\Omega_m}\CC_m\nabla\uu:\nabla\vv
  + \delta\int_\gamma\avg{\CC_f\agrad[\uu,\U]:\agrad[\vv,\V]}, }
-\eqs{ l((\vv,\vc V)) := \dual{(\ff,\FF)}{(\vv,\V)}_\Vel + \int_{\Omega_m} \alpha_m p\div\vv
+\eqs{ l((\vv,\V)) := \dual{(\ff,\FF)}{(\vv,\V)}_\Vel + \int_{\Omega_m} \alpha_m p\div\vv
   + \delta\int_\gamma \alpha_f P \avg{\adiv[\vv,\V]}. }
 Then we introduce the problem:
 \eq{ \label{eq:el_weak} \begin{minipage}{0.7\textwidth}
-Find $(\uu,\U)\in \Vel$ such that for all $(\vv,\vc V)\in \Vel$: $a((\uu,\U),(\vv,\vc V)) = l((\vv,\vc V))$.
+Find $(\uu,\U)\in \Vel$ such that for all $(\vv,\V)\in \Vel$: $a((\uu,\U),(\vv,\V)) = l((\vv,\V))$.
 \end{minipage} }
 % 
 The existence and uniqueness of the solution to \eqref{eq:el_weak} will be proved using the Lax-Milgram theorem.
@@ -573,7 +574,7 @@ Therefore the proof is finished.
 
 \paragraph{Existence and uniqueness of solutions.}
 In the following lemma we prove essential properties of $a$ and $l$.
-\begin{lemma}
+\begin{lemma}\label{th:prop_al}
 The bilinear form $a$ is bounded and elliptic in $\Vel$ and the linear form $l$ is bounded in $\Vel$.
 In particular, there exist constants $C_3=C_3(C_2,\delta,\mu_m,\mu_f)>0$ and $C_4=C_4(\alpha_m,\alpha_f,\delta,\gamma^+,\gamma^-,\Omega_m)>0$ such that
 \eqs{ a((\vv,\V),(\vv,\V)) \ge C_3\norm{(\vv,\V)}_\Vel^2, }
