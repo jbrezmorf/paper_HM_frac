@@ -622,9 +622,11 @@ We shall use it in the definition of the fixed-stress splitting in section \ref{
 \subsection{Mixed-dimensional flow}\label{sec:wellposedness_flow}
 
 We now turn to the flow part of the mixed-dimensional problem \eqref{eq:biot_weak}, assuming zero displacements.
+Let
+\eqs{ \mathcal X := L^\infty( I;\Vf)\cap H^1( I;\Hf). }
 We want to solve the following problem:
 
-\textit{Find $(p,P)\in L^\infty( I;\Vf)\cap H^1( I;\Hf)$ such that
+\textit{Find $(p,P)\in \mathcal X$ such that
 \begin{subequations}
     \label{eq:flow_weak}
     \eq{
@@ -672,7 +674,7 @@ Hence, after integrating \eqref{eq:energy_est_1} in time, using the positive def
 where $C>0$ may depend on $S_m,S_f,\delta,\kappa_m,\kappa_f,|\tn K_m|,|\tn K_f|$.
 
 
-Hence the sequence $\{(p_n,P_n)\}_{n=1}^\infty$ is bounded in $L^\infty( I;\Vf)\cap H^1( I;\Hf)$.
+Hence the sequence $\{(p_n,P_n)\}_{n=1}^\infty$ is bounded in $\mathcal X$.
 Choosing a subsequence weakly convergent in the above spaces to a pair $(p,P)$, we can pass to the limit in \eqref{eq:galerkin_m}--\eqref{eq:galerkin_f}, which proves that $(p,P)$ is a solution of \eqref{eq:flow_weak}.
 
 \underline{Uniqueness:}
@@ -686,7 +688,7 @@ Since all but the first term on the left hand side of \eqref{eq:dif_p} are nonne
 which together with the fact that $(\Delta p,\Delta P)(0,\cdot) = (0,0)$ implies $(p^1,P^1)=(p^2,P^2)$.
 \end{proof}
 % 
-Having the above result, we introduce the solution map $\mathcal F:L^2( I;\Hf)\to L^\infty( I;\Vf)\cap H^1( I;\Hf)$ by the relation
+Having the above result, we introduce the solution map $\mathcal F:L^2( I;\Hf)\to \mathcal X$ by the relation
 \eqs{ \mathcal F(\tilde g,\tilde G) := (p,P), }
 where $(p,P)$ is the solution of \eqref{eq:flow_weak}.
 Let $\bbeta:=(\beta_m,\beta_f)$ be a pair of positive parameters.
@@ -703,15 +705,16 @@ for all $(q,Q)\in\Vf$ and a.a. $t\in I$.
 \subsection{Fixed-stress iterations}\label{sec:iter}
 
 We follow the idea of optimized fixed-stress splitting from \cite{mikelic2013convergence}.
-Let $\mathcal X := L^\infty( I;\Vf)\cap H^1( I;\Hf)$.
 For any $n\in\{0,1,2,...\}$ and $(p^n,P^n)\in \mathcal X$
 we define
 \eqs{ (\uu^n,\U^n) := \mathcal E(p^n,P^n). }
 Next we choose a pair of positive parameters $\bbeta:=(\beta_m,\beta_f)$ and define
 \eqs{ (p^{n+1},P^{n+1}) := \mathcal F_{\bbeta}(\tilde g^n,\tilde G^n), }
 where
-\eqs{ \tilde g^n:=g -\alpha_m\div\dt\uu^n + \beta_m\dt p^n, }
-\eqs{ \tilde G^n:=G -\delta\alpha_f\avg{\adiv[\dt\uu^n,\dt\U^n]} + \delta\beta_f\dt P^n. }
+\begin{align*}
+\tilde g^n &:= g -\alpha_m\div\dt\uu^n + \beta_m\dt p^n,\\
+\tilde G^n &:= G -\delta\alpha_f\avg{\adiv[\dt\uu^n,\dt\U^n]} + \delta\beta_f\dt P^n.
+\end{align*}
 From the results of sections \ref{sec:wellposedness_elasticity} and \ref{sec:wellposedness_flow} we infer that whenever $(g,G)\in L^2(I;\Hf)$ then also $(\tilde g^n,\tilde G^n)\in L^2(I;\Hf)$.
 The above scheme defines the mapping
 \eqs{ \mathcal M_{\bbeta}:(p^n,P^n) \mapsto (p^{n+1},P^{n+1}) }
