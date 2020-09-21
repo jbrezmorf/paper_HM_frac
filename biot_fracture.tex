@@ -227,6 +227,8 @@ p &= 0,\quad \uu=\vc 0 &&\mbox{ on }I\times\prtl\Omega.
 \end{align}
 To complete the system of equations, we impose the continuity of pressure, displacement, flux and normal poroelastic stress on the interfaces between matrix and fracture:
 \eq{ \label{eq:continuity_on_gamma_pm} p,\uu,\qq\cdot\nnu,\bbsigma\nnu-\alpha p\nnu \mbox{ are continuous on } I\times\gamma^\pm. }
+These assumptions are typical for interfaces with closed pores.
+Other possibilities can be take into account, we refer to \cite{deresiewicz-skalak,gurevich-schoenberg} for more details.
 \end{subequations}
 
 In what follows, we shall assume that the physical parameters $\alpha,S,\CC,\tn K$ are constant in $\Omega_m$, $\Omega_f$, respectively.
@@ -244,6 +246,9 @@ There exist positive constants $\mu_m$, $\mu_f$, $\lambda_m$, $\lambda_f$, $\kap
 \end{itemize}
 Here ``:'' stands for the scalar product in $\Real^{d\times d}$ and $|\tn A|$ denotes the Frobenius norm, i.e. $|\tn A|^2=\tn A:\tn A$.
 
+In addition to the above assumptions on the data, we shall restrict ourselves to the case of highly permeable fracture, i.e.
+\eq{\label{eq:asm_permeable_frac} |\tn K_m|\ll \kappa_f. }
+Consequently, it is natural to assume that the variations of the pressure across the fracture is proportional to the width $\delta$.
 
 
 
@@ -323,11 +328,15 @@ In particular, we obtain:
 \eqs{ \overline{\div\bbsigma} = \div_\tau\left(\CC_f\avg{\agrad[\uu,\ubar]}\right) + \frac1\delta\jmp{\CC_f\nabla\uu_{|\Omega_f}}\nnu. }
 The normal stress $(\CC_f\nabla\uu_{|\Omega_f})^\opm\nnu$ will be approximated by the quantity
 \eq{ \label{eq:def_t} \ttraction^\opm[\uu,\ubar] := \left(\CC_f\agrad^\opm[\uu,\ubar]\right)\nnu. }
+In accordance with the assumption of permeable fracture \eqref{eq:asm_permeable_frac} we assume that
+\eqs{ p^\opm = \pbar + O(\delta). }
+Consequently we have that
+\eqs{ \overline{\nabla p} = \nabla_\tau\pbar + O(\delta). }
 Then, taking into account \eqref{eq:approx_Odelta}, we obtain the reduced counterpart of \eqref{eq:lin_el}:
-\ml{ \label{eq:lin_el_frac} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\ubar]}\right) + \delta\alpha_f\avg{\agrad[p,\pbar]} - \jmp{\ttraction[\uu,\ubar]}\\
+\eq{ \label{eq:lin_el_frac} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\ubar]}\right) + \delta\alpha_f\nabla_\tau\pbar - \jmp{\ttraction[\uu,\ubar]}
 = \delta\overline\ff + O(\delta) \mbox{ in }I\times\gamma. }
 The continuity of normal poroelastic stress $\bbsigma\nnu-\alpha p\nnu$ on $\gamma^\pm$ becomes
-\eq{ \label{eq:interface_el} (\CC_m(\nabla\uu_{|\Omega_m})^\opm - \alpha_m p^\opm\tn I)\nnu = \ttraction^\opm[\uu,\ubar] - \alpha_f p^\opm\nnu + O(\delta) \mbox{ in }I\times\gamma. }
+\eq{ \label{eq:interface_el} (\CC_m(\nabla\uu_{|\Omega_m})^\opm - \alpha_m p^\opm\tn I)\nnu = \ttraction^\opm[\uu,\ubar] - \alpha_f \pbar\nnu + O(\delta) \mbox{ in }I\times\gamma. }
 
 
 
@@ -364,14 +373,14 @@ We want to find functions $\uu,p$ defined in $I\times\Omega_m$ and $\U,P$ define
 \end{align}
 
 \item[(ii)] averaged Biot's equations for the fracture:
-\ml{ \label{eq:mixed_dim_problem_el_frac} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]}\right) + \delta\alpha_f\avg{\agrad[p,P]} - \jmp{\ttraction[\uu,\U]}\\
+\ml{ \label{eq:mixed_dim_problem_el_frac} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]}\right) + \delta\alpha_f\nabla_\tau P - \jmp{\ttraction[\uu,\U]}\\
  = \FF \mbox{ in }I\times\gamma, }
 \ml{ \label{eq:mixed_dim_problem_fl_frac} \delta\prtl_t\left(S_f P + \alpha_f\avg{\adiv[\uu,\U]}\right) -\delta\div_\tau\left(\tn K_f\avg{\agrad[p,P]}\right)\\ - \jmp{\pphi[p,P]}
 = G \mbox{ in }I\times\gamma, }
 
 \item[(iii)] interface conditions:
 \begin{align}
-\label{eq:mixed_dim_problem_int_el} (\CC_m(\nabla\uu)^\opm-\alpha_m p^\opm\tn I)\nnu &= \ttraction^\opm[\uu,\U] - \alpha_f p^\opm\nnu && \mbox{ in }I\times\gamma,\\
+\label{eq:mixed_dim_problem_int_el} (\CC_m(\nabla\uu)^\opm-\alpha_m p^\opm\tn I)\nnu &= \ttraction^\opm[\uu,\U] - \alpha_f P\nnu && \mbox{ in }I\times\gamma,\\
 \label{eq:mixed_dim_problem_int_fl} \tn K_m(\nabla p)^\opm\cdot\nnu &= \pphi^\opm[p,P] && \mbox{ in }I\times\gamma,
 \end{align}
 
@@ -390,46 +399,35 @@ p(0,\cdot) &= p_0 &&\mbox{ in }\Omega_m,\\
 \end{subequations}
 We point out that $\U$ and $P$ play the role of approximations of the averages $\ubar$ and $\pbar$ in $\Omega_f$.
 
-At this moment we note that the problem \eqref{eq:mixed_dim_problem} is not suitable for further analysis.
-Namely, formal calculations (see appendix \ref{sec:app_energy_eq}) lead to the following ``energy equality'':
-\ml{ \label{eq:apriori_biot} \int_{\Omega_m}\CC_m\nabla\dt\uu:\nabla\dt\uu + \delta\int_\gamma\avg{\CC_f\agrad[\dt\uu,\dt\U]:\agrad[\dt\uu,\dt\U]}\\
-+ S_m\int_{\Omega_m}|\dt p|^2 + \delta S_f\int_\gamma|\dt P|^2
-+ \frac12\ddt{}\int_{\Omega_m}\tn K_m\nabla p\cdot\nabla p\\
-+ \frac\delta2\ddt{}\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[p,P]}
-+ \int_\gamma\alpha_f\jmp{\dt p\dt(\U-\uu) + \dt P\dt\uu}\cdot\nnu\\
-= \int_{\Omega_m}(\dt\ff\cdot\dt\uu + \dt g \dt p) + \int_\gamma(\dt\FF\cdot\dt\U + \dt G \dt P). }
-If the last term on the left hand side was not present, the identity would yield a priori bounds of the solution.
-However, this last term cannot be estimated by the other terms and may possibly be a source of uncontrolled ``energy''.
-Due to this fact we are unable to prove the global in time existence of weak solution without any further restriction of the model data.
 
 
 
 
 
-\subsection{Permeable fracture}
-In what follows we shall consider the case when the fracture is much more permeable compared to the matrix, in particular that the largest eigenvalue of $\tn K_m$ is much smaller than the smallest eigenvalue of $\tn K_f$:
-\eqs{ \lambda_{max}(\tn K_m) \ll \lambda_{min}(\tn K_f). }
-Under such conditions the variation of pressure across the fracture width is usually very small compared to the tangential direction.
-In the mixed-dimensional setting it means that
-\eqs{ \frac1\delta|\jmp{p}| \ll |\nabla_\tau P| \mbox{ and } P \approx p^\opm. }
-Then, the last term on the left of \eqref{eq:apriori_biot} becomes negligible:
-\mls{ \int_\gamma\alpha_f\jmp{\dt p\dt(\U-\uu) + \dt P\dt\uu}\cdot\nnu\\
-= \delta\int_\gamma\alpha_f\dt\left(\frac1\delta\jmp{p}\right)\dt\U\cdot\nnu + \int_\gamma\alpha_f\jmp{\dt (P-p) \dt\uu}\cdot\nnu \approx 0. }
-Motivated by the above considerations, we replace the elasticity equation \eqref{eq:mixed_dim_problem_el_frac} and the interface condition \eqref{eq:mixed_dim_problem_int_el} by the following equations:
-\eq{ \label{eq:mixed_dim_problem_el_frac_perm} \tag{\ref{eq:mixed_dim_problem_el_frac}'} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]}\right) + \delta\alpha_f\nabla_\tau P - \jmp{\ttraction[\uu,\U]} = \FF \mbox{ in }I\times\gamma, }
-\eq{ \label{eq:mixed_dim_problem_int_el_perm} \tag{\ref{eq:mixed_dim_problem_int_el}'} (\CC_m(\nabla\uu)^\opm - \alpha_m p^\opm\tn I)\nnu = \ttraction^\opm[\uu,\U] - \alpha_f P\nnu\mbox{ in }I\times\gamma. }
-The mixed-dimensional Biot system for permeable fracture, which will be analyzed in the next section, reads as follows:
-\eq{ \label{eq:mixed_dim_perm} %\tag{P}
-\begin{minipage}{0.85\textwidth}
-Find a quadruplet $(\uu,\U,p,P)$ which satisfies \eqref{eq:mixed_dim_problem_el_mat}--\eqref{eq:mixed_dim_problem_fl_mat}, \eqref{eq:mixed_dim_problem_el_frac_perm}, \eqref{eq:mixed_dim_problem_fl_frac}, \eqref{eq:mixed_dim_problem_int_el_perm}, \eqref{eq:mixed_dim_problem_int_fl}--\eqref{eq:mixed_dim_problem_init_frac}.
-\end{minipage} }
+% \subsection{Permeable fracture}
+% In what follows we shall consider the case when the fracture is much more permeable compared to the matrix, in particular that the largest eigenvalue of $\tn K_m$ is much smaller than the smallest eigenvalue of $\tn K_f$:
+% \eqs{ \lambda_{max}(\tn K_m) \ll \lambda_{min}(\tn K_f). }
+% Under such conditions the variation of pressure across the fracture width is usually very small compared to the tangential direction.
+% In the mixed-dimensional setting it means that
+% \eqs{ \frac1\delta|\jmp{p}| \ll |\nabla_\tau P| \mbox{ and } P \approx p^\opm. }
+% Then, the last term on the left of \eqref{eq:apriori_biot} becomes negligible:
+% \mls{ \int_\gamma\alpha_f\jmp{\dt p\dt(\U-\uu) + \dt P\dt\uu}\cdot\nnu\\
+% = \delta\int_\gamma\alpha_f\dt\left(\frac1\delta\jmp{p}\right)\dt\U\cdot\nnu + \int_\gamma\alpha_f\jmp{\dt (P-p) \dt\uu}\cdot\nnu \approx 0. }
+% Motivated by the above considerations, we replace the elasticity equation \eqref{eq:mixed_dim_problem_el_frac} and the interface condition \eqref{eq:mixed_dim_problem_int_el} by the following equations:
+% \eq{ \label{eq:mixed_dim_problem_el_frac_perm} \tag{\ref{eq:mixed_dim_problem_el_frac}'} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]}\right) + \delta\alpha_f\nabla_\tau P - \jmp{\ttraction[\uu,\U]} = \FF \mbox{ in }I\times\gamma, }
+% \eq{ \label{eq:mixed_dim_problem_int_el_perm} \tag{\ref{eq:mixed_dim_problem_int_el}'} (\CC_m(\nabla\uu)^\opm - \alpha_m p^\opm\tn I)\nnu = \ttraction^\opm[\uu,\U] - \alpha_f P\nnu\mbox{ in }I\times\gamma. }
+% The mixed-dimensional Biot system for permeable fracture, which will be analyzed in the next section, reads as follows:
+% \eq{ \label{eq:mixed_dim_perm} %\tag{P}
+% \begin{minipage}{0.85\textwidth}
+% Find a quadruplet $(\uu,\U,p,P)$ which satisfies \eqref{eq:mixed_dim_problem_el_mat}--\eqref{eq:mixed_dim_problem_fl_mat}, \eqref{eq:mixed_dim_problem_el_frac_perm}, \eqref{eq:mixed_dim_problem_fl_frac}, \eqref{eq:mixed_dim_problem_int_el_perm}, \eqref{eq:mixed_dim_problem_int_fl}--\eqref{eq:mixed_dim_problem_init_frac}.
+% \end{minipage} }
 
 
 
 
 \section{Well-posedness of mixed-dimensional poroelasticity}\label{sec:well_pos}
 
-In this section we first introduce the weak formulation of \eqref{eq:mixed_dim_perm}.
+In this section we first introduce the weak formulation of \eqref{eq:mixed_dim_problem}.
 Then we solve independently the mechanical and the flow part of the problem.
 Finally we combine both subproblems in the fixed-stress iterative process and prove its convergence to the solution of the coupled problem.
 
@@ -440,19 +438,35 @@ The symbol $L^2( I;X)$ will denote the Bochner space and $H^1( I;X)$ its subspac
 By $\dual{y}{x}_X$ we shall denote the duality pairing between a Banach space $X$ and its dual $X^*$, with $x\in X$ and $y\in X^*$.
 
 For the weak formulation we introduce the spaces
-\eqs{ \Vel :=H^1_\Gamma(\Omega_m;\Real^d)\times H^1_0(\gamma;\Real^d), \quad
- \Hf := L^2(\Omega_m)\times L^2(\gamma),\quad \Vf := H^1_\Gamma(\Omega_m)\times H^1_0(\gamma), }
+\begin{align*}
+\Vel &:= H^1_\Gamma(\Omega_m;\Real^d)\times H^1_0(\gamma;\Real^d),\\
+\Hf &:= L^2(\Omega_m)\times L^2(\gamma),\\
+\Vf &:= H^1_\Gamma(\Omega_m)\times H^1_0(\gamma),
+\end{align*}
 equipped by the norms
 \begin{align*}
 \norm{(\vv,\V)}_\Vel &:= (\norm{\nabla\vv}_{L^2(\Omega)}^2 + \norm{\nabla_\tau\V}_{L^2(\gamma)}^2)^{1/2},\\
 \norm{(q,Q)}_\Hf &:= (\norm{q}_{L^2(\gamma)}^2 + \norm{Q}_{L^2(\gamma)}^2)^{1/2},\\
 \norm{(q,Q)}_\Vf &:= (\norm{\nabla q}_{L^2(\gamma)}^2 + \norm{\nabla_\tau Q}_{L^2(\gamma)}^2)^{1/2}.
 \end{align*}
-Then the weak formulation of \eqref{eq:mixed_dim_perm} reads (see appendix \ref{sec:app_weak_form} for the derivation):
+For proper functional setting of the weak formulation we first show the a priori estimate of the solution to \eqref{eq:mixed_dim_problem}.
+Namely, formal calculations (see appendix \ref{sec:app_energy_eq}) lead to the following ``energy equality'':
+\ml{ \label{eq:apriori_biot} \int_{\Omega_m}\CC_m\nabla\dt\uu:\nabla\dt\uu + \delta\int_\gamma\avg{\CC_f\agrad[\dt\uu,\dt\U]:\agrad[\dt\uu,\dt\U]}\\
++ S_m\int_{\Omega_m}|\dt p|^2 + \delta S_f\int_\gamma|\dt P|^2
++ \frac12\ddt{}\int_{\Omega_m}\tn K_m\nabla p\cdot\nabla p
++ \frac\delta2\ddt{}\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[p,P]}\\
+= \int_{\Omega_m}(\dt\ff\cdot\dt\uu + g \dt p) + \int_\gamma(\dt\FF\cdot\dt\U + G \dt P). }
+The identity yields a priori bounds of the solution:
+\eqs{ (\dt\uu,\dt\U)\in L^2(I;\Vel),\quad (p,P)\in L^\infty(I;\Vf),\quad (\dt p,\dt P)\in L^2(I;\Hf) }
+provided that the data are sufficiently smooth.
+% 
+We therefore introduce another function space:
+\eqs{ \mathcal X := L^\infty( I;\Vf)\cap H^1( I;\Hf). }
+The weak formulation of \eqref{eq:mixed_dim_problem} reads (see appendix \ref{sec:app_weak_form} for the derivation):
 
 
 \textit{
-Find $(\uu,\U)\in H^1( I;\Vel)$ and $(p,P)\in L^\infty( I;\Vf)\cap H^1( I;\Hf)$ such that
+Find $(\uu,\U)\in H^1( I;\Vel)$ and $(p,P)\in \mathcal X$ such that
 \begin{subequations}
   \label{eq:biot_weak}
   \eq{
@@ -623,8 +637,8 @@ We shall use it in the definition of the fixed-stress splitting in section \ref{
 \subsection{Mixed-dimensional flow}\label{sec:wellposedness_flow}
 
 We now turn to the flow part of the mixed-dimensional problem \eqref{eq:biot_weak}, assuming zero displacements.
-Let
-\eqs{ \mathcal X := L^\infty( I;\Vf)\cap H^1( I;\Hf). }
+% Let
+% \eqs{ \mathcal X := L^\infty( I;\Vf)\cap H^1( I;\Hf). }
 We want to solve the following problem:
 
 \textit{Find $(p,P)\in \mathcal X$ such that
@@ -891,57 +905,61 @@ The second identity can be proved in analogous way.
 \section{Energy equality for \eqref{eq:mixed_dim_problem}}\label{sec:app_energy_eq}
 
 In this section we derive the identity \eqref{eq:apriori_biot}.
-We take the time derivative of \eqref{eq:mixed_dim_problem_el_mat}, multiply by $\dt\uu$ and integrate over $\Omega_m$.
+Assuming that $(\uu,\U,p,P)$ is a smooth solution of \eqref{eq:mixed_dim_problem}, we take the time derivative of \eqref{eq:mixed_dim_problem_el_mat}, multiply by $\dt\uu$ and integrate over $\Omega_m$.
 Then we apply the Green identity, interface and boundary conditions \eqref{eq:mixed_dim_problem_int_el}, \eqref{eq:mixed_dim_problem_bc_mat}, which yields:
 \ml{ \label{eq:energy_el_mat} \int_{\Omega_m}(\CC_m\nabla\dt\uu:\nabla\dt\uu - \alpha_m\dt p \div\dt\uu) + \int_\gamma\jmp{\ttraction[\dt\uu,\dt\U]\cdot\dt\uu}\\
-- \int_\gamma\alpha_f\jmp{\dt p \dt\uu}\cdot\nnu
+- \int_\gamma\alpha_f\dt P\jmp{\dt\uu}\cdot\nnu
 = \int_{\Omega_m}\dt\ff\cdot\dt\uu. }
 Similarly we differentiate \eqref{eq:mixed_dim_problem_el_frac} with respect to time, multiply by $\dt\U$, integrate over $\gamma$, use Green's formula and apply the boundary conditions \eqref{eq:mixed_dim_problem_bc_frac}.
 We arrive at the identity
 \ml{ \label{eq:energy_el_frac} \delta\int_\gamma\CC_f\avg{\agrad[\dt\uu,\dt\U]}:\nabla_\tau\dt\U - \delta\int_\gamma\alpha_f\dt P\div_\tau\dt\U\\
-+ \int_\gamma\alpha_f\jmp{\dt p}\dt\U\cdot\nnu - \int_\gamma\jmp{\ttraction[\dt\uu,\dt\U]}\cdot\dt\U = \int_\gamma\dt\FF\cdot\dt\U. }
+% + \int_\gamma\alpha_f\jmp{\dt p}\dt\U\cdot\nnu
+- \int_\gamma\jmp{\ttraction[\dt\uu,\dt\U]}\cdot\dt\U = \int_\gamma\dt\FF\cdot\dt\U. }
 Next we multiply \eqref{eq:mixed_dim_problem_fl_mat} by $\dt p$ and \eqref{eq:mixed_dim_problem_fl_frac} by $\dt P$, integrate over $\Omega_m$, $\gamma$, respectively, use Green's formula, interface and boundary conditions \eqref{eq:mixed_dim_problem_int_fl}, \eqref{eq:mixed_dim_problem_bc_mat}, \eqref{eq:mixed_dim_problem_bc_frac}.
 We get the following equalities:
 \ml{ \label{eq:energy_fl_mat} S_m\int_{\Omega_m}|\dt p|^2 + \int_{\Omega_m}\alpha_m\dt p\div\dt\uu + \int_\gamma\jmp{\varphi[p,P]\dt p}\\
 + \frac12\ddt{}\int_{\Omega_m}\tn K_m\nabla p\cdot\nabla p
-= \int_{\Omega_m}\dt g \dt p, }
+= \int_{\Omega_m}g \dt p, }
 \ml{ \label{eq:energy_fl_frac} \delta S_f\int_\gamma|\dt P|^2 + \delta\int_\gamma\alpha_f\dt P\div_\tau\dt\U + \int_\gamma\alpha_f\dt P\jmp{\dt\uu}\cdot\nnu\\
 + \delta\int_\gamma\tn K_f\avg{\agrad[p,P]}\cdot\nabla_\tau\dt P 
-- \int_\gamma\jmp{\varphi[p,P]}\dt P = \int_\gamma \dt G \dt P. }
+- \int_\gamma\jmp{\varphi[p,P]}\dt P = \int_\gamma G \dt P. }
 Summing up \eqref{eq:energy_el_mat}--\eqref{eq:energy_fl_frac} some terms cancel out and we obtain:
 \ml{ \label{eq:energy_sum} \int_{\Omega_m}(\CC_m\nabla\dt\uu:\nabla\dt\uu ) + \int_\gamma\jmp{\ttraction[\dt\uu,\dt\U]\cdot\dt(\uu-\U)}\\
-- \int_\gamma\alpha_f\jmp{\dt p \dt\uu}\cdot\nnu
-+ \delta\int_\gamma\CC_f\avg{\agrad[\dt\uu,\dt\U]}:\nabla_\tau\dt\U\\
-+ \int_\gamma\alpha_f\jmp{\dt p}\dt\U\cdot\nnu
-+ S_m\int_{\Omega_m}|\dt p|^2 + \int_\gamma\jmp{\varphi[p,P]\dt(p-P)}\\
+% - \int_\gamma\alpha_f\jmp{\dt p \dt\uu}\cdot\nnu
++ \delta\int_\gamma\CC_f\avg{\agrad[\dt\uu,\dt\U]}:\nabla_\tau\dt\U
+% + \int_\gamma\alpha_f\jmp{\dt p}\dt\U\cdot\nnu
++ S_m\int_{\Omega_m}|\dt p|^2\\
++ \int_\gamma\jmp{\varphi[p,P]\dt(p-P)}
 + \frac12\ddt{}\int_{\Omega_m}\tn K_m\nabla p\cdot\nabla p
-+ \delta S_f\int_\gamma|\dt P|^2 + \int_\gamma\alpha_f\dt P\jmp{\dt\uu}\cdot\nnu\\
++ \delta S_f\int_\gamma|\dt P|^2
+% + \int_\gamma\alpha_f\dt P\jmp{\dt\uu}\cdot\nnu
+\\
 + \delta\int_\gamma\tn K_f\avg{\agrad[p,P]}\cdot\nabla_\tau\dt P 
-= \int_{\Omega_m}(\dt\ff\cdot\dt\uu + \dt g \dt p) + \int_\gamma(\dt\FF\cdot\dt\U + \dt G \dt P). }
+= \int_{\Omega_m}(\dt\ff\cdot\dt\uu + g \dt p) + \int_\gamma(\dt\FF\cdot\dt\U + G \dt P). }
 Using \eqref{eq:ellip_t}--\eqref{eq:ellip_phi} in \eqref{eq:energy_sum} leads to the identity
 \mls{ \int_{\Omega_m}(\CC_m\nabla\dt\uu:\nabla\dt\uu ) + \delta\int_\gamma\avg{\CC_f\agrad[\dt\uu,\dt\U]:\agrad[\dt\uu,\dt\U]}\\
 + S_m\int_{\Omega_m}|\dt p|^2 + \delta S_f\int_\gamma|\dt P|^2\\
 + \frac12\ddt{}\int_{\Omega_m}\tn K_m\nabla p\cdot\nabla p
 + \delta\int_\gamma\avg{\tn K_f\agrad[p,P]\cdot\agrad[\dt p,\dt P]} \\
-- \int_\gamma\alpha_f\jmp{\dt p \dt\uu}\cdot\nnu
-+ \int_\gamma\alpha_f\jmp{\dt p}\dt\U\cdot\nnu
-+ \int_\gamma\alpha_f\dt P\jmp{\dt\uu}\cdot\nnu\\
-= \int_{\Omega_m}(\dt\ff\cdot\dt\uu + \dt g \dt p) + \int_\gamma(\dt\FF\cdot\dt\U + \dt G \dt P), }
+% - \int_\gamma\alpha_f\jmp{\dt p \dt\uu}\cdot\nnu
+% + \int_\gamma\alpha_f\jmp{\dt p}\dt\U\cdot\nnu
+% + \int_\gamma\alpha_f\dt P\jmp{\dt\uu}\cdot\nnu\\
+= \int_{\Omega_m}(\dt\ff\cdot\dt\uu + g \dt p) + \int_\gamma(\dt\FF\cdot\dt\U + G \dt P), }
 which is in fact \eqref{eq:apriori_biot}.
 
 
 
-\section{Weak formulation of \eqref{eq:mixed_dim_perm}}\label{sec:app_weak_form}
+\section{Weak formulation of \eqref{eq:mixed_dim_problem}}\label{sec:app_weak_form}
 
 In what follows we derive the integral identities (\ref{eq:biot_weak-ii}) -- (\ref{eq:biot_weak-iii}).
-Multiplying \eqref{eq:mixed_dim_problem_el_mat} and \eqref{eq:mixed_dim_problem_el_frac_perm} by test functions $(\vv,\V)\in\Vel$, integrating them by parts, summing and applying the boundary conditions \eqref{eq:mixed_dim_problem_bc_mat}--\eqref{eq:mixed_dim_problem_bc_frac}, we arrive at the identity
+Multiplying \eqref{eq:mixed_dim_problem_el_mat} and \eqref{eq:mixed_dim_problem_el_frac} by test functions $(\vv,\V)\in\Vel$, integrating them by parts, summing and applying the boundary conditions \eqref{eq:mixed_dim_problem_bc_mat}--\eqref{eq:mixed_dim_problem_bc_frac}, we arrive at the identity
 \ml{ \label{eq:mixed_el_integrated} \int_{\Omega_m}\left(\CC_m\nabla\uu:\nabla\vv - \alpha_m p\div\vv\right)
  + \int_\gamma\jmp{(\CC_m\nabla\uu-\alpha_m p\tn I)\nnu\cdot\vv}\\
  + \delta\int_\gamma\CC_f\avg{\agrad[\uu,\U]}:\nabla_\tau\V
  - \int_\gamma \alpha_f\delta P \div_\tau\V
  - \int_\gamma \jmp{\ttraction[\uu,\U]\cdot\V}\\
  = \dual{(\ff,\FF)}{(\vv,\V)}_\Vel. }
- The second term in \eqref{eq:mixed_el_integrated} can be rewritten using the interface conditions \eqref{eq:mixed_dim_problem_int_el_perm}, which yields:
+ The second term in \eqref{eq:mixed_el_integrated} can be rewritten using the interface conditions \eqref{eq:mixed_dim_problem_int_el}, which yields:
 \ml{ \label{eq:mixed_el_integrated_int} \int_{\Omega_m}\left(\CC_m\nabla\uu:\nabla\vv - \alpha_m p\div\vv\right)
  + \delta\int_\gamma\CC_f\avg{\agrad[\uu,\U]}:\nabla_\tau\V\\
  + \int_\gamma \jmp{\ttraction[\uu,\U]\cdot(\vv-\V)}
