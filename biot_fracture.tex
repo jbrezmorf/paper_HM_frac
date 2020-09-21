@@ -255,11 +255,12 @@ For any $\vv\in\Real^d$ and $\tn A\in\Real^{d\times d}$ we introduce the orthogo
 \eqs{ \vv = \tn P\vv + (\tn I-\tn P)\vv =:\vv_\nu + \vv_\tau, }
 \eqs{ \tn A = \tn A\tn P + \tn A(\tn I-\tn P) =: \tn A_\nu + \tn A_\tau. }
 In the rest of this section, $f$, $\vv$, $\tn A$ will be scalar-, vector- and tensor-valued functions defined in $\overline\Omega_f$.
-The gradient and divergence operators are decomposed into the normal and tangential part as follows:
+The gradient and divergence operators in $\gamma$ are decomposed into the normal and tangential part as follows:
 \eqs{ \nabla f = (\nabla f)_\nu + (\nabla f)_\tau =: \nabla_\nu f + \nabla_\tau f, }
 \eqs{ \nabla\vv = (\nabla\vv)_\nu + (\nabla\vv)_\tau =: \nabla_\nu\vv + \nabla_\tau\vv, }
 \eqs{ \div\vv = \div\vv_\nu + \div\vv_\tau =: \div_\nu\vv + \div_\tau\vv, }
 \eqs{ \div\tn A = \div(\tn P\tn A) + \div((\tn I-\tn P)\tn A) =: \div_\nu\tn A + \div_\tau\tn A. }
+Since the tangential gradient and divergence do not depend on values outside of $\gamma$, they are well-defined even for functions defined only in $\gamma$.
 We recall that the components of the Jacobian matrix and of the tensor divergence are given by $\nabla\vv=\left[\tfrac{\prtl v_i}{\prtl x_j}\right]_{i,j=1}^d$ and $\div\tn A = \left[\sum_{j=1}^d\tfrac{\prtl a_{ij}}{\prtl x_j}\right]_{i=1}^d$, respectively.
 The symbols $f^\oplus$ and $f^\ominus$ will denote the trace of $f$ on $\gamma^+$, $\gamma^-$, respectively, i.e.
 \eqs{ f^{\opm}(\xx) := f(\xx\pm\tfrac\delta2\nnu), ~\xx\in\gamma. }
