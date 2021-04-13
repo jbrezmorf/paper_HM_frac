@@ -99,6 +99,7 @@
 \def\weakly{\rightharpoonup}
 \def\xx{\vc x}
 \def\yy{{\vc y}}
+\def\O{\mathcal{O}}
 
 \newcommand{\eq}[1]{\begin{equation}#1\end{equation}}
 \newcommand{\eqs}[1]{\begin{equation*}#1\end{equation*}}
@@ -231,7 +232,9 @@ The same notation will be used for vector- and tensor-valued functions.
 By $\overline f$ we shall denote the integral mean of $f$ across the fracture aperture, i.e.
 \eqs{ \overline f(\xx):=\frac1\delta\int_{-\tfrac\delta2}^{\tfrac\delta2} f(\xx+s\nnu) \d s,~\xx\in\gamma. }
 The approximate gradient and divergence operators in the positive and negative half of fracture are defined as follows:
-\eqs{ \agrad^\opm[f,\overline f] := \nabla_\tau\overline f \pm \frac2\delta(f^\opm - \overline f)\nnu, }
+\eqs{ \agrad^\opm[f,\overline f] := \nabla_\tau\overline f \pm \frac2\delta(f^\opm - \overline f)\nnu  
+= \nabla f + \O(\delta),}
+%
 \eqs{ \agrad^\opm[\vv,\overline\vv] := \nabla_\tau\overline\vv \pm \frac2\delta(\vv^\opm - \overline\vv)\otimes\nnu, }
 \eqs{ \adiv^\opm[\vv,\overline\vv] := \div_\tau\overline\vv \pm \frac2\delta(\vv^\opm - \overline\vv)\cdot\nnu, }
 \eqs{ \adiv^\opm[\tn A,\overline{\tn A}] := \div_\tau\overline{\tn A} \pm \frac2\delta(\tn A^\opm - \overline{\tn A})^\top\nnu. }
@@ -270,7 +273,7 @@ Our aim is to obtain appropriate equations that are satisfied by the averages $(
 Integrating \eqref{eq:lin_el} over the fracture aperture and decomposing the differential operators  yields:
 \eqs{ -\delta\overline{\div\bbsigma} + \delta\alpha_f\overline{\nabla p} = \delta\overline\ff \mbox{ in }\gamma. }
 To express the averaged terms on the left hand side we use \eqref{eq:adiv_tn}, \eqref{eq:agrad_vc} and \eqref{eq:agrad_sc}.
-In particular, we obtain:
+In particular, we obtain: ]
 \eqs{ \overline{\div\bbsigma} = \div_\tau\left(\CC_f\avg{\agrad[\uu,\ubar]}\right) + \frac1\delta\jmp{\CC_f\nabla\uu}\nnu. }
 % \eqs{ \overline{\nabla p} = \avg{\agrad[p,\pbar]}. }
 The normal stress $(\CC_f\nabla\uu)^\opm\nnu$ will be approximated by the quantity
