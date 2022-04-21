@@ -105,16 +105,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BEGIN DOCUMENT
 \begin{document}
 
-\title{Mixed-dimensional model of poroelasticity\thanks{The research was supported by the project ``RINGEN - research infrastructure upgrade'' No CZ.02.1.01/0.0/0.0/16\_013/0001792, co-funded by the EU Operational Programme ``Research, Development and Education'' and by the Euratom research and training programme 2014-2018 under grant agreement No [847593].}}
+\title{Mixed-dimensional model of poroelasticity%
+\thanks{The research was supported %by the project ``RINGEN - research infrastructure upgrade'' No CZ.02.1.01/0.0/0.0/16\_013/0001792, co-funded by the EU Operational Programme ``Research, Development and Education'' and 
+by the Euratom research and training programme 2014-2018 under grant agreement No [847593].}}
 \author{Jan Březina}
 \author{Jan Stebel}
 \affil{Institute of New Technologies and Applied Informatics\authorcr
 Faculty of Mechatronics, Informatics and Interdisciplinary Studies\authorcr
 % Technical University of Liberec
 % \authorcr
-and\authorcr
-Department of Nanotechnology and Informatics\authorcr
-Institute for Nanomaterials, Advanced Technologies and Innovation\authorcr
+% and\authorcr
+% Department of Nanotechnology and Informatics\authorcr
+% Institute for Nanomaterials, Advanced Technologies and Innovation\authorcr
 Technical University of Liberec\authorcr
 Studentská 1402/2, 461 17 Liberec, Czech Republic\authorcr
 \texttt{\{jan.brezina,jan.stebel\}@tul.cz}}
@@ -166,7 +168,7 @@ Later on the model has been extended e.g. by \cite{angot2009asymptotic} for imme
 DFN models with intersections and junctions were analyzed in e.g. \cite{maryska2005numerical,pichot2012generalized,formaggia2014reduced}, for results on DFM we refer to \cite{schwenck2015dimensionally}.
 % 
 Mixed-dimensional poroelasticity models were studied e.g. in \cite{ganis2014modeling} where Biot's system in matrix was coupled with fracture flow based on the cubic law.
-In \cite{hanowski2018hydromechanical} the Biot system in matrix is coupled with Darcian flow, but in addition fracture width and length can vary according to rock deformation.
+In \cite{hanowski2018hydromechanical} the Biot system in matrix is coupled with Darcian fracture flow, but in addition fracture width and length can vary according to rock deformation.
 Concerning mechanics in fracture, there are not so many papers on dimension reduction.
 A general framework for mixed-dimensional elliptic equations was developed in \cite{boon2017functional,boon2019stable} and applied to linear elasticity systems.
 We also mention the work \cite{mikelic2019derivation} where a shell model is derived for poroelastic membrane.
@@ -177,10 +179,10 @@ In contrast to other works, we also consider general conductivity and elasticity
 The obtained equations are expressed in terms of mean pressure and mean displacement in the fracture.
 The resulting problem consists of equations of flow and mechanics in the fracture and in the surrounding domain, accompanied by appropriate interface conditions.
 
-The second part of the paper deals with the analysis of well-posedness of the mixed-dimensional poroelasticity.
+The second aim of the paper is the analysis of well-posedness of the mixed-dimensional poroelasticity.
 There are two main strategies of solving poromechanics systems: monolithic methods (see e.g. \cite{showalter2000diffusion,zenisek1984existence}) and iterative splittings.
-The latter approach has a great advantage in the design of numerical methods where the splitting acts as a preconditioner \cite{white2016block} that allows sequential use of different solvers for flow and mechanics.
-Here we follow the optimized fixed-stress iterative splitting, which was analyzed in \cite{mikelic2013convergence}, and show the contractivity of the appropriate mapping with optimal estimates of splitting parameters.
+The latter approach has a great advantage in the design of numerical schemes where the splitting acts as a preconditioner \cite{white2016block} that allows sequential use of different solvers for flow and mechanics.
+Here we follow the optimized fixed-stress iterative splitting, which was analyzed in \cite{mikelic2013convergence}, and show the contractivity of the appropriate mapping.% with optimal estimates of splitting parameters.
 
 The structure of the paper is as follows.
 In section \ref{sec:model} we describe the full and reduced geometry and the Biot poroelasticity model.
@@ -229,7 +231,7 @@ p &= 0,\quad \uu=\vc 0 &&\mbox{ on }I\times\prtl\Omega.
 To complete the system of equations, we have to specify interface conditions between matrix and fracture.
 To this end, we choose conditions used for interface with closed pores:
 \eq{ \label{eq:continuity_on_gamma_pm} p,\uu,\qq\cdot\nnu,\bbsigma\nnu-\alpha p\nnu \mbox{ are continuous on } I\times\gamma^\pm. }
-Other possible conditions can be take into account, we refer to \cite{deresiewicz-skalak,gurevich-schoenberg} for more details.
+Other possible conditions can be taken into account, we refer to \cite{deresiewicz-skalak,gurevich-schoenberg} for more details.
 \end{subequations}
 
 In what follows, we shall assume that the physical parameters $\alpha,S,\CC,\tn K$ are constant in $\Omega_m$, $\Omega_f$, respectively.
@@ -266,7 +268,7 @@ For any vector $\vv\in\Real^d$ we introduce the orthogonal decomposition into no
 % The gradient and divergence operators in $\gamma$ are decomposed into the normal and tangential part as follows:
 The gradient operator of a function $f$, is decomposed into the normal and tangential part as follows:
 \eqs{ \nabla f = (\nabla f)_\nu + (\nabla f)_\tau =: \nabla_\nu f + \nabla_\tau f. }
-Since the tangential gradient does not depend on values outside of $\gamma$, it is well-defined even for functions defined only in $\gamma$.
+We note that since the tangential gradient does not depend on values outside of $\gamma$, it is well-defined even for functions defined only in $\gamma$.
 
 For vector- and tensor-valued functions we use analogous notation.
 In particular, tensors are decomposed to normal and tangential parts as follows:
@@ -437,7 +439,7 @@ To express the approximation of the normal flux $-\qq^\opm\cdot\nnu$ we use the 
 Hence, we obtain from \eqref{eq:darcy_int}--\eqref{eq:def_F} and \eqref{eq:adiv_vc} the reduced flow equation:
 \ml{ \label{eq:flow_frac} \delta\prtl_t\left(S_f\pbar + \alpha_f\avg{\adiv[\uu,\ubar]}\right) -\delta\div_\tau\left(\tn K_f\avg{\agrad(p,\pbar)}\right) - \jmp{\pphi(p,\pbar)}\\
 = \delta\overline g + O(\delta) \mbox{ in }I\times\gamma. }
-Continuity of flux through $\gamma^\pm$ yields:
+The continuity of the flux through $\gamma^\pm$ yields:
 \eq{ \label{eq:interface_flow} \tn K_m(\nabla p_{|\Omega_m})^\opm\cdot\nnu = \pphi^\opm(p,\pbar) + O(\delta) \mbox{ in }I\times\gamma. }
 
 
@@ -445,8 +447,8 @@ Continuity of flux through $\gamma^\pm$ yields:
 
 The mixed-dimensional coupled problem is obtained after neglecting the remainders $O(\delta)$ in \eqref{eq:lin_el_frac}, \eqref{eq:interface_el}, \eqref{eq:flow_frac}, \eqref{eq:interface_flow}.
 Analysis of the truncation error can be done similarly as in \cite{brezina2015analysis}, however in this paper we omit it.
-Let $\Gamma:=\prtl\Omega_m\cap\prtl\Omega$, $P_0:=(P_{0m},P_{0f}):=(p_{0|\Omega_m},\overline p_0)$, $\FF=(\FF_m,\FF_f):=(\ff_{|\Omega_m}, \delta\overline\ff)$ and $G:=(G_m,G_f):=(g_{|\Omega_m},\delta\overline g)$.
-We want to find functions $\U:=(\U_m,\U_f)$ and $P:=(P_m,P_f)$, where $\U_m,P_m$ are defined in $I\times\Omega_m$ and $\U_f,P_f$ are defined in $I\times\gamma$, which satisfy:
+Let $\Gamma:=\prtl\Omega_m\cap\prtl\Omega$, $P_0=(P_{0m},P_{0f}):=(p_{0|\Omega_m},\overline p_0)$, $\FF=(\FF_m,\FF_f):=(\ff_{|\Omega_m}, \delta\overline\ff)$ and $G=(G_m,G_f):=(g_{|\Omega_m},\delta\overline g)$.
+We want to find functions $\U=(\U_m,\U_f)$ and $P=(P_m,P_f)$, where $\U_m,P_m$ are defined in $I\times\Omega_m$ and $\U_f,P_f$ are defined in $I\times\gamma$, which satisfy:
 \begin{subequations}\label{eq:mixed_dim_problem}
 \begin{itemize}
 \item[(i)] Biot's equations for the matrix:
@@ -565,7 +567,9 @@ Let $\FF\in H^1( I;\Vel^*)$, $G\in L^2( I;\Hf)$ and $P_0\in\Vf$.
 Then \eqref{eq:biot_weak} has a unique solution.
 \end{theorem}
 % 
-The proof will be done in the following subsections.
+The proof will be done in several steps.
+We first solve the mechanical and flow subproblem, respectively.
+Then we introduce a suitable iterative scheme alternating between the subproblems and prove its convergence.
 
 
 
@@ -640,7 +644,7 @@ Using this together with the definition of $\aep^\opm$, \eqref{eq:korn_weak_vV},
 from which it follows that $\V_f\otimes\nnu+\nnu\otimes\V_f=\tn 0$ and thus $\V_f=\vc 0$. 
 
 
-With help of the compact embedding $H^1(\gamma)\hookrightarrow L^2(\gamma)$ we deduce from \eqref{eq:korn_conv_approx_grad} that $\ep_\tau(\V_{nf})\to 0$ strongly in $L^2(\gamma;\Real^{d\times d})$, $n\to\infty$.
+With help of the compact embedding $H^1(\gamma)\hookrightarrow L^2(\gamma)$ we deduce from \eqref{eq:korn_conv_approx_grad} that $\ep_\tau(\V_{nf})\to \tn 0$ strongly in $L^2(\gamma;\Real^{d\times d})$, $n\to\infty$.
 Lemma \ref{th:korn_tau} then implies that also $\V_{nf}\to\vc 0$ strongly in $H^1_0(\gamma;\Real^d)$, $n\to\infty$.
 Finally, having shown the strong convergence of $\{\V_n\}_{n=1}^\infty$, we observe that
 \eqs{ 1 = \lim_{n\to\infty}\norm{\V_n}_\Vel = \norm{\V}_\Vel = 0, }
@@ -649,7 +653,7 @@ Therefore the proof is finished.
 \end{proof}
 
 \paragraph{Existence and uniqueness of solutions.}
-In the following lemma we prove essential properties of $a$ and $l$.
+In the following lemma we prove several important properties of $a$ and $l$.
 \begin{lemma}\label{th:prop_al}
 The bilinear form $a$ is bounded and elliptic in $\Vel$ and the linear form $l$ is bounded in $\Vel$.
 In particular, there exist constants $C_3=C_3(C_2,\delta,\mu_m,\mu_f)>0$ and $C_4=C_4(\alpha_m,\alpha_f,\delta,\gamma^+,\gamma^-,\Omega_m)>0$ such that
@@ -683,7 +687,7 @@ If $(\FF_m,\FF_f,P_m,P_f)$ are defined in the time interval $I$, then by differe
 where $l_t$ stands for the linear form
 \eqs{ l_t(\V) := \dual{\dt\FF}{\V}_\Vel + \int_{\Omega_m} \alpha_m \dt P_m\div\V_m
   + \delta\int_\gamma \alpha_f \dt P_f \avg{\adiv\V}. }
-Similarly as in Lemma \ref{th:prop_al}, one can show that $l_t$ is bounded and estimate it in terms of the time derivatives of the data:
+Similarly as in Lemma \ref{th:prop_al}, one can show that $l_t$ is bounded, and estimate it in terms of the time derivatives of the data:
 \eqs{ l_t(\V) \le \left(\norm{\dt\FF}_{\Vel^*} + C_4\norm{\dt P}_\Hf\right)\norm{\V}_\Vel. }
 Since the solution mappings $(\FF,P) \mapsto \U$ and $(\dt\FF,\dt P)\mapsto\dt\U$ are linear and bounded, we obtain:
 \begin{corollary}
@@ -781,7 +785,7 @@ for all $Q:=(Q_m,Q_f)\in\Vf$ and a.a. $t\in I$.
 
 \subsection{Fixed-stress iterations}\label{sec:iter}
 
-We follow the idea of optimized fixed-stress splitting from \cite{mikelic2013convergence}.
+To prove the existence and uniqueness of the solution to \eqref{eq:biot_weak}, we follow the idea of optimized fixed-stress splitting from \cite{mikelic2013convergence}.
 For any $n\in\{0,1,2,...\}$ and $P^n\in \mathcal X$
 we define
 \eqs{ \U^n := \mathcal E(P^n). }
@@ -819,7 +823,7 @@ If the pair $\bbeta=(\beta_m,\beta_f)$ satisfies
 }
 then $\mathcal M_{\bbeta}$ is a contraction in $\mathcal X$ with respect to the distance $\rho_{\bbeta}$.
 Hence the sequence $\{P^n\}_{n=0}^\infty$ with an arbitrary initial guess $P^0\in\mathcal X$, has a unique fixed point $\hat P$.
-Denoting $\hat \U:=\mathcal E(\hat P)$, then the quadruplet $(\hat \U,\hat P)$ is the unique solution of the coupled problem \eqref{eq:biot_weak}.
+Denoting $\hat \U:=\mathcal E(\hat P)$, then $(\hat \U,\hat P)$ is the unique solution of the coupled problem \eqref{eq:biot_weak}.
 The contraction constant takes the value $1/\omega$, which becomes smallest when equalities hold in \eqref{eq:cond_beta}.
 \end{theorem}
 \begin{proof}
@@ -914,7 +918,7 @@ We have derived a mixed-dimensional model of flow and linear elasticity in fract
 Under the assumption of permeable fracture, the existence and uniqueness of weak solution was proved using the fixed-stress splitting scheme.
 The convergence of this scheme has been analyzed and optimal values of iteration parameters were found in agreement e.g. with \cite{both2017robust}.
 The numerical solution based on the proposed splitting will be the subject of a following paper.
-The problem can be further extended to the case of embedded fracture with variable aperture and intersecting fractures, further one should consider contact and friction conditions (such as in \cite{berge2019finite}), to name a few challenging tasks.
+% The problem can be further extended to the case of embedded fracture with variable aperture and intersecting fractures, further one should consider contact and friction conditions (such as in \cite{berge2019finite}), to name a few challenging tasks.
 
 
 
