@@ -404,23 +404,23 @@ We point out that $\U$ and $P$ play the role of approximations of the averages $
 
 
 
-% \subsection{Permeable fracture}
-% In what follows we shall consider the case when the fracture is much more permeable compared to the matrix, in particular that the largest eigenvalue of $\tn K_m$ is much smaller than the smallest eigenvalue of $\tn K_f$:
-% \eqs{ \lambda_{max}(\tn K_m) \ll \lambda_{min}(\tn K_f). }
-% Under such conditions the variation of pressure across the fracture width is usually very small compared to the tangential direction.
-% In the mixed-dimensional setting it means that
-% \eqs{ \frac1\delta|\jmp{p}| \ll |\nabla_\tau P| \mbox{ and } P \approx p^\opm. }
-% Then, the last term on the left of \eqref{eq:apriori_biot} becomes negligible:
-% \mls{ \int_\gamma\alpha_f\jmp{\dt p\dt(\U-\uu) + \dt P\dt\uu}\cdot\nnu\\
-% = \delta\int_\gamma\alpha_f\dt\left(\frac1\delta\jmp{p}\right)\dt\U\cdot\nnu + \int_\gamma\alpha_f\jmp{\dt (P-p) \dt\uu}\cdot\nnu \approx 0. }
-% Motivated by the above considerations, we replace the elasticity equation \eqref{eq:mixed_dim_problem_el_frac} and the interface condition \eqref{eq:mixed_dim_problem_int_el} by the following equations:
-% \eq{ \label{eq:mixed_dim_problem_el_frac_perm} \tag{\ref{eq:mixed_dim_problem_el_frac}'} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]}\right) + \delta\alpha_f\nabla_\tau P - \jmp{\ttraction[\uu,\U]} = \FF \mbox{ in }I\times\gamma, }
-% \eq{ \label{eq:mixed_dim_problem_int_el_perm} \tag{\ref{eq:mixed_dim_problem_int_el}'} (\CC_m(\nabla\uu)^\opm - \alpha_m p^\opm\tn I)\nnu = \ttraction^\opm[\uu,\U] - \alpha_f P\nnu\mbox{ in }I\times\gamma. }
-% The mixed-dimensional Biot system for permeable fracture, which will be analyzed in the next section, reads as follows:
-% \eq{ \label{eq:mixed_dim_perm} %\tag{P}
-% \begin{minipage}{0.85\textwidth}
-% Find a quadruplet $(\uu,\U,p,P)$ which satisfies \eqref{eq:mixed_dim_problem_el_mat}--\eqref{eq:mixed_dim_problem_fl_mat}, \eqref{eq:mixed_dim_problem_el_frac_perm}, \eqref{eq:mixed_dim_problem_fl_frac}, \eqref{eq:mixed_dim_problem_int_el_perm}, \eqref{eq:mixed_dim_problem_int_fl}--\eqref{eq:mixed_dim_problem_init_frac}.
-% \end{minipage} }
+\subsection{Permeable fracture}
+In what follows we shall consider the case when the fracture is much more permeable compared to the matrix, in particular that the largest eigenvalue of $\tn K_m$ is much smaller than the smallest eigenvalue of $\tn K_f$:
+\eqs{ \lambda_{max}(\tn K_m) \ll \lambda_{min}(\tn K_f). }
+Under such conditions the variation of pressure across the fracture width is usually very small compared to the tangential direction.
+In the mixed-dimensional setting it means that
+\eqs{ \frac1\delta|\jmp{p}| \ll |\nabla_\tau P| \mbox{ and } P \approx p^\opm. }
+Then, the last term on the left of \eqref{eq:apriori_biot} becomes negligible:
+\mls{ \int_\gamma\alpha_f\jmp{\dt p\dt(\U-\uu) + \dt P\dt\uu}\cdot\nnu\\
+= \delta\int_\gamma\alpha_f\dt\left(\frac1\delta\jmp{p}\right)\dt\U\cdot\nnu + \int_\gamma\alpha_f\jmp{\dt (P-p) \dt\uu}\cdot\nnu \approx 0. }
+Motivated by the above considerations, we replace the elasticity equation \eqref{eq:mixed_dim_problem_el_frac} and the interface condition \eqref{eq:mixed_dim_problem_int_el} by the following equations:
+\eq{ \label{eq:mixed_dim_problem_el_frac_perm} \tag{\ref{eq:mixed_dim_problem_el_frac}'} -\delta\div_\tau\left(\CC_f\avg{\agrad[\uu,\U]}\right) + \delta\alpha_f\nabla_\tau P - \jmp{\ttraction[\uu,\U]} = \FF \mbox{ in }I\times\gamma, }
+\eq{ \label{eq:mixed_dim_problem_int_el_perm} \tag{\ref{eq:mixed_dim_problem_int_el}'} (\CC_m(\nabla\uu)^\opm - \alpha_m p^\opm\tn I)\nnu = \ttraction^\opm[\uu,\U] - \alpha_f P\nnu\mbox{ in }I\times\gamma. }
+The mixed-dimensional Biot system for permeable fracture, which will be analyzed in the next section, reads as follows:
+\eq{ \label{eq:mixed_dim_perm} %\tag{P}
+\begin{minipage}{0.85\textwidth}
+Find a quadruplet $(\uu,\U,p,P)$ which satisfies \eqref{eq:mixed_dim_problem_el_mat}--\eqref{eq:mixed_dim_problem_fl_mat}, \eqref{eq:mixed_dim_problem_el_frac_perm}, \eqref{eq:mixed_dim_problem_fl_frac}, \eqref{eq:mixed_dim_problem_int_el_perm}, \eqref{eq:mixed_dim_problem_int_fl}--\eqref{eq:mixed_dim_problem_init_frac}.
+\end{minipage} }
 
 
 
