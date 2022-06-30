@@ -27,6 +27,7 @@
 \usepackage{graphicx} %[dvips]
 \usepackage[numbers]{natbib}
 \usepackage{ mathrsfs }
+\usepackage{subcaption}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,6 +51,7 @@
 \def\dual#1#2{\left\langle #1,#2\right\rangle}
 \def\ee{\vc e}
 \def\ep{\boldsymbol\varepsilon}
+\def\erfc{\operatorname{erfc}}
 \def\FF{\vc F}
 \def\ff{\vc f}
 \def\Hf{\mathscr{L}} % Lebesgue space for flow
@@ -127,6 +129,7 @@ Studentská 1402/2, 461 17 Liberec, Czech Republic\authorcr
 The paper deals with derivation and analysis of a poroelasticity model in a domain with lower-dimensional fracture.
 The resulting system of equations, which is obtained by dimension reduction, consists of saturated flow and linear elasticity both in the domain and in the fracture, and of appropriate interface conditions.
 Existence and uniqueness of a weak solution is proved with help of a fixed-point argument.
+The analysis is complemented by a numerical example.
 \end{abstract}
 
 \paragraph{Keywords:}
@@ -190,6 +193,7 @@ Then in section \ref{sec:calculus} we present the tangential and normal calculus
 The result of dimension reduction is the system \eqref{eq:mixed_dim_problem}, which describes flow and mechanics in matrix and fracture with appropriate interface conditions.
 % We further formulate a modified problem \eqref{eq:mixed_dim_perm}, which is valid under the assumption of permeable fracture.
 In section \ref{sec:well_pos} we analyze the existence and uniqueness of solution to this problem, first studying separately the mechanics and flow and later on combining them in the iterative scheme.
+Finally, in section \ref{sec:comp_test} we present a numerical example that demonstrates the mixed-dimensional model and its iterative solution.
 
 
 \section{Biot's poroelasticity in domain with fracture}\label{sec:model}
@@ -912,12 +916,128 @@ As we noted above, Theorem \ref{th:conv_iter} implies the existence of a unique 
 Hence Theorem \ref{th:biot_existence} is proved.
 
 
+\section{Computational example}\label{sec:comp_test}
+
+In this section we present the numerical solution of a test problem for fluid injection into a fracture.
+The computational domain is composed of a rectangle $(0,L)\times(0,H)$ and a fracture $(0,L)\times\{\tfrac H2\}$, $L=25$ m, $H=1$ m.
+Initially, the fluid pressure in the whole domain is $p_0=11$ MPa.
+Throughout the simulation, the pressure at the right end of the fracture is kept at the initial value $p_0$ while the left end is under an increased pressure $p_{in}=11.9$ MPa.
+The boundary of the rectangle is impermeable.
+The lower side is mechanically fixed, the left and right sides and fracture ends are subject to the roller boundary condition $\U_{\{m,f\}}\cdot\nn=0$ and the top side is under a constant traction 11 MPa.
+The geometry and the boundary conditions are depicted in Figure \ref{fig:test_geom}.
+We consider both the rock and the fracture to be isotropic, i.e.
+% 
+\eq{ \tn K_*=\frac{k_*}{\mu}\tn I, \quad \tn C_*\nabla\U =\frac{E_*}{1+\nu_*}\varepsilon(\U)+\frac{E_*\nu_*}{(1+\nu_*)(1-2\nu_*)}(\div\U)\tn I, ~*\in\{m,f\}, }
+% 
+denoting by $\mu$ the viscosity of the fluid and by $E_*,\nu_*$ the Young modulus and the Poisson ratio of the rock matrix and fracture, respectively.
+The model parameters are given in Table \ref{tab:test_params}.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{figures/test-cubic-law-bc}
+\caption{Geometry and boundary conditions for the test problem.}
+\label{fig:test_geom}
+\end{figure}
+
+\begin{table}
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\bf Parameter & \multicolumn{2}{|c|}{\bf Value}\\\cline{2-3}
+& \bf Matrix & \bf Fracture\\
+\hline
+$k$ $[\rm m^2]$ & $10^{-21}$ & $8.3\times 10^{-12}$\\
+$\mu$ $[\rm Pa\, s]$ & $10^{-3}$ & $10^{-3}$\\
+$S$ $[\rm Pa^{-1}]$ & $10^{-12}$ & $10^{-10}$\\
+$E$ $[\rm Pa]$ & $60\times 10^9$ & $10^{6}$ \\
+$\nu$ $[-]$ & 0 & 0\\
+$\alpha$ $[-]$ & 1 & 1\\
+$\delta$ $[\rm m]$ & --- & $10^{-5}$\\
+\hline
+\end{tabular}
+\caption{Parameters for the test problem.}
+\label{tab:test_params}
+\end{table}
+
+The problem is solved with help of the simulator Flow123d \cite{flow123d} in the time interval $[0,2000\,\mbox{s}]$.
+The computational mesh consists of 6856 triangular elements, the fracture is divided into 500 lines which coincide with sides of adjacent triangular elements.
+The flow part of the problem is discretized using the implicit Euler timestepping with the time step $\Delta t=100\,\mbox{s}$ and the diagonalized mixed hybrid finite element method (see \cite{flow123d} for details). The flux, pressure and pressure trace on element sides are approximated using the $RT_0/P_0/P_0^{sides}$ finite elements.
+The mechanical part is discretized using $P_1$ finite elements for the displacement.
+In each discrete time, the coupled hydro-mechanical problem is solved iteratively using the fixed-stress splitting.
+The iterations are stopped when the relative difference of two successive iterates drops below the given tolerance:
+\eq{ \norm{P^{n}-P^{n-1}}_\Hf \le tol\norm{P^{n-1}}_\Hf. }
+
+Due to the boundary conditions, the high inlet pressure propagates through the fracture and causes its opening.
+For a similar problem, considered in an infinite fracture, an analytical solution has been derived in \cite{wijesinghe}, given by the formula
+% 
+\eq{ P_f(t,x) = p_0 + (p_{in}-p_0)\erfc\left(\frac12 \sqrt{\frac{\delta}{k_f \mu_f}} \frac{x}{\sqrt{t}}\right). }
+% 
+The pressure profile in the fracture at selected times is depicted in Figure \ref{fig:test_solution} which shows a good agreement with the analytical prediction.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth,ext=.png]{figures/{conv_result_linear.yaml_dt_100_cond_9.81e-18_Er_6e+10_Ef_1e+06_nur_0_nuf_0_beta_1_pressure}.pdf}
+\caption{Comparison of fracture pressure given by the mixed-dimensional model and by the analytical solution.}
+\label{fig:test_solution}
+\end{figure}
+
+Next we test the choice of the iteration parameters $\beta_m,\beta_f$.
+Motivated by Theorem \ref{th:conv_iter}, we set
+\eq{ \beta_*:=\tilde\beta\frac{\alpha_*^2}{2(\mu_*+\lambda_*)}, ~*\in\{m,f\}, }
+where $\tilde\beta\in[0.3,10]$ is a scaling parameter.
+The tolerance for the iterations is set to $tol=10^{-6}$.
+In Figure \ref{fig:test_iterations} we show the dependence of number of iterations, necessary to achieve the convergence criterion, on $\tilde\beta$.
+The number of iterations was averaged over all time steps and depicted together with the range between the minimal and maximal values.
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/{conv_result_linear.yaml_dt_100_alpha_1_cond_9.81e-18_Er_6e+10_Ef_1e+06_nur_0_nuf_0}.pdf}
+\caption{Parameters from Table \ref{tab:test_params}.}
+\end{subfigure}
+% \hfill
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/{conv_result_linear.yaml_dt_100_alpha_1_cond_9.81e-11_Er_6e+10_Ef_1e+06_nur_0_nuf_0}.pdf}
+\caption{$k_m=10^{-14}$}
+\end{subfigure}
+% 
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/{conv_result_linear.yaml_dt_100_alpha_1_cond_9.81e-05_Er_6e+10_Ef_1e+06_nur_0_nuf_0}.pdf}
+\caption{$k_m=10^{-8}$}
+\end{subfigure}
+% 
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/{conv_result_linear.yaml_dt_100_alpha_1_cond_9.81e-18_Er_6e+10_Ef_1e+06_nur_0.25_nuf_0.25}.pdf}
+\caption{$\nu_m=\nu_f=0.25$}
+\end{subfigure}
+% 
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/{conv_result_linear.yaml_dt_100_alpha_1_cond_9.81e-18_Er_6e+10_Ef_1e+06_nur_0.49_nuf_0.49}.pdf}
+\caption{$\nu_m=\nu_f=0.49$}
+\end{subfigure}
+% 
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/{conv_result_linear.yaml_dt_100_alpha_1_cond_9.81e-18_Er_6e+10_Ef_1e+09_nur_0_nuf_0}.pdf}
+\caption{$E_f=10^{9}$}
+\end{subfigure}
+\caption{Convergence of iterative splitting. Number of iterations necessary for meeting the stopping criterion is depicted for several parameter cases. The filled area indicates the range of iteration counts for all time steps, the line shows the average number of iterations.}
+\label{fig:test_iterations}
+\end{figure}
+It turns out that, in agreement with Theorem \ref{th:conv_iter}, the optimal value of $\tilde\beta$ is close to 1 and its overestimation leads to moderate increase of number of iterations.
+On the other hand, for $\tilde\beta<1$ the iterative scheme converges very slowly or diverges.
+To verify the optimality of the estimate \eqref{eq:cond_beta}, we performed analogous tests for perturbed conductivity, and elastic moduli.
+From the results it can be seen that the optimal choice of $\tilde\beta$ is in all cases either 1 or slightly larger, which confirms the theoretical estimates.
+
 
 \section*{Conclusion}
 We have derived a mixed-dimensional model of flow and linear elasticity in fractured porous media.
 Under the assumption of permeable fracture, the existence and uniqueness of weak solution was proved using the fixed-stress splitting scheme.
 The convergence of this scheme has been analyzed and optimal values of iteration parameters were found in agreement e.g. with \cite{both2017robust}.
-The numerical solution based on the proposed splitting will be the subject of a following paper.
+The numerical test confirmed the theoretical convergence result.
 % The problem can be further extended to the case of embedded fracture with variable aperture and intersecting fractures, further one should consider contact and friction conditions (such as in \cite{berge2019finite}), to name a few challenging tasks.
 
 
