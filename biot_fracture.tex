@@ -114,7 +114,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BEGIN DOCUMENT
 \begin{document}
 
-\title{Mixed-dimensional model of poroelasticity}
+\title{Discrete fracture-matrix model of poroelasticity}
 \author{Jan Březina}
 \author{Jan Stebel}
 \affil{Institute of New Technologies and Applied Informatics\authorcr
@@ -131,7 +131,7 @@ Studentská 1402/2, 461 17 Liberec, Czech Republic\authorcr
 \maketitle
 
 \begin{abstract}
-The paper provides derivation and analysis of a poroelasticity model in a domain with fracture represented by a codimension-one manifold. The system of saturated flow and linear elasticity both in the matrix domain and in the fracture coupled through appropriate interface condition is obtained from a continuum description by integration and semi-discretization in the normal direction of the fracture.
+The paper presents the derivation and analysis of a poroelasticity model in a domain with fracture represented by a codimension-one manifold. The system of saturated flow and linear elasticity both in the rock matrix and in the fracture coupled through appropriate interface condition is obtained from a continuum description by integration and semi-discretization in the normal direction of the fracture.
 The existence and uniqueness of a weak solution are proved with the help of a fixed-point argument.
 The analysis is complemented by a numerical example.
 \end{abstract}
@@ -149,43 +149,54 @@ Biot's poroelasticity, discrete fracture-matrix model, fixed-stress splitting.
 
 
 \section{Introduction}
-The hydromechanical (HM) interaction of fluid flow and rock mechanics plays a significant role in many important applications such as geothermal power utilization, nuclear waste deposition, or CO${}_2$ storage \cite{rutqvist2003role}. The linear poroelastic model introduced by Biot \cite{biot1941general}, as well as some of its more recent non-linear extensions \cite{rutqvist2003role,Jing2007Fluid} are formulated for a continuum description of fractured rock. The fracture network consists of fractures ranging from grain size cracks of a sub-milimeter scale to fault zones of a kilometer-scale \cite{Bonnet2001}. The small-scale fractures can be described in terms of an equivalent continuum \cite{Oda1986,Rutqvist2013a}. However, the very high aspect ratio (size over aperture) of the fractures leads to large gradients of the principal unknowns, typically flow velocity and displacement, that can not be resolved by classical discretization methods (FVM, FEM). On the other hand, the \textit{discrete fracture network} (DFN) approach \cite{Follin2014methodology,Hyman2015dfnWorks} that describes individual fractures as codimension-one manifolds is unable to treat a vast number of small-scale fractures. Various hybrid approaches are used to combine continuum and discrete fractures; we refer to \cite{Jing2002} for an overview and to \cite{Zhao2013Impact} for numerical comparison of selected approaches. 
+The hydromechanical (HM) interaction of fluid flow and rock mechanics plays a significant role in many important applications such as geothermal power utilization, nuclear waste deposition, or CO${}_2$ storage \cite{rutqvist2003role}.
+Rocks, in which these facilities are located, are characterized by the presence of fracture networks. The size of individual fractures varies from a sub-milimeter scale (grain size cracks) to a kilometer-scale (fault zones) \cite{Bonnet2001}.
+Mathematical modelling of such systems is a challenging task, involving coupled physical processes at different geometrical scales.
+As the fracture apertures are still far from the scale of individual molecules, the continuum models of the HM processes derived from fundamental conservation laws are physically reasonable.
+% The limiting factor is the representation of the heterogeneities due to fractures at the discrete level.
+Currently there exist three types of approaches to treating fractures in continuum-based models \cite{berre2019flow}: equivalent continuum, discrete fracture networks (DFN) and discrete fracture-matrix (DFM) models.
 
-As the fracture apertures are still far from the scale of individual molecules, the continuum models of the HM processes derived from fundamental conservation laws are physically reasonable. The limiting factor is the representation of the heterogeneities due to fractures  at the discrete level.
+In equivalent continuum models, the influence of small-scale fractures is incorporated into the macroscopic properties of the rock, such as the permeability \cite{Oda1986,Rutqvist2013a}. However, the very high aspect ratio (size over aperture) of the fractures leads to large gradients of the principal unknowns, typically flow velocity and displacement, that cannot be resolved by classical discretization methods (FVM, FEM).
+ 
+On the other hand, the \textit{discrete fracture network} (DFN) approach \cite{Follin2014methodology,Hyman2015dfnWorks} that describes individual fractures as codimension-one manifolds is unable to treat a vast number of small-scale fractures. Various hybrid approaches are used to combine continuum and discrete fractures; we refer to \cite{Jing2002} for an overview and to \cite{Zhao2013Impact} for numerical comparison of selected approaches.
 
 The \textit{discrete fracture-matrix} (DFM) models, also called \textit{mixed-dimensional}, are derived from the continuum model by a \emph{semi-discretization} of the governing equations on the fracture domain
 in the normal direction. The fracture domain of the resulting equations is reduced to a codimension-one manifolds, similarly to the DFN approach. The reduction of the fracture domain's dimension leads some authors to name the process \emph{dimension reduction}. However, that term has a quite different meaning in the data processing. In order to avoid confusion, we rather use the term semi-discretization further on.
-
+% 
 This technique was used by Martin et al. \cite{martin_modeling_2005} for Darcy flow equations in domains with a single fracture.
-Later, the model was extended by \cite{angot2009asymptotic} for immersed, polygonal fracture with variable aperture. The models with intersections and junctions and extension to the transport problems were analyzed in \cite{maryska2005numerical,pichot2012generalized,formaggia2014reduced, schwenck2015dimensionally}. 
-Mixed-dimensional poroelasticity models were studied e.g., in \cite{ganis2014modeling} where Biot's system in the matrix was coupled with fracture flow based on the cubic law.
+Later, the model was extended by \cite{angot2009asymptotic} for immersed, polygonal fracture with variable aperture. The models with intersections and junctions and extension to the transport problems were analyzed in \cite{maryska2005numerical,pichot2012generalized,formaggia2014reduced, schwenck2015dimensionally}.
+
+A classical approach for the HM coupling is based on the linear poroelastic model introduced by Biot \cite{biot1941general} or some of its more recent non-linear extensions \cite{rutqvist2003role,Jing2007Fluid}. 
+Poroelasticity models with discrete fractures were studied e.g., in \cite{ganis2014modeling} where Biot's system in the matrix was coupled with fracture flow based on the cubic law.
 In \cite{hanowski2018hydromechanical} the Biot system in the matrix is coupled with Darcian fracture flow; in addition, fracture width and length can vary according to rock deformation.
 There are not so many papers dealing with the mechanics in the fracture.
 A general framework for mixed-dimensional elliptic equations was developed in \cite{boon2019stable, boon2017functional} and applied to linear elasticity systems.
 We also mention the work \cite{mikelic2019derivation} where a shell model is derived for a poroelastic membrane.
 
 The purpose of the present paper is threefold:
-First, we derive the DFM model of poroelasticity in a domain separated by a fracture, using the semi-discretization process for the Biot system.
+\begin{enumerate}
+    \item To derive the DFM model of poroelasticity using the semi-discretization process for the Biot system.
 To cope with the fact that the mechanical part \eqref{eq:lin_el} of the problem is a vector-valued problem, we develop a particular calculus for tangential and normal parts of functions and operators.
 In contrast to other works, we consider general conductivity and elasticity tensors not necessarily aligned with the fracture orientation.
 The obtained equations are expressed in terms of mean pressure and mean displacement in the fracture.
 The resulting problem consists of equations of flow and mechanics in the fracture and the surrounding domain, accompanied by appropriate interface conditions.
 
-The second aim of the paper is to analyze the well-posedness of the mixed-dimensional poroelasticity.
+    \item To analyze the well-posedness of the DFM poroelasticity model.
 There are two main strategies for solving poromechanics systems: monolithic methods (see e.g. \cite{showalter2000diffusion,zenisek1984existence}) and iterative splittings.
 The latter approach has a significant advantage in the design of numerical schemes where the splitting acts as a preconditioner \cite{white2016block} that allows sequential use of different solvers for flow and mechanics.
 Here we follow the optimized fixed-stress iterative splitting analyzed in \cite{mikelic2013convergence}, and show the contractivity of the appropriate mapping.% with optimal estimates of splitting parameters.
 
-The third aim is to apply the mixed-dimensional model in the numerical solution of a simple test problem.
+    \item To apply the DFM model in the numerical solution of a simple test problem.
 We perform a simulation of the problem of fluid injection into the fracture, verify the results against an analytical solution and test the robustness of the fixed-stress splitting method.
+\end{enumerate}
 
 The structure of the paper is as follows.
-In section \ref{sec:model}, we describe the full and reduced geometry and the unreduced Biot poroelasticity model.
+In section \ref{sec:model}, we describe the full geometry with the classical Biot model and the reduced geometry containing the discrete fracture.
 Then in section \ref{sec:calculus}, we present the tangential and normal calculus, which will be used in the semi-discretization process in section \ref{sec:dim_red}.
-The process results in the reduced DFM model \eqref{eq:mixed_dim_problem} describing  flow and mechanics in matrix and fracture with appropriate interface conditions.
+The process results in the DFM model \eqref{eq:mixed_dim_problem} describing  flow and mechanics in the matrix and in the fracture with appropriate interface conditions.
 % We further formulate a modified problem \eqref{eq:mixed_dim_perm}, which is valid under the assumption of permeable fracture.
 In section \ref{sec:well_pos}, we analyze the existence and uniqueness of the solution to this problem, first studying the mechanics and flow equations separately and combining them later in the iterative scheme.
-Finally, in section \ref{sec:comp_test}, we describe the computational test problem, its discretization and present the computational results.
+Finally, in section \ref{sec:comp_test}, we describe the computational test problem, its discretization and present the computed results.
 
 
 
@@ -252,7 +263,7 @@ In such situations it is typical that pressure variations across the fracture ar
 
 \section{Preliminaries}\label{sec:calculus}
 
-In this section we introduce notation and tools that will be used later in the derivation of the mixed-dimensional Biot system.
+In this section we introduce notation and tools that will be used later in the derivation of the DFM Biot model.
 
 \subsection{Tangential and normal calculus}
 Let $\tn P := \nnu\otimes\nnu = [\nu_i\nu_j]_{i,j=1}^d$ be the orthogonal projector to $\gamma$.
@@ -442,9 +453,9 @@ The continuity of the flux through $\gamma^\pm$ yields:
 \eq{ \label{eq:interface_flow} \tn K_m(\nabla p_{|\Omega_m})^\opm\cdot\nnu = \pphi^\opm(p,\pbar) + O(\delta) \mbox{ in }I\times\gamma. }
 
 
-\subsection{Mixed-dimensional poroelasticity}
+\subsection{DFM model of poroelasticity}
 
-The mixed-dimensional coupled problem is obtained after neglecting the remainders $O(\delta)$ in \eqref{eq:lin_el_frac}, \eqref{eq:interface_el}, \eqref{eq:flow_frac}, \eqref{eq:interface_flow}.
+The coupled DFM model is obtained after neglecting the remainders $O(\delta)$ in \eqref{eq:lin_el_frac}, \eqref{eq:interface_el}, \eqref{eq:flow_frac}, \eqref{eq:interface_flow}.
 Analysis of the truncation error can be done similarly as in \cite{brezina2015analysis}, however in this paper we omit it.
 Let $\Gamma:=\prtl\Omega_m\cap\prtl\Omega$, $P_0=(P_{0m},P_{0f}):=(p_{0|\Omega_m},\overline p_0)$, $\FF=(\FF_m,\FF_f):=(\ff_{|\Omega_m}, \delta\overline\ff)$ and $G=(G_m,G_f):=(g_{|\Omega_m},\delta\overline g)$.
 We want to find functions $\U=(\U_m,\U_f)$ and $P=(P_m,P_f)$, where $\U_m,P_m$ are defined in $I\times\Omega_m$ and $\U_f,P_f$ are defined in $I\times\gamma$, which satisfy:
@@ -486,7 +497,7 @@ We point out that $\U_f$ and $P_f$ play the role of approximations of the averag
 
 
 
-\section{Well-posedness of mixed-dimensional poroelasticity}\label{sec:well_pos}
+\section{Well-posedness}\label{sec:well_pos}
 
 In this section, we first introduce the weak formulation of \eqref{eq:mixed_dim_problem}.
 Then we analyze separately the mechanical and the flow part of the problem.
@@ -572,7 +583,7 @@ Then we define a suitable iterative scheme alternating between the subproblems, 
 
 
 
-\subsection{Mixed-dimensional linear elasticity}\label{sec:wellposedness_elasticity}
+\subsection{Mechanical subproblem}\label{sec:wellposedness_elasticity}
 
 In this section, we consider only the mechanical part of the problem \eqref{eq:biot_weak}.
 Assuming that $P$ is a given pressure field at some time $t\in I$, we define the following forms in $\Vel$:
@@ -700,9 +711,9 @@ Based on the above result, we define the mapping $\mathcal E: H^1( I;\Hf)\to H^1
 We shall use it in the definition of the fixed-stress splitting in section \ref{sec:iter}.
 
 
-\subsection{Mixed-dimensional flow}\label{sec:wellposedness_flow}
+\subsection{Flow subproblem}\label{sec:wellposedness_flow}
 
-We now turn to the flow part of the mixed-dimensional problem \eqref{eq:biot_weak}, assuming zero displacements.
+We now turn to the flow part of the DFM model \eqref{eq:biot_weak}, assuming zero displacements.
 % Let
 % \eqs{ \mathcal X := L^\infty( I;\Vf)\cap H^1( I;\Hf). }
 We want to solve the following problem:
@@ -913,12 +924,12 @@ Hence Theorem \ref{th:biot_existence} is proved.
 
 \section{Computational example}\label{sec:comp_test}
 
-The aim of this section is to demonstrate the relevance of the mixed-dimensional poroelasticity model by applying it to a simple test problem, and verify the convergence of the iterative splitting.
+The aim of this section is to demonstrate the relevance of the DFM poroelasticity model by applying it to a simple test problem, and verify the convergence of the iterative splitting.
 
 \subsection{Description of test problem}
 We choose a problem of fluid injection into a one dimensional fracture, which is located in the middle of a block of impermeable rock.
 The injection pressure causes a sudden opening and propagation of the pressure in the fracture.
-The setting of the test is chosen to mimic the analytical similarity solution from \cite{Wijesinghe1986}.
+The setting of the test is chosen to mimic the analytical similarity solution from \cite{Wijesinghe1986}, see also \cite{Watanabe2012lower}.
 
 The computational domain is the rectangle $(0,L)\times(0,H)$, $L=25$ m, $H=1$ m, with the fracture line $(0,L)\times\{\tfrac H2\}$.
 Initially, there is a uniform fluid pressure $p_0=11$ MPa in the whole domain.
@@ -989,7 +1000,7 @@ The results are in a good agreement.
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth,ext=.png]{figures/{conv_result_linear.yaml_dt_100_cond_9.81e-18_Er_6e+10_Ef_1e+06_nur_0_nuf_0_beta_1_pressure}.pdf}
-\caption{Comparison of fracture pressure given by the mixed-dimensional model and by the analytical solution.}
+\caption{Comparison of fracture pressure given by the DFM model and by the analytical solution.}
 \label{fig:test_solution}
 \end{figure}
 
@@ -1048,17 +1059,19 @@ From the results it can be seen that the optimal choice of $\tilde\beta$ is in a
 
 
 \section*{Conclusion}
-We have derived a mixed-dimensional model of flow and linear elasticity in fractured porous media.
+We have derived a DFM model of flow and linear elasticity in fractured porous media.
 The model was derived from physical principles expressed by the Biot system and takes into account possible anisotropy of the hydraulic conductivity and elasticity tensors.
 A simplified geometry consisting of one straight fracture was considered.
 
 Under the assumption of permeable fracture, the existence and uniqueness of weak solution was proved.
 The proof was based on the fixed-stress splitting scheme for which the convergence has been analyzed and optimal values of iteration parameters were found in as similar form as in \cite{both2017robust}.
 
-A numerical test was presented that confirmed the theoretical convergence result of the splitting scheme as well as the applicability of the mixed-dimensional model.
+A numerical test was presented that confirmed the theoretical convergence result of the splitting scheme as well as the applicability of the DFM model.
 The analysis of the numerical scheme is beyond the scope of the present paper.
 
-The model can be extended in many directions, namely to more complex geometries (embedded fractures with variable aperture and their intersections), nonlinear fracture mechanics \cite{berge2019finite}, or variable fracture permeability \cite{Watanabe2012lower}, to name a few challenging tasks.
+The model can be extended in many directions, namely to more complex geometries (embedded fractures with variable aperture and their intersections), nonlinear fracture mechanics, % \cite{berge2019finite}
+or variable fracture permeability, % \cite{Watanabe2012lower}
+to name a few challenging tasks.
 Some of these have been implemented in the Flow123d simulator, others are a subject of ongoing research.
 
 
