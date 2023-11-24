@@ -10,6 +10,7 @@
 \usepackage{titlesec} % for \titleformat
 \usepackage{mathtools}
 \usepackage{ulem} % for \sout
+\usepackage{lineno}
 \mathtoolsset{centercolon}
 
 \usepackage[colorlinks,citecolor=red,urlcolor=blue,bookmarks=false,hypertexnames=true]{hyperref} 
@@ -102,6 +103,7 @@ Technical University of Liberec\authorcr
 Studentská 1402/2, 461 17 Liberec, Czech Republic\authorcr
 \texttt{\{jan.brezina,jan.stebel\}@tul.cz}}
 \maketitle
+\linenumbers
 
 \begin{abstract}
 The paper presents the derivation and analysis of a poroelasticity model in a domain with fracture represented by a codimension-one manifold. The system of saturated flow and linear elasticity both in the rock matrix and in the fracture coupled through appropriate interface condition is obtained from a continuum description by integration and semi-discretization in the normal direction of the fracture.
@@ -139,15 +141,15 @@ This technique was used by Martin et al. \cite{martin_modeling_2005} for Darcy f
 Later, the model was extended by \cite{angot2009asymptotic} for immersed, polygonal fracture with variable aperture. The models with intersections and junctions and extension to the transport problems were analyzed in \cite{maryska2005numerical,pichot2012generalized,formaggia2014reduced, schwenck2015dimensionally,hokr2016real}.
 
 A classical approach for the HM coupling is based on the linear poroelastic model introduced by Biot \cite{biot1941general} or some of its more recent non-linear extensions \cite{rutqvist2003role,Jing2007Fluid}. 
-Poroelasticity models with discrete fractures were studied e.g., in \cite{ganis2014modeling,girault_lubrication,girault2019mixed,bukac2017dimensional,hanowski2018hydromechanical}.
+Poroelasticity models \js{coupled to discrete fracture flow, neglecting the mechanical response of the fractures, \sout{with discrete fractures}} were studied e.g., in \cite{ganis2014modeling,girault_lubrication,girault2019mixed,bukac2017dimensional,hanowski2018hydromechanical}.
 \js{\sout{ where Biot's system in the matrix was coupled with fracture flow based on the cubic law.
 In %\cite{hanowski2018hydromechanical}
 the Biot system in the matrix is coupled with Darcian fracture flow; in addition, fracture width and length can vary according to rock deformation.
 There are not so many papers dealing with the mechanics in the fracture.}
-In these works, the poroelastic model of rock matrix is coupled to fracture flow, neglecting the mechanical response of the fracture.
-However, fracture mechanics plays an important role in the applications. Natural fractures are never smooth, and can be filled by solid material e.g. due to healing \cite{vass}. Hence fracture stiffness, non-penetration and friction conditions have to be taken into account.
+% In these works, the poroelastic model of rock matrix is coupled to fracture flow, neglecting the mechanical response of the fracture.
+Fracture mechanics, however, plays an important role in the applications. Natural fractures are never smooth, and can be filled by solid material e.g. due to healing \cite{vass}. Hence fracture stiffness, non-penetration and friction conditions have to be taken into account.
 Fracture stiffness can be estimated using rock joint models \cite{bandis1983fundamentals}, see also \cite{rutqvist2003role}.
-There has been an ongoing research on the numerical analysis and simulation of models involving fracture contact mechanics, see e.g. \cite{garipov2016discrete,franceschini2020algebraically,berge2019finite,blaheta2020bayesian,bonaldi2022numerical}.}
+There has been an ongoing research on the numerical analysis and simulation of models involving fracture contact mechanics, see e.g. \cite{garipov2016discrete,franceschini2020algebraically,berge2019finite,blaheta2020bayesian,bonaldi2022numerical}. In these works, the fracture stiffness is not considered.}
 \js{Recently,} a general framework for \js{\sout{mixed-dimensional elliptic equations was developed in
 %\cite{boon2019stable, boon2017functional}
 and applied to linear elasticity systems.}
@@ -200,6 +202,7 @@ Finally, in section \ref{sec:comp_test}, we describe the computational test prob
 \section{Biot's poroelasticity in domain with fracture}\label{sec:model}
 Let $\Omega$ be a bounded, simply connected domain in the Euclidean space $\Real^d$, $d\in\{2,3\}$, with Lipschitz boundary $\partial\Omega$.
 We assume that $\Omega$ is composed of two subdomains: the matrix $\Omega_m$ and the fracture $\Omega_f:=\Omega\setminus\overline\Omega_m$ that separates the matrix into two parts (see Figure \ref{fig:omegas}). 
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{figures/omegas}
@@ -207,7 +210,8 @@ We assume that $\Omega$ is composed of two subdomains: the matrix $\Omega_m$ and
 \label{fig:omegas}
 \end{figure}
 
-We assume that the fracture domain \js{has} the form of a neighbourhood of a manifold; we consider hyperplane in $\Real^d$ for the sake of simplicity. On the hyperplane with \js{the unit} normal $\nnu$,  we consider a domain $\gamma$ and the fracture aperture $\delta > 0$, possibly dependent on $\vc x$. Then the fracture domain is assumed in the form:
+We assume that the fracture domain \js{has} the form of a neighbourhood of a manifold; we consider hyperplane in $\Real^d$ for the sake of simplicity. On the hyperplane with \js{the unit} normal $\nnu$,  we consider a domain $\gamma$ and the fracture aperture $\delta > 0$, possibly dependent on $\vc x$\js{, but independent of the displacement field}. Then the fracture domain is assumed in the form:
+
 \eqs{ \Omega_f = \{\xx+s\nnu;~\xx\in\gamma,~s\in(-\tfrac\delta2,\tfrac\delta2)\}. } 
 
 The two parts of $\Omega_m$ are interacting with $\Omega_f$ via the interfaces

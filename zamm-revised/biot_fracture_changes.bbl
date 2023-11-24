@@ -1,0 +1,345 @@
+\begin{thebibliography}{45}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Angot et~al.(2009)Angot, Boyer, and Hubert]{angot2009asymptotic}
+P.~Angot, F.~Boyer, and F.~Hubert.
+\newblock Asymptotic and numerical modelling of flows in fractured porous
+  media.
+\newblock \emph{ESAIM: Mathematical Modelling and Numerical Analysis},
+  43\penalty0 (2):\penalty0 239--275, 2009.
+
+\bibitem[Bandis et~al.(1983)Bandis, Lumsden, and
+  Barton]{bandis1983fundamentals}
+S.~Bandis, A.~Lumsden, and N.~Barton.
+\newblock Fundamentals of rock joint deformation.
+\newblock \emph{International Journal of Rock Mechanics and Mining Sciences \&
+  Geomechanics Abstracts}, 20\penalty0 (6):\penalty0 249--268, 1983.
+
+\bibitem[Berge et~al.(2019)Berge, Berre, Keilegavlen, Nordbotten, and
+  Wohlmuth]{berge2019finite}
+R.~L. Berge, I.~Berre, E.~Keilegavlen, J.~M. Nordbotten, and B.~Wohlmuth.
+\newblock Finite volume discretization for poroelastic media with fractures
+  modeled by contact mechanics.
+\newblock \emph{International Journal for Numerical Methods in Engineering},
+  2019.
+
+\bibitem[Berre et~al.(2019)Berre, Doster, and Keilegavlen]{berre2019flow}
+I.~Berre, F.~Doster, and E.~Keilegavlen.
+\newblock Flow in fractured porous media: a review of conceptual models and
+  discretization approaches.
+\newblock \emph{Transport in Porous Media}, 130\penalty0 (1):\penalty0
+  215--236, 2019.
+
+\bibitem[Biot(1941)]{biot1941general}
+M.~A. Biot.
+\newblock General theory of three-dimensional consolidation.
+\newblock \emph{Journal of Applied Physics}, 12\penalty0 (2):\penalty0
+  155--164, 1941.
+
+\bibitem[Blaheta et~al.(2020)Blaheta, B{\'e}re{\v{s}}, Domesov{\'a}, and
+  Hor{\'a}k]{blaheta2020bayesian}
+R.~Blaheta, M.~B{\'e}re{\v{s}}, S.~Domesov{\'a}, and D.~Hor{\'a}k.
+\newblock Bayesian inversion for steady flow in fractured porous media with
+  contact on fractures and hydro-mechanical coupling.
+\newblock \emph{Computational Geosciences}, 24:\penalty0 1911--1932, 2020.
+
+\bibitem[Bonaldi et~al.(2022)Bonaldi, Droniou, and
+  Masson]{bonaldi2022numerical}
+F.~Bonaldi, J.~Droniou, and R.~Masson.
+\newblock Numerical analysis of a mixed-dimensional poromechanical model with
+  frictionless contact at matrix-fracture interfaces, 2022.
+\newblock URL \url{https://arxiv.org/abs/2201.09646}.
+
+\bibitem[Bonnet et~al.(2001)Bonnet, Bour, Odling, Davy, Main, Cowie, and
+  Berkowitz]{Bonnet2001}
+E.~Bonnet, O.~Bour, N.~E. Odling, P.~Davy, I.~Main, P.~Cowie, and B.~Berkowitz.
+\newblock Scaling of fracture systems in geological media.
+\newblock \emph{Reviews of Geophysics}, 39\penalty0 (3):\penalty0 347--383,
+  2001.
+\newblock ISSN 1944-9208.
+\newblock \doi{10.1029/1999RG000074}.
+
+\bibitem[Boon and Nordbotten(2022)]{boon_poro}
+W.~Boon and J.~M. Nordbotten.
+\newblock Mixed-dimensional poromechanical models of fractured porous media.
+\newblock \emph{Acta Mechanica}, 234:\penalty0 1--48, 12 2022.
+\newblock \doi{10.1007/s00707-022-03378-1}.
+
+\bibitem[Borregales et~al.(2018)Borregales, Radu, Kumar, and
+  Nordbotten]{borregales2018robust}
+M.~Borregales, F.~A. Radu, K.~Kumar, and J.~M. Nordbotten.
+\newblock Robust iterative schemes for non-linear poromechanics.
+\newblock \emph{Computational Geosciences}, 22:\penalty0 1021--1038, 2018.
+
+\bibitem[Borregales~Rever{\'o}n et~al.(2021)Borregales~Rever{\'o}n, Kumar,
+  Nordbotten, and Radu]{reveron2021iterative}
+M.~A. Borregales~Rever{\'o}n, K.~Kumar, J.~M. Nordbotten, and F.~A. Radu.
+\newblock Iterative solvers for biot model under small and large deformations.
+\newblock \emph{Computational Geosciences}, 25:\penalty0 687--699, 2021.
+
+\bibitem[Both et~al.(2017)Both, Borregales, Nordbotten, Kumar, and
+  Radu]{both2017robust}
+J.~W. Both, M.~Borregales, J.~M. Nordbotten, K.~Kumar, and F.~A. Radu.
+\newblock Robust fixed stress splitting for {B}iot’s equations in
+  heterogeneous media.
+\newblock \emph{Applied Mathematics Letters}, 68:\penalty0 101--108, 2017.
+
+\bibitem[B{\v{r}}ezina and Stebel(2016)]{brezina2015analysis}
+J.~B{\v{r}}ezina and J.~Stebel.
+\newblock Analysis of model error for a continuum-fracture model of porous
+  media flow.
+\newblock In \emph{High Performance Computing in Science and Engineering,
+  Lecture Notes in Computer Science}, pages 152--160. Springer, 2016.
+
+\bibitem[Buka{\v{c}} et~al.(2017)Buka{\v{c}}, Yotov, and
+  Zunino]{bukac2017dimensional}
+M.~Buka{\v{c}}, I.~Yotov, and P.~Zunino.
+\newblock Dimensional model reduction for flow through fractures in poroelastic
+  media.
+\newblock \emph{ESAIM: Mathematical Modelling and Numerical Analysis},
+  51\penalty0 (4):\penalty0 1429--1471, 2017.
+
+\bibitem[Březina et~al.(2022)Březina, Stebel, Flanderka, and Exner]{flow123d}
+J.~Březina, J.~Stebel, D.~Flanderka, and P.~Exner.
+\newblock Flow123d -- simulator of fractured porous media processes, 2022.
+\newblock URL \url{http://flow123d.github.io}.
+
+\bibitem[Evans(2010)]{evans_pde}
+L.~C. Evans.
+\newblock \emph{Partial differential equations}, volume~19.
+\newblock American Mathematical Society, 2010.
+
+\bibitem[Follin et~al.(2014)Follin, Hartley, Rh{\'e}n, Jackson, Joyce, Roberts,
+  and Swift]{Follin2014methodology}
+S.~Follin, L.~Hartley, I.~Rh{\'e}n, P.~Jackson, S.~Joyce, D.~Roberts, and
+  B.~Swift.
+\newblock A methodology to constrain the parameters of a hydrogeological
+  discrete fracture network model for sparsely fractured crystalline rock,
+  exemplified by data from the proposed high-level nuclear waste repository
+  site at {{Forsmark}}, {{Sweden}}.
+\newblock \emph{Hydrogeology Journal}, 22\penalty0 (2):\penalty0 313--331, Mar.
+  2014.
+\newblock ISSN 1435-0157.
+\newblock \doi{10.1007/s10040-013-1080-2}.
+
+\bibitem[Formaggia et~al.(2014)Formaggia, Fumagalli, Scotti, and
+  Ruffo]{formaggia2014reduced}
+L.~Formaggia, A.~Fumagalli, A.~Scotti, and P.~Ruffo.
+\newblock A reduced model for {D}arcy's problem in networks of fractures.
+\newblock \emph{ESAIM: Mathematical Modelling and Numerical Analysis},
+  48\penalty0 (4):\penalty0 1089--1116, 2014.
+
+\bibitem[Franceschini et~al.(2020)Franceschini, Castelletto, White, and
+  Tchelepi]{franceschini2020algebraically}
+A.~Franceschini, N.~Castelletto, J.~A. White, and H.~A. Tchelepi.
+\newblock Algebraically stabilized {L}agrange multiplier method for frictional
+  contact mechanics with hydraulically active fractures.
+\newblock \emph{Computer Methods in Applied Mechanics and Engineering},
+  368:\penalty0 113161, 2020.
+
+\bibitem[Ganis et~al.(2014)Ganis, Girault, Mear, Singh, and
+  Wheeler]{ganis2014modeling}
+B.~Ganis, V.~Girault, M.~Mear, G.~Singh, and M.~Wheeler.
+\newblock Modeling fractures in a poro-elastic medium.
+\newblock \emph{Oil \& Gas Science and Technology--Revue d’IFP Energies
+  nouvelles}, 69\penalty0 (4):\penalty0 515--528, 2014.
+
+\bibitem[Garipov et~al.(2016)Garipov, Karimi-Fard, and
+  Tchelepi]{garipov2016discrete}
+T.~Garipov, M.~Karimi-Fard, and H.~Tchelepi.
+\newblock Discrete fracture model for coupled flow and geomechanics.
+\newblock \emph{Computational Geosciences}, 20:\penalty0 149--160, 2016.
+
+\bibitem[Girault et~al.(2014)Girault, Wheeler, Ganis, and
+  Mear]{girault_lubrication}
+V.~Girault, M.~Wheeler, B.~Ganis, and M.~Mear.
+\newblock A lubrication fracture model in a poro-elastic medium.
+\newblock \emph{Mathematical Models and Methods in Applied Sciences}, pages
+  1--59, 09 2014.
+\newblock \doi{10.1142/S0218202515500141}.
+
+\bibitem[Girault et~al.(2019)Girault, Wheeler, Kumar, and
+  Singh]{girault2019mixed}
+V.~Girault, M.~F. Wheeler, K.~Kumar, and G.~Singh.
+\newblock Mixed formulation of a linearized lubrication fracture model in a
+  poro-elastic medium.
+\newblock \emph{Contributions to Partial Differential Equations and
+  Applications}, pages 171--219, 2019.
+
+\bibitem[Hanowski and Sander(2018)]{hanowski2018hydromechanical}
+K.~K. Hanowski and O.~Sander.
+\newblock The hydromechanical equilibrium state of poroelastic media with a
+  static fracture: A dimension-reduced model with existence results in weighted
+  {S}obolev spaces and simulations with an {XFEM} discretization.
+\newblock \emph{Mathematical Models and Methods in Applied Sciences},
+  28\penalty0 (13):\penalty0 2511--2556, 2018.
+
+\bibitem[Hokr et~al.(2016)Hokr, Shao, Gardner, Balv{\'\i}n, Kunz, Wang, and
+  Vencl]{hokr2016real}
+M.~Hokr, H.~Shao, W.~Gardner, A.~Balv{\'\i}n, H.~Kunz, Y.~Wang, and M.~Vencl.
+\newblock Real-case benchmark for flow and tracer transport in the fractured
+  rock.
+\newblock \emph{Environmental Earth Sciences}, 75:\penalty0 1--17, 2016.
+
+\bibitem[Hyman et~al.(2015)Hyman, Karra, Makedonska, Gable, Painter, and
+  Viswanathan]{Hyman2015dfnWorks}
+J.~D. Hyman, S.~Karra, N.~Makedonska, C.~W. Gable, S.~L. Painter, and H.~S.
+  Viswanathan.
+\newblock {{dfnWorks}}: {{A}} discrete fracture network framework for modeling
+  subsurface flow and transport.
+\newblock \emph{Computers \& Geosciences}, 84:\penalty0 10--19, Nov. 2015.
+\newblock ISSN 0098-3004.
+\newblock \doi{10.1016/j.cageo.2015.08.001}.
+
+\bibitem[Jing and Hudson(2002)]{Jing2002}
+L.~Jing and J.~A. Hudson.
+\newblock Numerical methods in rock mechanics.
+\newblock \emph{International Journal of Rock Mechanics and Mining Sciences},
+  39\penalty0 (4):\penalty0 409--427, June 2002.
+\newblock ISSN 1365-1609.
+\newblock \doi{10.1016/S1365-1609(02)00065-5}.
+
+\bibitem[Jing and Stephansson(2007)]{Jing2007Fluid}
+L.~Jing and O.~Stephansson.
+\newblock 4 - {{Fluid Flow}} and {{Coupled Hydro-Mechanical Behavior}} of
+  {{Rock Fractures}}.
+\newblock In L.~Jing and O.~Stephansson, editors, \emph{Developments in
+  {{Geotechnical Engineering}}}, volume~85 of \emph{Fundamentals of {{Discrete
+  Element Methods}} for {{Rock Engineering}}}, pages 111--144. {Elsevier}, Jan.
+  2007.
+\newblock \doi{10.1016/S0165-1250(07)85004-8}.
+
+\bibitem[Martin et~al.(2005)Martin, Jaffr{\'e}, and
+  Roberts]{martin_modeling_2005}
+V.~Martin, J.~Jaffr{\'e}, and J.~E. Roberts.
+\newblock Modeling fractures and barriers as interfaces for flow in porous
+  media.
+\newblock \emph{{SIAM} Journal on Scientific Computing}, 26\penalty0
+  (5):\penalty0 1667, 2005.
+
+\bibitem[Mary{\v{s}}ka et~al.(2005)Mary{\v{s}}ka, Sever{\'y}n, and
+  Vohral{\'\i}k]{maryska2005numerical}
+J.~Mary{\v{s}}ka, O.~Sever{\'y}n, and M.~Vohral{\'\i}k.
+\newblock Numerical simulation of fracture flow with a mixed-hybrid {FEM}
+  stochastic discrete fracture network model.
+\newblock \emph{Computational Geosciences}, 8\penalty0 (3):\penalty0 217--234,
+  2005.
+
+\bibitem[Mikeli{\'c} and Tamba{\v{c}}a(2019)]{mikelic2019derivation}
+A.~Mikeli{\'c} and J.~Tamba{\v{c}}a.
+\newblock Derivation of a poroelastic elliptic membrane shell model.
+\newblock \emph{Applicable Analysis}, 98\penalty0 (1-2):\penalty0 136--161,
+  2019.
+
+\bibitem[Mikeli{\'c} and Wheeler(2013)]{mikelic2013convergence}
+A.~Mikeli{\'c} and M.~F. Wheeler.
+\newblock Convergence of iterative coupling for coupled flow and geomechanics.
+\newblock \emph{Computational Geosciences}, 17\penalty0 (3):\penalty0 455--461,
+  2013.
+
+\bibitem[Oda(1986)]{Oda1986}
+M.~Oda.
+\newblock An equivalent continuum model for coupled stress and fluid flow
+  analysis in jointed rock masses.
+\newblock \emph{Water Resources Research}, 22\penalty0 (13):\penalty0
+  1845--1856, 1986.
+\newblock ISSN 1944-7973.
+\newblock \doi{10.1029/WR022i013p01845}.
+
+\bibitem[Pichot et~al.(2012)Pichot, Erhel, and
+  De~Dreuzy]{pichot2012generalized}
+G.~Pichot, J.~Erhel, and J.-R. De~Dreuzy.
+\newblock A generalized mixed hybrid mortar method for solving flow in
+  stochastic discrete fracture networks.
+\newblock \emph{SIAM Journal on Scientific Computing}, 34\penalty0
+  (1):\penalty0 B86--B105, 2012.
+
+\bibitem[Rutqvist and Stephansson(2003)]{rutqvist2003role}
+J.~Rutqvist and O.~Stephansson.
+\newblock The role of hydromechanical coupling in fractured rock engineering.
+\newblock \emph{Hydrogeology Journal}, 11\penalty0 (1):\penalty0 7--40, 2003.
+
+\bibitem[Rutqvist et~al.(2013)Rutqvist, Leung, Hoch, Wang, and
+  Wang]{Rutqvist2013a}
+J.~Rutqvist, C.~Leung, A.~Hoch, Y.~Wang, and Z.~Wang.
+\newblock Linked multicontinuum and crack tensor approach for modeling of
+  coupled geomechanics, fluid flow and transport in fractured rock.
+\newblock \emph{Journal of Rock Mechanics and Geotechnical Engineering},
+  5\penalty0 (1):\penalty0 18--31, Feb. 2013.
+\newblock ISSN 1674-7755.
+\newblock \doi{10.1016/j.jrmge.2012.08.001}.
+
+\bibitem[Schwenck et~al.(2015)Schwenck, Flemisch, Helmig, and
+  Wohlmuth]{schwenck2015dimensionally}
+N.~Schwenck, B.~Flemisch, R.~Helmig, and B.~I. Wohlmuth.
+\newblock Dimensionally reduced flow models in fractured porous media:
+  crossings and boundaries.
+\newblock \emph{Computational Geosciences}, 19\penalty0 (6):\penalty0
+  1219--1230, 2015.
+
+\bibitem[Showalter(2000)]{showalter2000diffusion}
+R.~E. Showalter.
+\newblock Diffusion in poro-elastic media.
+\newblock \emph{Journal of Mathematical Analysis and Applications},
+  251\penalty0 (1):\penalty0 310--340, 2000.
+
+\bibitem[Stebel et~al.(2023)Stebel, Kru\v{z}{\'\i}k, Hor\'ak, B\v{r}ezina, and
+  B\'ere\v{s}]{stebel_ugn}
+J.~Stebel, J.~Kru\v{z}{\'\i}k, D.~Hor\'ak, J.~B\v{r}ezina, and M.~B\'ere\v{s}.
+\newblock On the parallel solution of hydro-mechanical problems with fracture
+  networks and contact conditions, 2023.
+\newblock URL \url{https://arxiv.org/abs/2311.13310}.
+
+\bibitem[Vass et~al.(2014)Vass, Koehn, Toussaint, Ghani, and Piazolo]{vass}
+A.~Vass, D.~Koehn, R.~Toussaint, I.~Ghani, and S.~Piazolo.
+\newblock The importance of fracture-healing on the deformation of fluid-filled
+  layered systems.
+\newblock \emph{Journal of Structural Geology}, 67:\penalty0 94--106, 2014.
+\newblock ISSN 0191-8141.
+
+\bibitem[Watanabe et~al.(2012)Watanabe, Wang, Taron, G{\"o}rke, and
+  Kolditz]{Watanabe2012lower}
+N.~Watanabe, W.~Wang, J.~Taron, U.~G{\"o}rke, and O.~Kolditz.
+\newblock Lower-dimensional interface elements with local enrichment:
+  application to coupled hydro-mechanical problems in discretely fractured
+  porous media.
+\newblock \emph{International Journal for Numerical Methods in Engineering},
+  90\penalty0 (8):\penalty0 1010--1034, 2012.
+
+\bibitem[Wijesinghe(1986)]{Wijesinghe1986}
+A.~M. Wijesinghe.
+\newblock Exact similarity solution for coupled deformation and fluid flow in
+  discrete fractures.
+\newblock Technical Report UCID-20675, {Lawrence Livermore National Lab.
+  (LLNL), Livermore, CA (United States)}, Feb. 1986.
+
+\bibitem[Younes et~al.(2006)Younes, Ackerer, and Lehmann]{Younes2006}
+A.~Younes, P.~Ackerer, and F.~Lehmann.
+\newblock A new mass lumping scheme for the mixed hybrid finite element method.
+\newblock \emph{International Journal for Numerical Methods in Engineering},
+  67\penalty0 (1):\penalty0 89--107, July 2006.
+\newblock ISSN 1097-0207.
+\newblock \doi{10.1002/nme.1628}.
+
+\bibitem[{\v{Z}}en{\'\i}{\v{s}}ek(1984)]{zenisek1984existence}
+A.~{\v{Z}}en{\'\i}{\v{s}}ek.
+\newblock The existence and uniqueness theorem in {B}iot's consolidation
+  theory.
+\newblock \emph{Aplikace Matematiky}, 29\penalty0 (3):\penalty0 194--211, 1984.
+
+\bibitem[Zhao et~al.(2013)Zhao, Rutqvist, Leung, Hokr, Liu, Neretnieks, Hoch,
+  Havl{\'i}{\v c}ek, Wang, Wang, Wu, and Zimmerman]{Zhao2013Impact}
+Z.~Zhao, J.~Rutqvist, C.~Leung, M.~Hokr, Q.~Liu, I.~Neretnieks, A.~Hoch,
+  J.~Havl{\'i}{\v c}ek, Y.~Wang, Z.~Wang, Y.~Wu, and R.~Zimmerman.
+\newblock Impact of stress on solute transport in a fracture network: {{A}}
+  comparison study.
+\newblock \emph{Journal of Rock Mechanics and Geotechnical Engineering},
+  5\penalty0 (2):\penalty0 110--123, Apr. 2013.
+\newblock ISSN 1674-7755.
+\newblock \doi{10.1016/j.jrmge.2013.01.002}.
+
+\end{thebibliography}
