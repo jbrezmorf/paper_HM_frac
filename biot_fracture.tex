@@ -152,14 +152,14 @@ Biot's poroelasticity, discrete fracture-matrix model, fixed-stress splitting.
 \section{Introduction}
 The hydromechanical (HM) interaction of fluid flow and rock mechanics plays a significant role in many important applications such as geothermal power utilization, nuclear waste deposition, or CO${}_2$ storage \cite{rutqvist2003role}.
 Rocks, in which these facilities are located, are characterized by the presence of fracture networks. The size of individual fractures varies from a sub-milimeter scale (grain size cracks) to a kilometer-scale (fault zones) \cite{Bonnet2001}.
-Mathematical modelling of such systems is a challenging task, involving coupled physical processes at different geometrical scales.
+Mathematical modelling of such systems is a challenging task involving coupled physical processes at different geometrical scales.
 As the fracture apertures are still far from the scale of individual molecules, the continuum models of the HM processes derived from fundamental conservation laws are physically reasonable.
 % The limiting factor is the representation of the heterogeneities due to fractures at the discrete level.
-Currently there exist three types of approaches to treating fractures in continuum-based models \cite{berre2019flow}: equivalent continuum, discrete fracture networks (DFN) and discrete fracture-matrix (DFM) models.
+Currently, there exist three types of approaches to treating fractures in continuum-based models \cite{berre2019flow}: equivalent continuum, discrete fracture networks (DFN) and discrete fracture-matrix (DFM) models.
 
 In equivalent continuum models, the influence of small-scale fractures is incorporated into the macroscopic properties of the rock, such as the permeability \cite{Oda1986,Rutqvist2013a}. However, the very high aspect ratio (size over aperture) of the fractures leads to large gradients of the principal unknowns, typically flow velocity and displacement, that cannot be resolved by classical discretization methods (FVM, FEM).
  
-On the other hand, the \textit{discrete fracture network} (DFN) approach \cite{Follin2014methodology,Hyman2015dfnWorks} that describes individual fractures as codimension-one manifolds is unable to treat a vast number of small-scale fractures. Various hybrid approaches are used to combine continuum and discrete fractures; we refer to \cite{Jing2002} for an overview and to \cite{Zhao2013Impact} for numerical comparison of selected approaches.
+On the other hand, the \textit{discrete fracture network} (DFN) approach \cite{Follin2014methodology,Hyman2015dfnWorks} that describes individual fractures as codimension-one manifolds is unable to treat a vast number of small-scale fractures. Various hybrid approaches are used to combine continuum and discrete fractures; we refer to \cite{Jing2002} for an overview and to \cite{Zhao2013Impact} for a numerical comparison of selected approaches.
 
 The \textit{discrete fracture-matrix} (DFM) models, also called \textit{mixed-dimensional}, are derived from the continuum model by a \textit{semi-discretization} of the governing equations on the fracture domain
 in the normal direction. The fracture domain of the resulting equations is reduced to a codimension-one manifold, similarly to the DFN approach. The reduction of the fracture domain's dimension leads some authors to name the process \textit{dimension reduction}. However, that term has a quite different meaning in the data processing. In order to avoid confusion, we rather use the term semi-discretization further on.
@@ -175,49 +175,53 @@ the Biot system in the matrix is coupled with Darcian fracture flow; in addition
 There are not so many papers dealing with the mechanics in the fracture.}
 In these works, the poroelastic model of rock matrix is coupled to fracture flow, neglecting the mechanical response of the fracture.
 However, fracture mechanics plays an important role in the applications. Natural fractures are never smooth, and can be filled by solid material e.g. due to healing \cite{vass}. Hence fracture stiffness, non-penetration and friction conditions have to be taken into account.
-Recently, there has been an ongoing research on the numerical analysis and simulation of models involving fracture contact mechanics, see e.g. \cite{garipov2016discrete,franceschini2020algebraically,berge2019finite,bonaldi2022numerical}.
-}
-A general framework for \js{\sout{mixed-dimensional elliptic equations was developed in
+There has been an ongoing research on the numerical analysis and simulation of models involving fracture contact mechanics, see e.g. \cite{garipov2016discrete,franceschini2020algebraically,berge2019finite,blaheta2020bayesian,bonaldi2022numerical}.}
+\js{Recently,} a general framework for \js{\sout{mixed-dimensional elliptic equations was developed in
 %\cite{boon2019stable, boon2017functional}
 and applied to linear elasticity systems.}
 nonlinear poromechanics in the mixed-dimensional setting was presented and rigorously analyzed in \cite{boon_poro}.
-The authors showed on several examples that their DFM model includes as special cases several models obtained by semi-discretization.
+The authors showed that their DFM model includes as special cases several models obtained by semi-discretization.
 In the case of poroelasticity with non-void fractures it is however not clear, whether both approaches are equivalent.}
-We also mention the work \cite{mikelic2019derivation} where a shell model is derived for a poroelastic membrane.
+We also mention the work \cite{mikelic2019derivation}, where a shell model is derived for a poroelastic membrane.
 
 The purpose of the present paper is threefold:
 \begin{enumerate}
-    \item To derive the DFM model of poroelasticity using the semi-discretization process for the Biot system.
-    \js{In order to keep the subsequent analysis reasonably demanding, we do not consider the nonlinear effects on fracture-matrix interface (such as contact, friction and displacement-dependent conductivity). This makes the resulting model valid only in the case of small variations of fracture aperture. We also restrict ourselves to the case of a single fracture. We refer to \cite{stebel_ugn} where we present a more complex numerical model with fracture network and nonlinear fracture poromechanics.}
+    \item 
+    \js{We derive the DFM model of poroelasticity using the semi-discretization process for the Biot system. In order to keep the subsequent analysis reasonably demanding, we do not consider the nonlinear effects on fracture-matrix interface (such as contact, friction, and displacement-dependent conductivity). This makes the resulting model valid only in the case of small variations of fracture aperture. We also restrict ourselves to the case of a single fracture. We refer to \cite{stebel_ugn} where we present a more complex numerical model with fracture network and nonlinear fracture poromechanics.}
     To cope with the fact that the mechanical part \eqref{eq:lin_el} of the problem is a vector-valued problem, we develop a particular calculus for tangential and normal parts of functions and operators.
     In contrast to other works, we consider general conductivity and elasticity tensors not necessarily aligned with the fracture orientation.
     The obtained equations are expressed in terms of mean pressure and mean displacement in the fracture.
     The resulting problem consists of equations of flow and mechanics in the fracture and the surrounding domain, accompanied by appropriate interface conditions.
 
-    \item To analyze the well-posedness of the DFM poroelasticity model \js{and the convergence of an iterative splitting}.
-    \js{The derived DFM model has a similar parabolic-elliptic structure as the classical Biot system, which allows to use monolithic methods such as in \cite{showalter2000diffusion,zenisek1984existence}. We are interested also in the numerical solution, for which it is advantageous to work with the iterative splitting of flow and mechanics. The convergence of such splittings is a nontrivial issue, which requires a careful analysis. We use the optimized fixed-stress method \cite{mikelic2013convergence} and prove the contractivity of the appropriate mapping to show the existence of the DFM poroelasticity. This result can be later used to design efficient numerical methods with a priori known convergence rate.}
+    \item \js{We analyze the well-posedness of the DFM poroelasticity model using an iterative splitting technique, which provides explicit information about the convergence rate.
+    The DFM model exhibits a similar parabolic-elliptic structure as the classical Biot system, enabling the use of monolithic methods such as in \cite{showalter2000diffusion,zenisek1984existence}. 
+    However, our interest also extends to the numerical solution, where iterative splitting of flow and mechanics proves advantageous. 
+    The convergence of such splittings is a nontrivial issue that requires a careful analysis. Employing the optimized fixed-stress method \cite{mikelic2013convergence}, we prove the contractivity of the appropriate mapping, thereby demonstrating the well-posedness of the DFM poroelasticity. This result can later be used to design efficient numerical methods with a priori known convergence rate.}
     \js{\sout{There are two main strategies for solving poromechanics systems: monolithic methods (see e.g.
     %\cite{showalter2000diffusion,zenisek1984existence}
     ) and iterative splittings.
     The latter approach has a significant advantage in the design of numerical schemes where the splitting acts as a preconditioner
     %\cite{white2016block}
     that allows sequential use of different solvers for flow and mechanics.
-    Here we follow the optimized fixed-stress iterative splitting analyzed in
+    Here, we follow the optimized fixed-stress iterative splitting analyzed in
     %\cite{mikelic2013convergence}
     , and show the contractivity of the appropriate mapping\js.% with optimal estimates of splitting parameters.
     }}
 
-    \item To apply the DFM model in the numerical solution of a simple test problem.
-We perform a simulation of the \js{2D} problem of fluid injection into the fracture, validate the results against an analytical solution and test the robustness of the fixed-stress splitting method.
+    \item \js{
+To demonstrate the application of the DFM model, we address a specific test problem involving the numerical solution of fluid injection into a fracture in a 2D setup. The study includes validation of the numerical results against an analytical solution and evaluation of robustness of the fixed-stress splitting method.
+\sout{To apply the DFM model in the numerical solution of a simple test problem.
+We perform a simulation of the problem of fluid injection into the fracture, validate the results against an analytical solution and test the robustness of the fixed-stress splitting method.}}
+
 \end{enumerate}
 
 The structure of the paper is as follows.
 In section \ref{sec:model}, we describe the full geometry with the classical Biot model and the reduced geometry containing the discrete fracture.
-Then in section \ref{sec:calculus}, we present the tangential and normal calculus, which will be used in the semi-discretization process in section \ref{sec:dim_red}.
-The process results in the DFM model \eqref{eq:mixed_dim_problem} describing  flow and mechanics in the matrix and in the fracture with appropriate interface conditions.
+Then, in section \ref{sec:calculus}, we present the tangential and normal calculus, which will be used in the semi-discretization process in section \ref{sec:dim_red}.
+The process results in the DFM model \eqref{eq:mixed_dim_problem} describing flow and mechanics in the matrix and in the fracture with appropriate interface conditions.
 % We further formulate a modified problem \eqref{eq:mixed_dim_perm}, which is valid under the assumption of permeable fracture.
 In section \ref{sec:well_pos}, we analyze the existence and uniqueness of the solution to this problem, first studying the mechanics and flow equations separately and combining them later in the iterative scheme.
-Finally, in section \ref{sec:comp_test}, we describe the computational test problem, its discretization and present the computed results.
+Finally, in section \ref{sec:comp_test}, we describe the computational test problem, its discretization, and present the computed results.
 
 
 
@@ -238,7 +242,7 @@ The two parts of $\Omega_m$ are interacting with $\Omega_f$ via the interfaces
 \eqs{ \gamma^+ := \{\xx+\tfrac\delta2\nnu;~\xx\in\gamma\},\quad \gamma^- := \{\xx-\tfrac\delta2\nnu;~\xx\in\gamma\}. }
 The symbol $\prtl\gamma$ shall denote the relative boundary of the domain $\gamma$ with respect to the hyperplane. In the rest of this section, we shall describe the Biot system \cite{biot1941general} on the domain $\Omega$ in the equivalent form of the separate equations in $\Omega_m$ and $\Omega_f$ coupled through the continuity conditions on the interfaces $\gamma^\pm$. The reduced system of equation on $\Omega_m$ and $\gamma$ is derived later in section $\ref{sec:dim_red}$.
 
-Let $I=(0,T)$ be a finite time interval, the balance of mass and forces in matrix and fracture is given by the equations
+Let $I=(0,T)$ be a finite time interval. The balance of mass and forces in matrix and fracture is given by the equations
 \begin{subequations}
 \label{eq:biot}
 \begin{align}
@@ -351,7 +355,7 @@ The integral means of differential operators satisfy the following relations:
 \label{eq:adiv_vc} \overline{\div\vv} &= \div_\tau\overline\vv+\frac1\delta\jmp{\vv}\cdot\nnu = \avg{\adiv(\vv,\overline\vv)}, \\
 \label{eq:adiv_tn} \quad \overline{\div\tn A} &= \div_\tau\overline{\tn A} + \frac1\delta\jmp{\tn A^\top}\nnu. % = \avg{\adiv[\tn A,\overline{\tn A}]}. }
 \end{align}
-For the proof we refer to Appendix \ref{sec:ap_ineq}.
+For the proof, we refer to Appendix \ref{sec:ap_ineq}.
 % The above identities relate integral means of differential operators with tangential operators and jumps in the fracture.
 
 Furthermore, for twice continuously differentiable functions $f\in\mathcal C^2(\overline\Omega_f)$, Taylor's expansion implies that
@@ -524,7 +528,7 @@ The poroelastic coupling terms used in \cite{boon_poro} are defined in terms of 
 %the matrix trace $\mathfrak T'$ and identity $\mathfrak T$. 
 the symmetric gradient $\mathfrak D_s$ and the co-symmetric gradient $\mathbb D_s\cdot$, which are by definition mutually adjoint.
 This enables to retain the integration by parts formula, necessary for obtaining the energy estimate.
-In contrast, our operators $\agrad$ and $\adiv$, which naturally appear as the result of semi-discretization, do not satisfy the integration by parts, therefore the additional hypothesis \eqref{eq:asm_permeable_frac} of permeable fracture is required to obtain mathematically well-posed problem.
+In contrast, our operators $\agrad$ and $\adiv$, which naturally appear as the result of semi-discretization, do not satisfy the integration by parts, therefore the additional hypothesis \eqref{eq:asm_permeable_frac} of permeable fracture is required to obtain a mathematically well-posed problem.
 % \newline
 Another point of difference between \cite{boon_poro} and the present paper stems from the use of different measures of volumetric change (cf. the quantity $\avg{\adiv\U}$ in our paper with $\mathfrak T'(\mathfrak e)$ and Example 3.6 in \cite{boon_poro}).
 %This leads us to the conclusion that our model is different from the one of Boon and Nordbotten, while being physically justified as well as well-posed.
